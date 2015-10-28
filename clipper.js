@@ -1,6 +1,28 @@
     var WebClipperConfiguration = {
         doc: {
             mainContent: null
+        },
+        keywords:[
+            {"term":"农业","freq":19},
+            {"term":"市场","freq":12},
+            {"term":"白菜","freq":10},
+            {"term":"菜贩子","freq":7},
+            {"term":"价格","freq":5},
+            {"term":"菜农","freq":4},
+            {"term":"扶贫","freq":3},
+            {"term":"革命","freq":2},
+            {"term":"精准","freq":1},
+            {"term":"调研","freq":1}
+        ],
+        styles:{
+            "shade":"position:absolute;background-color:rgba(0,0,0,0.8);z-index:9999;",
+            "button":"display:inline-block;height:30px;background-color:#666;line-height:30px;cursor:pointer;padding:0 10px;margin:20px 20px 0 20px;border-radius:3px; color:#fff",
+            "title":"text-align:center;color:#fff;padding:0 10px;",
+            "span":"display:inline-block;height:20px;line-height:20px;margin-left:20px;vertical-align:middle;",
+            "list":{
+                "ul":"list-style:none;color:#fff;font-size:14px;",
+                "li":"margin-top:7px;"
+            }
         }
     };
     (function() {
@@ -290,9 +312,16 @@
         YNote.App.prototype = {
             creatDiv: function(id, width, height, left, top, cssText) {
                 var div = document.createElement("div");
+                if(id === "yShade3"){
+                    this.position = {
+                        "width":width,
+                        "height":height
+                    };
+                    div.appendChild(this.addKeywords());
+                }
                 div.id = id;
                 if (!cssText) {
-                    var cssText = "position:absolute;filter:alpha(opacity=80);background-color:#666;opacity:0.8;z-index:9999;"
+                    var cssText = WebClipperConfiguration.styles.shade;
                 }
                 cssText += "height:" + height + "px;";
                 cssText += "width:" + width + "px;";
@@ -300,6 +329,71 @@
                 cssText += "top:" + top + "px;";
                 div.style.cssText = cssText;
                 return div
+            },
+            addKeywords: function() {
+                var keywords = WebClipperConfiguration.keywords,
+                    div = document.createElement("div"),list,title;
+                title = document.createElement("h2");
+                title.innerText = document.getElementsByTagName("title")[0].innerText + "中的10个关键词";
+                title.style.cssText = WebClipperConfiguration.styles.title;
+                list = this.createList();
+                div.appendChild(title);
+                div.appendChild(list);
+                div.appendChild(this.createBtn("close-view-btn","关闭视图"));
+                div.appendChild(this.createBtn("save-content-btn","保存正文"));
+                return div;
+            },
+            createSpan: function (className,text) {
+                var span = document.createElement("span"),cssText;
+                span.innerText = text || "";
+                if(className === "term" || className === "freq"){
+                    cssText = WebClipperConfiguration.styles.span;
+                }
+                else if(className === "bar"){
+                    cssText = WebClipperConfiguration.styles.bar;
+                }
+                span.style.cssText = cssText;
+                return span;
+            },
+            createBtn: function (id, text) {
+                var span = document.createElement("span"),
+                    cssText = WebClipperConfiguration.styles.button;
+                span.innerText = text;
+                span.style.cssText = cssText;
+                span.id = id;
+                return span;
+            },
+            addItem: function (item,elem) {
+                var term = document.createElement("span"),
+                    bar  = document.createElement("span"),
+                    freq = document.createElement("span"),
+                    max = WebClipperConfiguration.keywords[0].freq,
+                    width = this.position.width,
+                    baseStyle = WebClipperConfiguration.styles.span;
+                term.style.cssText = baseStyle + "width:" + width * 0.15 + "px;";
+                bar.style.cssText  = baseStyle + "width:" + width * 0.5 * (item.freq / max) + 'px;'
+                    + "background-color:rgba(254, 39, 99,"+ item.freq / max + ");margin-left:10px;";
+                freq.style.cssText = baseStyle;
+                term.innerText  = item.term;
+                freq.innerText  = item.freq;
+
+                elem.appendChild(term);
+                elem.appendChild(bar);
+                elem.appendChild(freq);
+            },
+            createList: function () {
+                var ul = document.createElement("ul"),
+                    keywords = WebClipperConfiguration.keywords,
+                    list = WebClipperConfiguration.styles.list;
+
+                for(var i = 0;i < keywords.length; i++){
+                    var li = document.createElement("li");
+                    li.style.cssText = list.li;
+                    this.addItem(keywords[i],li);
+                    ul.appendChild(li);
+                }
+                ul.style.cssText = list.ul;
+                return  ul;
             },
             removeDiv: function(id) {
                 var div = document.getElementById(id);
@@ -335,6 +429,7 @@
                     for (var i = 0, count = shadeArr.length; i < count; i++) {
                         document.body.appendChild(shadeArr[i])
                     }
+
                 }
                 this.shadeStatu = true
             },
@@ -351,5 +446,13 @@
         if ((document.readyState == "complete" || document.readyState == "loaded" || document.readyState == "interactive") && document.body) {
             window.yApp = new YNote.App;
             yApp.createClipDiv();
+
+            // btn event
+            document.querySelector("#close-view-btn").addEventListener("click", function () {
+                yApp.removeClipDiv();
+            });
+            document.querySelector("#save-content-btn").addEventListener("click", function () {
+                alert("\"保存正文\"功能正在开发中...")
+            });
         }
     })();
