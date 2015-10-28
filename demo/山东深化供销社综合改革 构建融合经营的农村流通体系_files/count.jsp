@@ -1,9 +1,0 @@
-
-
- 
- 
- 
- 
- 
- 
-document.write('10')
