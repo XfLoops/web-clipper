@@ -16,13 +16,18 @@
         ],
         styles:{
             "shade":"position:absolute;background-color:rgba(0,0,0,0.8);z-index:9999;",
+            "mainContent":"position:absolute;border:5px solid #FE2763;border-radius:5px;z-index:9999;",
             "button":"display:inline-block;height:30px;background-color:#666;line-height:30px;cursor:pointer;padding:0 10px;margin:20px 20px 0 20px;border-radius:3px; color:#fff",
             "title":"text-align:center;color:#fff;padding:0 10px;",
-            "span":"display:inline-block;height:20px;line-height:20px;margin-left:20px;vertical-align:middle;",
+            "span":"display:inline-block;font-size:14px;height:20px;line-height:20px;margin-left:20px;vertical-align:middle;color:#fff;",
             "list":{
-                "ul":"list-style:none;color:#fff;font-size:14px;",
+                "ul":"list-style:none;padding:0;",
                 "li":"margin-top:7px;"
-            }
+            },
+            "timer":"color:#fff;font-size:14px;margin:20px 0 0 20px;"
+        },
+        "timer":{
+            "startTimestamp":new Date().getTime()
         }
     };
     (function() {
@@ -176,8 +181,10 @@
                 return elem
             },
             _getAllArticle: function() {
+                //@TODO allElems in body.
                 var allElems = this.contentDocument.getElementsByTagName("*"),
                     elems = [];
+                //console.info(allElems);
                 for (var elemIndex = 0, length = allElems.length; elemIndex < length; elemIndex++) {
                     var elem = allElems[elemIndex];
                     if (this._checkTagName(elem) && this._checkSize(elem) && this._checkVisibility(elem)) {
@@ -310,8 +317,9 @@
         YNote = {};
         YNote.App = function() {};
         YNote.App.prototype = {
-            creatDiv: function(id, width, height, left, top, cssText) {
-                var div = document.createElement("div");
+            creatDiv: function(id, width, height, left, top) {
+                var div = document.createElement("div"),cssText;
+                div.id = id;
                 if(id === "yShade3"){
                     this.position = {
                         "width":width,
@@ -319,9 +327,11 @@
                     };
                     div.appendChild(this.addKeywords());
                 }
-                div.id = id;
-                if (!cssText) {
-                    var cssText = WebClipperConfiguration.styles.shade;
+                if (id === "yShade4") {
+                    cssText = WebClipperConfiguration.styles.mainContent;
+                }
+                else{
+                    cssText = WebClipperConfiguration.styles.shade;
                 }
                 cssText += "height:" + height + "px;";
                 cssText += "width:" + width + "px;";
@@ -332,28 +342,16 @@
             },
             addKeywords: function() {
                 var keywords = WebClipperConfiguration.keywords,
-                    div = document.createElement("div"),list,title;
+                    div = document.createElement("div"),title;
+                div.id = "clipper-list-container";
                 title = document.createElement("h2");
                 title.innerText = document.getElementsByTagName("title")[0].innerText + "中的10个关键词";
                 title.style.cssText = WebClipperConfiguration.styles.title;
-                list = this.createList();
                 div.appendChild(title);
-                div.appendChild(list);
+                div.appendChild(this.createList());
                 div.appendChild(this.createBtn("close-view-btn","关闭视图"));
                 div.appendChild(this.createBtn("save-content-btn","保存正文"));
                 return div;
-            },
-            createSpan: function (className,text) {
-                var span = document.createElement("span"),cssText;
-                span.innerText = text || "";
-                if(className === "term" || className === "freq"){
-                    cssText = WebClipperConfiguration.styles.span;
-                }
-                else if(className === "bar"){
-                    cssText = WebClipperConfiguration.styles.bar;
-                }
-                span.style.cssText = cssText;
-                return span;
             },
             createBtn: function (id, text) {
                 var span = document.createElement("span"),
@@ -376,7 +374,6 @@
                 freq.style.cssText = baseStyle;
                 term.innerText  = item.term;
                 freq.innerText  = item.freq;
-
                 elem.appendChild(term);
                 elem.appendChild(bar);
                 elem.appendChild(freq);
@@ -419,19 +416,32 @@
                     this.removeClipDiv();
                     var shadeArr = [];
                     var isFullWidth = document.body.scrollWidth == document.body.offsetWidth;
-                    var cssText = "position:absolute;border:5px solid #FE2763;border:5px solid #FE2763;-webkit-border-radius:5px;-moz-border-radius:5px;-khtml-border-radius:5px;z-index:9999;";
                     var _leftTemp = (document.body.offsetWidth - document.documentElement.scrollWidth) / 2;
                     shadeArr[0] = this.creatDiv("yShade0", dwidth, y, _leftTemp, 0);
                     shadeArr[1] = this.creatDiv("yShade1", dwidth, dheight - y - mheight, _leftTemp, y + mheight);
                     shadeArr[2] = this.creatDiv("yShade2", x, mheight, _leftTemp, y);
                     shadeArr[3] = this.creatDiv("yShade3", dwidth - mwidth - x, mheight, mwidth + x + _leftTemp, y);
-                    shadeArr[4] = this.creatDiv("yShade4", mwidth, mheight, x - 5 + _leftTemp, y - 5, cssText);
+                    shadeArr[4] = this.creatDiv("yShade4", mwidth, mheight, x - 5 + _leftTemp, y - 5);
                     for (var i = 0, count = shadeArr.length; i < count; i++) {
                         document.body.appendChild(shadeArr[i])
                     }
-
                 }
                 this.shadeStatu = true
+            },
+            addBtnEvent: function () {
+                document.querySelector("#close-view-btn").addEventListener("click", function () {
+                    yApp.removeClipDiv();
+                });
+                document.querySelector("#save-content-btn").addEventListener("click", function () {
+                    alert("\"保存正文\"功能正在开发中...")
+                });
+            },
+            addRuntime: function () {
+                var div = document.createElement("div");
+                div.innerText = "运行时间:  " + (new Date().getTime() - WebClipperConfiguration.timer.startTimestamp) + "ms";
+                div.style.cssText = WebClipperConfiguration.styles.timer;
+                document.querySelector("#clipper-list-container").appendChild(div);
+
             },
             mainElem: function() {
                 var page = new Page(window.document);
@@ -446,13 +456,7 @@
         if ((document.readyState == "complete" || document.readyState == "loaded" || document.readyState == "interactive") && document.body) {
             window.yApp = new YNote.App;
             yApp.createClipDiv();
-
-            // btn event
-            document.querySelector("#close-view-btn").addEventListener("click", function () {
-                yApp.removeClipDiv();
-            });
-            document.querySelector("#save-content-btn").addEventListener("click", function () {
-                alert("\"保存正文\"功能正在开发中...")
-            });
+            yApp.addRuntime();
+            yApp.addBtnEvent();
         }
     })();
