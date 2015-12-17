@@ -18,10 +18,10 @@
             "shade":"position:absolute;background-color:rgba(0,0,0,0.8);z-index:9999;",
             "mainContent":"position:absolute;border:5px solid #FE2763;border-radius:5px;z-index:9999;",
             "button":"display:inline-block;height:30px;background-color:#666;line-height:30px;cursor:pointer;padding:0 10px;margin:20px 20px 0 20px;border-radius:3px; color:#fff",
-            "title":"text-align:center;color:#fff;padding:0 10px;",
+            "title":"text-align:center;color:#fff;padding:0 10px;font-size:1.6em",
             "span":"display:inline-block;font-size:14px;height:20px;line-height:20px;margin-left:20px;vertical-align:middle;color:#fff;",
             "list":{
-                "ul":"list-style:none;padding:0;",
+                "ul":"list-style:none;padding:0;text-align:left;",
                 "li":"margin-top:7px;"
             },
             "timer":"color:#fff;font-size:14px;margin:20px 0 0 20px;"
@@ -248,7 +248,7 @@
                         continue
                     }
                     for (var elem = text.parentNode; elem && elem != this.elem; elem = elem.parentNode) {
-                        weight -= .1
+                        weight -= .1;
                     }
                     structWeight += Math.pow(weight * length, 1.25)
                 }
@@ -407,6 +407,7 @@
             createClipDiv: function() {
                 if (this.mainElem) {
                     var main = this.mainElem;
+                    console.log('main',main);
                     var y = Math.abs(main.common.findPos(main.elem).y);
                     var x = Math.abs(main.common.findPos(main.elem).x);
                     var mwidth = main.elem.scrollWidth;
