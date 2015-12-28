@@ -3,16 +3,16 @@
 	"version":"1.0.0",
 	"manifest_version":2,
 	"description":"my first extension",
-  	"permissions":["activeTab","contextMenus"],
-  	"browser_action":{
-		"default_icon":"icon.png",
-	  	"default_title":"clippe content"
+	"permissions":["activeTab","contextMenus"],
+	"browser_action":{
+		"default_icon":"icon2.png",
+		"default_title":"clippe content"
 	},
-  	"background": {
-	  "scripts":["myscript.js"]
-//	  "persistent": false
+	"background": {
+		"scripts":["myscript.js"]
+		//	  "persistent": false
 	},
-  	"icons":{
-	  "16":"icon-sm.png"
+	"icons":{
+		"16":"icon2.png"
 	}
 }

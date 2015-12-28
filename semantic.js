@@ -1,6 +1,5 @@
 var appParams = {
-   "threshold" : 0.9,
-    "minText": 10,
+    "threshold" : 0.9,
     "root" : document.getElementsByTagName('body')[0],
     "INIT" : ['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','LABEL','COMMENT','MAP','AREA'],
     "IGNORETAGS":['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','SELECT','OPTION','LABEL','FORM','COMMENT','MAP','AREA'],
@@ -21,7 +20,7 @@ var appParams = {
     "percision" : null,
     "f1" : null,
     "remark" : null
-    };
+};
 
 function Utils(){}
 
@@ -165,7 +164,7 @@ Utils.prototype = {
         if(elem) {
             if (elem.dataset.subdoc > appParams.threshold && elem.dataset.nodetype === 'text') {
                 content.push(elem.textContent.replace(/\s*/g, ""));
-                content.push(this.extractImage(elem));
+                //content.push(this.extractImage(elem));
                 elem.style.cssText = 'box-shadow: 0 0 5px 5px #FF69B4';
             }
             else {
@@ -173,12 +172,12 @@ Utils.prototype = {
                     var inner = el.textContent.replace(/\s*/g, "");
                     switch (el.nodeType) {
                         case 3 :
-                            if (inner.length > appParams.minText) {
+                            if (inner.length > 0) {
                                 content.push(inner);
                             }
                             break;
                         case 1 :
-                            if (el.dataset.nodetype === 'content' && inner.length > appParams.minText) {
+                            if (el.dataset.nodetype === 'content' && inner.length > 0) {
                                 content.push(inner);
                                 el.style.cssText = 'box-shadow: 0 0 5px 5px #FF69B4';
                                 break;
@@ -186,7 +185,7 @@ Utils.prototype = {
                             if (el.dataset.nodetype === 'text') {
                                 if (el.dataset.subdoc > appParams.threshold) {
                                     content.push(inner);
-                                    content.push(this.extractImage(el));
+                                    //content.push(this.extractImage(el));
                                     el.style.cssText = 'box-shadow: 0 0 5px 5px #FF69B4';
                                 }
                                 else {
@@ -194,7 +193,7 @@ Utils.prototype = {
                                 }
                             }
                             if(el.dataset.nodetype === 'image') {
-                                content.push(this.extractImage(el));
+                                //content.push(this.extractImage(el));
                                 el.style.cssText = 'box-shadow: 0 0 5px 5px #FF69B4';
 
                             }
@@ -202,13 +201,13 @@ Utils.prototype = {
                 }
             }
         }
-        console.log('elem: ' + elem.tagName + '    content: ' + content);
+        console.log('content: ',content);
         return content;
     },
     displayContent: function (text) {
         var content = '',win = window.open('','ClipContent','height=500,width=800,left=200,top=20');
-            win.document.writeln(text.join('<br>'));
-            win.document.close();
+        win.document.writeln(text.join('<br>'));
+        win.document.close();
     },
     clearPage: function (elem) {
         if(this.checkTagName(elem,appParams.INIT) && this.checkVisibility(elem)){
@@ -222,7 +221,7 @@ Utils.prototype = {
         }
         else {
             var parent = elem.parentElement;
-                parent.removeChild(elem);
+            parent.removeChild(elem);
         }
     }
 }
@@ -255,6 +254,7 @@ ContentClipper.prototype = {
             var data = {
                     'type': null,
                     'doc': 0,
+                    'subdoc': 0,
                     'dos': null,
                     'elem': elem,
                     'children':[],
@@ -301,7 +301,7 @@ ContentClipper.prototype = {
                     }
                 }
             }
-            if(plainText > appParams.minText){
+            if(plainText > 10){
                 data.children.push('text');
                 data.subtypes[0]++;
                 data.content.text += plainText / this.page.text;
@@ -314,11 +314,11 @@ ContentClipper.prototype = {
             elem.dataset.nodetype = data.type;
             elem.dataset.doc = data.doc;
             elem.dataset.text = data.content.text;
+
+            elem.dataset.subdoc = data.subtypes[0] / (data.subtypes[0] + data.subtypes[1] + data.subtypes[2] + data.subtypes[3]);
+
             elem.dataset.child = data.children.length;
             elem.dataset.subtype = data.subtypes;
-
-            elem.dataset.subdoc = (data.subtypes[0] + data.subtypes[2]) / (data.subtypes[0] + data.subtypes[1] + data.subtypes[2] + data.subtypes[3]);
-
             //elem.dataset.r = data.content.text / data.subtypes[0];
             elem.dataset.anum = data.content.anchor.num / data.subtypes[1];
 
@@ -433,7 +433,7 @@ ContentClipper.prototype = {
                 }
                 return text > anchor ? 'text' : 'anchor';
             }
-    }
+        }
     },
     getContentType: function (elem) {
         var page = this.page,
@@ -512,21 +512,12 @@ var utils,app;
 
 var calF1Value = function () {
     var resultContentLen = appResults.clipContent.join('').replace(/\s+/g,"").length,
-        url = document.location.href,
-        runtime = appParams.runtimeStamp.end - appParams.runtimeStamp.start;
+        url = document.location.href;
     appResults.recall = appResults.rightClipContent / appResults.mainContent;
     appResults.percision = appResults.rightClipContent / resultContentLen;
 
     appResults.f1 = 2 * appResults.percision * appResults.recall / (appResults.percision + appResults.recall);
     console.log('url,recall,percision,f1,remarks,', url + ' , ' + appResults.recall + ' , ' + appResults.percision + ' , ' + appResults.f1 + ' , ' + appResults.remark);
-    alert(
-        '------------------ Details ------------------\n'
-        + 'Threshold : ' + appParams.threshold + '\n'
-        + 'Runtime : ' + runtime + ' ms\n'
-        + 'Recall : ' + appResults.recall + '\n'
-        + 'Percision : ' + appResults.percision + '\n'
-        + 'F1 : ' + appResults.f1 + '\n'
-    )
 };
 
 var removeNoise = function () {
@@ -611,7 +602,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
             break;
         case 'CalculateF1' :
             calF1Value();
-            //showMoreResults();
+            showMoreResults();
             sendResponse({"result":true,"id":"reset"});
             break;
         case 'ClipContent' :
