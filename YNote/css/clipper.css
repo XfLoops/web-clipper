@@ -1,0 +1,312 @@
+
+a {
+    color: #06c;
+    text-decoration: none;
+}
+#ydNoteWebClipper {
+    color: #333;
+    font: 12px/100% arial,sans-serif;
+    padding-bottom: 10px;
+}
+#ydNoteWebClipper p, #ydNoteWebClipper form {
+    margin: 0;
+    padding: 0;
+}
+#ydNoteWebClipper a:hover {
+    text-decoration: underline;
+}
+#ydNoteWebClipper input[type="text"] {
+    outline: medium none;
+}
+#ydNoteWebClipper select {
+    width: 160px;
+}
+#ydNoteWebClipper img {
+    border: medium none;
+}
+#ydNoteWebClipper .ydnwc-dialog {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(92, 184, 229, 0.5) !important;
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto auto;
+    border-radius: 5px;
+    box-shadow: 0 0 2px #5cb8e5;
+    padding: 5px;
+    position: absolute;
+    width: 400px;
+    z-index: 1000;
+}
+#ydNoteWebClipper .ydnwc-dialog-inner {
+    border: 1px solid #5cb8e5;
+}
+#ydNoteWebClipper .ydnwc-dialog-hd {
+    background: -moz-linear-gradient(center top , #fff, #f5f5f5 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-bottom: 1px solid #d9d9d9;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+}
+#logout {
+    color: #06c;
+    cursor: pointer;
+    position: absolute;
+    right: 30px;
+    text-decoration: underline;
+    top: 0;
+}
+#ydNoteWebClipper .ydnwc-dialog-hd-closable {
+    padding-left: 10px;
+    padding-right: 30px;
+}
+#ydNoteWebClipper .ydnwc-dialog-title {
+    display: inline-block;
+    font-weight: bold;
+}
+#ydNoteWebClipper .ydnwc-dialog-title img {
+    margin: -1px 0 1px;
+    vertical-align: -5px;
+}
+#ydnwcUser {
+    position: absolute;
+    right: 60px;
+    top: 0;
+}
+#ydNoteWebClipper .ydnwc-dialog-close {
+    background: url("../images/note-web-sprite.png") no-repeat scroll -120px top rgba(0, 0, 0, 0);
+    height: 0;
+    overflow: hidden;
+    padding-top: 10px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 10px;
+}
+#ydNoteWebClipper .ydnwc-dialog-close:hover {
+    background-position: -120px -10px;
+}
+#ydNoteWebClipper .ydnwc-dialog-bd {
+    background: none repeat scroll 0 0 #fff;
+    border-top: 1px solid #f2f2f2;
+    padding: 10px;
+}
+#ydNoteWebClipper .openid a:hover {
+    text-decoration: none;
+}
+.left, .right {
+    display: inline-block;
+    vertical-align: middle;
+}
+.right {
+    width: 264px;
+}
+.left {
+    border-left: 1px solid #dedede;
+    height: 180px;
+    margin-left: 15px;
+    width: 225px;
+}
+.left iframe {
+    border: 0 none;
+    height: 100%;
+    width: 100%;
+}
+.left .openid {
+    padding: 20px 0 0 40px;
+}
+.left a:hover {
+    background-color: #ffffff;
+    text-decoration: none;
+}
+.sina, .qq, .tqq, .download {
+    background: url("../images/sprit.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    font-family: 微软雅黑;
+    height: 29px;
+    line-height: 28px;
+}
+.sina, .qq, .tqq {
+    background-color: #f2f4f5;
+    border: 1px solid #dedede;
+    color: #757575;
+    display: block;
+    margin-bottom: 10px;
+    padding-left: 40px;
+    width: 120px;
+}
+.sina {
+    background-position: 5px 5px;
+}
+.qq {
+    background-position: 5px -25px;
+}
+.tqq {
+    background-position: 5px -57px;
+}
+.download {
+    background-position: 0 -90px;
+    display: inline-block;
+    margin-left: 50px;
+    text-align: right;
+    width: 110px;
+}
+.commonClipper .left {
+    display: none;
+}
+:root #ydNoteWebClipper .ydnwc-dialog-bd {
+}
+#ydNoteWebClipper .ydnwc-dialog-form .row {
+    font-size: 14px;
+    line-height: 26px;
+    margin-bottom: 10px;
+}
+#ydNoteWebClipper .ydnwc-dialog-form .ydnwc-dialog-error {
+    line-height: 120%;
+    margin-bottom: 5px;
+}
+#ydNoteWebClipper .ydnwc-dialog-form .row:last-child {
+    margin-bottom: 0;
+}
+#ydNoteWebClipper .ydnwc-dialog-form .row-hd, #ydNoteWebClipper .ydnwc-dialog-form .row-bd {
+    display: inline-block;
+    vertical-align: middle;
+}
+#ydNoteWebClipper .ydnwc-dialog-form .row-hd {
+    margin-right: 0.7em;
+    min-width: 3em;
+    text-align: right;
+}
+#ydNoteWebClipper .ydnwc-dialog-form .btns-row {
+    margin-left: 3.7em;
+    padding-left: 3px;
+}
+#ydNoteWebClipper .ydnwc-dialog-text {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #666 #d9d9d9 #d9d9d9 #666;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    min-width: 195px;
+    padding: 2px;
+}
+#ydNoteWebClipper .title {
+    min-width: 256px;
+}
+#ydNoteWebClipper .ydnwc-dialog-text:focus {
+    background: -moz-linear-gradient(center top , #e5e5e5, #fff 10%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-color: #06c;
+    box-shadow: 0 0 3px #06c;
+    outline: medium none;
+}
+#ydNoteWebClipper-Login .row-bd label {
+    margin-right: 65px;
+}
+#rem {
+    vertical-align: -1px;
+}
+#loginbtn {
+    margin-right: 30px;
+}
+#ydNoteWebClipper .ydnwc-dialog-btn {
+    background: url("../images/note-web-sprite-x.png") repeat-x scroll left -520px rgba(0, 0, 0, 0);
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    height: 28px;
+    text-shadow: 0 1px 0 #fff;
+    width: 70px;
+}
+#ydNoteWebClipper .ydnwc-dialog-btn:hover {
+    background-position: left -548px;
+    border-color: #06c;
+    box-shadow: 0 0 3px #06c;
+}
+#ydNoteWebClipper .ydnwc-dialog-btn:active {
+    background-position: left -576px;
+}
+#ydNoteWebClipper .ydnwc-dialog-btn-gray {
+    background: none repeat scroll 0 0 #fff;
+}
+#ydNoteWebClipper .ydnwc-dialog-btn-gray:hover {
+    background: none repeat scroll 0 0 #f2f2f2;
+    border-color: #999;
+    box-shadow: 0 0 0;
+}
+#ydNoteWebClipper .ydnwc-dialog-btn-gray:active {
+    background: url("../images/note-web-sprite-x.png") repeat-x scroll left -576px rgba(0, 0, 0, 0);
+}
+#ydNoteWebClipper .ydnwc-dialog-btn-disabled {
+    background: none repeat scroll 0 0 #e2e2e2;
+    cursor: default;
+}
+#ydNoteWebClipper .ydnwc-dialog-btn-disabled:hover {
+    border-color: #d9d9d9;
+    box-shadow: 0 0 0;
+}
+#ydNoteWebClipper .ydnwc-dialog p {
+    margin-bottom: 10px;
+}
+#ydNoteWebClipper .ydnwc-dialog-headline {
+    font-size: 1.6em;
+}
+#ydNoteWebClipper .ydnwc-dialog-highlight {
+    color: red;
+}
+#ydNoteWebClipper .ydnwc-dialog-ft {
+    background: none repeat scroll 0 0 #fafafa;
+    border-top: 1px solid #f2f2f2;
+    height: 20px;
+    padding: 10px;
+}
+.ydnwc-dialog-ft {
+    background: none repeat scroll 0 0 #fafafa;
+    border-top: 1px solid #f2f2f2;
+    color: #666;
+    padding: 15px;
+}
+#ydNoteWebClipper .ydnwc-dialog-loading {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(255, 249, 153, 0.9) !important;
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto auto;
+    border: 1px solid #fff999;
+    border-radius: 5px;
+    font-weight: bold;
+    height: 22px;
+    left: 50%;
+    line-height: 22px;
+    margin: -12px 0 0 -91px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 180px;
+    z-index: 9999;
+}
+#ydNoteWebClipper-Login .ydnwc-dialog-text {
+    height: 22px;
+    line-height: 22px;
+}
+#ydNoteWebClipper-New .ydnwc-dialog-form .row-hd {
+    min-width: 3.5em;
+}
+#ydNoteWebClipper-New .ydnwc-dialog-form .btns-row {
+    margin-left: 4.2em;
+}
+#sb {
+}
+#ydNoteWebClipper .ydnwc-dialog-form .row-hd, #ydNoteWebClipper .ydnwc-dialog-form .row-bd {
+}
+#ydNoteWebClipper .ydnwc-dialog-text {
+    padding: 2px 3px 0;
+}

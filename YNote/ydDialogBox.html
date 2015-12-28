@@ -1,0 +1,1044 @@
+<html>
+ <head>
+ 	<meta charset="utf-8" >
+ </head>
+ <body style="border:0px;padding:0px;margin:0px">
+  <div id="ydNoteWebClipper" style="position: fixed; right: 10px; top: 10px; padding-bottom: 10px; font: 12px/100% arial,sans-serif; color: rgb(51, 51, 51); width: 410px; z-index: 999999;"> 
+   <div id="ydNoteWebClipper-New" class="ydnwc-dialog" style="width: 402px; padding: 5px; background-color: rgba(92, 184, 229, 0.5) ! important; background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0% 0%; background-clip: border-box; background-origin: padding-box; background-size: auto auto; border-radius: 5px; box-shadow: 0px 0px 2px rgb(92, 184, 229);"> 
+    <div id="ydNoteWebClipper_view" style="height: 285px; width: 400px; border: 1px solid rgb(92, 184, 229); background: none repeat scroll 0% 0% rgb(255, 255, 255);"> 
+     <iframe id="_YNoteContentFrame" width="100%" height="100%" frameborder="0" scrolling="no" onload="yApp.frameHandler(event);" name="2ContentFrame" style="width:100%;height:100%;border:0px" src="javascript:document.write('');" border="0"> 
+     <!DOCTYPE html>
+<html>
+
+<head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+    <title>有道云笔记</title>
+    <link href="http://note.youdao.com/yws/css/web-clipper.css?ver=428648" rel="stylesheet" type="text/css">
+    <div id="ydNoteWebClipper" style="position: fixed; right: 10px; top: 10px; padding-bottom: 10px; font: 12px/100% arial,sans-serif; color: rgb(51, 51, 51); width: 410px; z-index: 999999;">
+        <div id="ydNoteWebClipper-New" class="ydnwc-dialog" style="width: 402px; padding: 5px; background-color: rgba(92, 184, 229, 0.5) ! important; background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0% 0%; background-clip: border-box; background-origin: padding-box; background-size: auto auto; border-radius: 5px; box-shadow: 0px 0px 2px rgb(92, 184, 229);">
+            <div id="ydNoteWebClipper_view" style="height: 285px; width: 400px; border: 1px solid rgb(92, 184, 229); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+                <iframe id="_YNoteContentFrame" width="100%" height="100%" frameborder="0" scrolling="no" onload="yApp.frameHandler(event);" name="2ContentFrame" style="width:100%;height:100%;border:0px" src="javascript:document.write('');" border="0">
+                    <!DOCTYPE html>
+                    <html>
+
+                    <head>
+                        <meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+                        <title>有道云笔记</title>
+                        <link href="http://note.youdao.com/yws/css/web-clipper.css?ver=428648" rel="stylesheet" type="text/css"> 
+a {
+    color: #06c;
+    text-decoration: none
+}
+
+#ydNoteWebClipper {
+    padding-bottom: 10px;
+    font: 12px/100% arial,sans-serif;
+    color: #333;
+}
+
+#ydNoteWebClipper p,#ydNoteWebClipper form {
+    margin: 0;
+    padding: 0;
+}
+
+#ydNoteWebClipper a:hover {
+    text-decoration: underline
+}
+
+#ydNoteWebClipper input[type='text'] {
+    outline: none
+}
+
+#ydNoteWebClipper select {
+    width: 160px;
+}
+
+#ydNoteWebClipper img {
+    border: none;
+    vertical-align: center;
+} /* ------- dialog ------- */#ydNoteWebClipper .ydnwc-dialog {
+    position: absolute;
+    z-index: 1000;
+    padding: 5px;
+    background-color: rgba(92,184,229,.5)!important;
+    background: #5cb8e5;
+    border-radius: 5px;
+    box-shadow: 0 0 2px #5cb8e5;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -webkit-box-shadow: 0 0 2px #5cb8e5;
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 0 0 2px #5cb8e5;
+    width: 400px;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-inner {
+    border: 1px solid #5cb8e5
+}
+
+#ydNoteWebClipper .ydnwc-dialog-hd {
+    position: relative;
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px solid #d9d9d9;
+    background: #f5f5f5;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#f5f5f5));
+    background: -moz-linear-gradient(top, #fff, #f5f5f5 100%);
+}
+
+#logout {
+    position: absolute;
+    right: 30px;
+    top: 0px;
+    text-decoration: underline;
+    color: #06C;
+    cursor: pointer;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-hd-closable {
+    padding-right: 30px;
+    padding-left: 10px;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-title {
+    display: inline-block;
+    zoom: 1;
+    font-weight: bold;
+    _margin-top: 6px;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-title img {
+    vertical-align: -5px;
+    margin: -1px 0 1px;
+    _vertical-align: middle;
+}
+
+#ydnwcUser {
+    position: absolute;
+    right: 60px;
+    top: 0px;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 10px;
+    height: 0;
+    padding-top: 10px;
+    overflow: hidden;
+    background: url(../images/note-web-sprite.png) no-repeat -120px top
+}
+
+#ydNoteWebClipper .ydnwc-dialog-close:hover {
+    background-position: -120px -10px
+}
+
+#ydNoteWebClipper .ydnwc-dialog-bd {
+    padding: 10px;
+    border-top: 1px solid #f2f2f2;
+    background: #fff
+}
+
+#ydNoteWebClipper .openid a:hover {
+    text-decoration: none;
+}
+
+.left,.right {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: middle;
+}
+
+.right {
+    width: 264px;
+}
+
+.left {
+    height: 180px;
+    width: 225px;
+    border-left: 1px solid #dedede;
+    margin-left: 15px;
+}
+
+.left iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.left .openid {
+    padding: 20px 0 0 40px;
+}
+
+.left a:hover {
+    text-decoration: none;
+    background-color: #ffffff;
+}
+
+.sina,.qq,.tqq,.download {
+    background: url(../images/sprit.png) no-repeat;
+    height: 29px;
+    line-height: 28px;
+    font-family: 微软雅黑;
+}
+
+.sina,.qq,.tqq {
+    display: block;
+    background-color: #f2f4f5;
+    border: 1px solid #dedede;
+    width: 120px;
+    color: #757575;
+    margin-bottom: 10px;
+    padding-left: 40px;
+    color: #757575;
+}
+
+.sina {
+    background-position: 5px 5px
+}
+
+.qq {
+    background-position: 5px -25px
+}
+
+.tqq {
+    background-position: 5px -57px
+}
+
+.download {
+    *display: inline;
+    zoom: 1;
+    display: inline-block;
+    background-position: 0px -90px;
+    width: 110px;
+    margin-left: 50px;
+    text-align: right;
+}
+
+.commonClipper .left {
+    display: none;
+}
+
+:root #ydNoteWebClipper .ydnwc-dialog-bd {
+    padding: 15px 10px \0/IE9;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-form .row {
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 26px
+}
+
+#ydNoteWebClipper .ydnwc-dialog-form .ydnwc-dialog-error {
+    margin-bottom: 5px;
+    line-height: 120%
+}
+
+#ydNoteWebClipper .ydnwc-dialog-form .row:last-child {
+    margin-bottom: 0
+}
+
+#ydNoteWebClipper .ydnwc-dialog-form .row-hd,#ydNoteWebClipper .ydnwc-dialog-form .row-bd {
+    display: inline-block;
+    vertical-align: middle
+}
+
+#ydNoteWebClipper .ydnwc-dialog-form .row-hd {
+    min-width: 3em;
+    _width: 3em;
+    margin-right: .7em;
+    text-align: right
+}
+
+#ydNoteWebClipper .ydnwc-dialog-form .btns-row {
+    margin-left: 3.7em;
+    padding-left: 3px
+}
+
+#ydNoteWebClipper .ydnwc-dialog-text {
+    _width: 195px;
+    min-width: 195px;
+    padding: 2px;
+    border: 1px solid;
+    border-color: #666 #d9d9d9 #d9d9d9 #666;
+}
+
+#ydNoteWebClipper .title {
+    min-width: 256px;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-text:focus {
+    border-color: #06c;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 3px #06c;
+    background: -webkit-gradient(linear, 0 0, 0 10%, from(#e5e5e5), to(#fff));
+    -webkit-box-shadow: 0 0 3px #06c;
+    background: -moz-linear-gradient(top, #e5e5e5, #fff 10%);
+    -moz-box-shadow: 0 0 3px #06c;
+}
+
+#ydNoteWebClipper-Login .row-bd label {
+    margin-right: 65px;
+}
+
+#rem {
+    vertical-align: -1px;
+}
+
+#loginbtn {
+    margin-right: 30px;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-btn {
+    width: 70px;
+    height: 28px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid #d9d9d9;
+    background: url(../images/note-web-sprite-x.png) repeat-x left -520px;
+    border-radius: 3px;
+    text-shadow: 0 1px 0 #fff;
+    -khtml-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-btn:hover {
+    border-color: #06c;
+    background-position: left -548px;
+    box-shadow: 0 0 3px #06c;
+    -webkit-box-shadow: 0 0 3px #06c;
+    -moz-box-shadow: 0 0 3px #06c;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-btn:active {
+    background-position: left -576px
+}
+
+#ydNoteWebClipper .ydnwc-dialog-btn-gray {
+    background: #fff
+}
+
+#ydNoteWebClipper .ydnwc-dialog-btn-gray:hover {
+    border-color: #999;
+    background: #f2f2f2;
+    box-shadow: 0 0 0;
+    -webkit-box-shadow: 0 0 0;
+    -moz-box-shadow: 0 0 0;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-btn-gray:active {
+    background: url(../images/note-web-sprite-x.png) repeat-x left -576px
+}
+
+#ydNoteWebClipper .ydnwc-dialog-btn-disabled {
+    background: #e2e2e2;
+    cursor: default
+}
+
+#ydNoteWebClipper .ydnwc-dialog-btn-disabled:hover {
+    border-color: #d9d9d9;
+    box-shadow: 0 0 0;
+    -webkit-box-shadow: 0 0 0;
+    -moz-box-shadow: 0 0 0;
+}
+
+#ydNoteWebClipper .ydnwc-dialog p {
+    margin-bottom: 10px
+}
+
+#ydNoteWebClipper .ydnwc-dialog-headline {
+    font-size: 1.6em
+}
+
+#ydNoteWebClipper .ydnwc-dialog-highlight {
+    color: red
+}
+
+#ydNoteWebClipper .ydnwc-dialog-ft {
+    height: 20px;
+    *height: 30px;
+    padding: 10px;
+    background: #fafafa;
+    border-top: 1px solid #f2f2f2
+}
+
+.ydnwc-dialog-ft {
+    padding: 15px;
+    background: #FAFAFA;
+    border-top: 1px solid #F2F2F2;
+    color: #666
+} /* ------- loading ------- */#ydNoteWebClipper .ydnwc-dialog-loading {
+    position: absolute;
+    z-index: 9999;
+    top: 50%;
+    left: 50%;
+    width: 180px;
+    height: 22px;
+    margin: -12px 0 0 -91px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 22px;
+    border: 1px solid #fff999;
+    background-color: rgba(255,249,153,.9)!important;
+    background: #fff999;
+    border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+#ydNoteWebClipper-Login .ydnwc-dialog-text {
+    height: 22px;
+    line-height: 22px;
+}
+
+#ydNoteWebClipper-New .ydnwc-dialog-form .row-hd {
+    min-width: 3.5em;
+    _width: 3.5em
+}
+
+#ydNoteWebClipper-New .ydnwc-dialog-form .btns-row {
+    margin-left: 4.2em
+} /* ie7 */#sb {
+    *margin-left: -4.2em;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-form .row-hd,#ydNoteWebClipper .ydnwc-dialog-form .row-bd {
+    *display: inline;
+}
+
+#ydNoteWebClipper .ydnwc-dialog-text {
+    padding: 2px 3px 0
+} 
+                        </link>
+                        <script src="js/crossDomain.js" type="text/javascript">
+                            (function() {
+                                    var croDomain = {};
+                                    var interval_id, last_hash, cache_bust = 1,
+                                        rm_callback, window = this,
+                                        FALSE = !1,
+                                        postMessage = 'postMessage',
+                                        addEventListener = 'addEventListener',
+                                        p_receiveMessage, has_postMessage = window[postMessage];
+                                    croDomain.isFunction = function(obj) {
+                                        return Object.prototype.toString.call(obj) === '[object Function]';
+                                    };
+                                    croDomain.browser = function() {
+                                        var bro = {};
+                                        var ua = navigator.userAgent.toLowerCase();
+                                        var s;
+                                        (s = ua.match(/msie ([\d.]+)/)) ? bro.msie = s[1]: (s = ua.match(/firefox\/([\d.]+)/)) ? bro.firefox = s[1] : (s = ua.match(/chrome\/([\d.]+)/)) ? bro.chrome = s[1] : (s = ua.match(/opera.([\d.]+)/)) ? bro.opera = s[1] : (s = ua.match(/version\/([\d.]+).*safari/)) ? bro.safari = s[1] : 0;
+                                        return bro;
+                                    }();
+                                    croDomain.each = function(object, callback, context) {
+                                        if (object === undefined || object === null) {
+                                            return;
+                                        }
+                                        if (object.length === undefined || croDomain.isFunction(object)) {
+                                            for (var name in object) {
+                                                if (object.hasOwnProperty(name)) { //只有此元素本身属性调用回调 
+                                                    if (callback.call(context || object[name], name, object[name]) === false) {
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            for (var i = 0; i < object.length; i++) {
+                                                if (callback.call(context || object, i, object[i]) === false) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        return object;
+                                    };
+
+                                    croDomain.param = function(data) {
+                                        if (typeof data === 'string') {
+                                            return data;
+                                        }
+                                        var param = [];
+                                        croDomain.each(data, function(index, value) {
+                                            if (value) {
+                                                value = encodeURIComponent(value);
+                                                if (croDomain.browser.firefox) {
+                                                    value = encodeURIComponent(unescape(value)); // 将数据转换成 ISO-8859-1 格式 
+                                                }
+                                                param.push(encodeURIComponent(index) + '=' + value);
+                                            }
+                                        });
+                                        return param.join('&amp;').replace(r20, '+');
+                                    };
+
+croDomain.postMessage = function(message, target_url, target) {
+    if (!target_url) {
+        return;
+    }
+    message = typeof message === 'string' ? message : croDomain.param(message);
+    target = target || parent;
+    if (has_postMessage) {
+        target[postMessage](message, target_url.replace(/([^: ]+:\/\/[^\/]+).*/, '$1'));
+    } else if (target_url) {
+        target.location = target_url.replace(/#.*$/, '') + '#' + (+new Date) + (cache_bust++) + '&amp;' + message;
+    }
+};
+croDomain.receiveMessage = p_receiveMessage = function(callback, source_origin, delay) {
+    if (has_postMessage) {
+        if (callback) {
+            rm_callback & amp; & amp;
+            p_receiveMessage();
+            rm_callback = function(e) {
+                if ((typeof source_origin === 'string' & amp; & amp; e.origin !== source_origin) || (croDomain.isFunction(source_origin) & amp; & amp; source_origin(e.origin) === FALSE)) {
+                    return FALSE;
+                }
+                callback(e);
+            };
+        }
+        if (window[addEventListener]) {
+            window[callback ? addEventListener : 'removeEventListener']('message', rm_callback, FALSE);
+        } else {
+            window[callback ? 'attachEvent' : 'detachEvent']('onmessage', rm_callback);
+        }
+    } else {
+        interval_id & amp; & amp;
+        clearInterval(interval_id);
+        interval_id = null;
+        if (callback) {
+            delay = typeof source_origin === 'number' ? source_origin : typeof delay === 'number' ? delay : 100;
+            interval_id = setInterval(function() {
+                var hash = document.location.hash,
+                    re = /^#?\d+&amp;/;
+                if (hash !== last_hash & amp; & amp; re.test(hash)) {
+                    last_hash = hash;
+                    callback({
+                        data: hash.replace(re, '')
+                    });
+                }
+            }, delay);
+        }
+    }
+};
+window.croDomain = croDomain;
+})(); 
+                        </script>
+                        <script language="javascript">
+                            function preSubmit() {
+                                document.getElementById("sb").disabled = true;
+                                document.getElementById("cancelbtn").disabled = true;
+                                var v = document.getElementById("tl");
+                                if (v != null & amp; & amp; v.value == "") {
+                                    v.value = "无标题笔记";
+                                } //
+                                document.getElementById("content").style.display = "none";
+                                document.getElementById("loadingview").style.display = "block";
+                                croDomain.postMessage('remove', 'http://news.aweb.com.cn/20141213/580057944.shtml');
+                                return true;
+                            }
+                        </script>
+                        <script type="text/javascript">
+                            setTimeout(function() {
+                                croDomain.postMessage('resize_fullpage', 'http://news.aweb.com.cn/20141213/580057944.shtml');
+                            }, 101);
+                            setTimeout(function() {
+                                croDomain.postMessage('creat', 'http://news.aweb.com.cn/20141213/580057944.shtml');
+                            }, 202);
+                        </script>
+                    </head>
+
+                    <body style="border:0px;padding:0px;margin:0px">
+                        <div id="ydNoteWebClipper">
+                            <div id="ydNoteWebClipper-New">
+                                <div class="ydnwc-dialog-hd ydnwc-dialog-hd-closable"> <span class="ydnwc-dialog-title"> <img align="absmiddle" alt="有道云笔记" src="http://note.youdao.com/yws/images/logo-web-clipper.png"> 有道云笔记 </span> <span id="logout"> 注销 </span> <span id="ydnwcUser">fangli_x@163.com</span>
+                                    <a id="close" class="ydnwc-dialog-close" href="#"></a>
+                                </div>
+                                <div id="content" class="ydnwc-dialog-bd">
+                                    <form class="ydnwc-dialog-form" onsubmit="return preSubmit()" enctype="multipart/form-data" method="POST" action="http://note.youdao.com/yws/mapi/wcp?method=update&amp;keyfrom=wcp" name="_YNoteInfoForm">
+                                        <div class="row">
+                                            <div class="row-hd">
+                                                <label for="null-name-1">网址:</label>
+                                            </div>
+                                            <div class="row-bd"> <a target="_blank"> http://news.aweb.com.cn/20141213/5800... </a> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="row-hd">
+                                                <label for="tl">标题:</label>
+                                            </div>
+                                            <div class="row-bd">
+                                                <input id="tl" class="ydnwc-dialog-text title" type="text" maxlength="500" value="今年中央一号文件会谈些啥？农业转方式、促农三改革_农博网" name="tl">
+                                                <input id="p" type="hidden" name="p" value="/wcp1419408954712705">
+                                                <input id="bs" type="hidden" name="bs" value="<div style='font-size:14px;font-style:normal;font-weight:400;font-family:'&amp;#23435;&amp;#20307;',Verdana,sans-serif;color:rgb(0, 0, 0);'><p style='font-size:14px;font-style:normal;font-weight:400;font-family:'&amp;#23435;&amp;#20307;',Verdana,sans-serif;color:rgb(0, 0, 0);'>&amp;#160;&amp;#160;&amp;#160;&amp;#160; &amp;#25353;&amp;#29031;&amp;#36807;&amp;#21435;11&amp;#24180;&amp;#30340;&amp;#24815;&amp;#20363;&amp;#65292;&amp;#26126;&amp;#24180;&amp;#20013;&amp;#22830;&amp;#19968;&amp;#21495;&amp;#25991;&amp;#20214;&amp;#20173;&amp;#23558;&amp;#38145;&amp;#23450;&amp;#8220;&amp;#19977;&amp;#20892;&amp;#8221;&amp;#65292;&amp;#36825;&amp;#27425;...066;&amp;#12289;&amp;#20892;&amp;#27665;&amp;#23429;&amp;#22522;&amp;#22320;&amp;#30340;&amp;#26435;&amp;#38480;&amp;#12289;&amp;#21457;&amp;#23637;&amp;#20892;&amp;#27665;&amp;#32929;&amp;#20221;&amp;#21512;&amp;#20316;&amp;#31561;&amp;#19968;&amp;#31995;&amp;#21015;&amp;#25913;&amp;#38761;&amp;#12290;</p><p style='font-size:14px;font-style:normal;font-weight:400;font-family:'&amp;#23435;&amp;#20307;',Verdana,sans-serif;color:rgb(0, 0, 0);'>&amp;#160;&amp;#160;&amp;#160;&amp;#160;(&amp;#25991;&amp;#31456;&amp;#26469;&amp;#28304;&amp;#65306;&amp;#32463;&amp;#27982;&amp;#35266;&amp;#23519;&amp;#25253;&amp;#65292;&amp;#20316;&amp;#32773;&amp;#65306;&amp;#38477;&amp;#34164;&amp;#24432;)</p></div>">
+                                                <input id="len" type="hidden" name="len" value="62383">
+                                                <input id="src" type="hidden" name="src" value="http://news.aweb.com.cn/20141213/580057944.shtml">
+                                                <input id="e" type="hidden" name="e" value="false">
+                                                <input id="type" type="hidden" name="type" value="MainBody">
+                                                <input type="hidden" name="from" value="">
+                                                <input type="hidden" name="confirm" value="true"> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="row-hd">
+                                                <label for="nb">笔记本:</label>
+                                            </div>
+                                            <div class="row-bd">
+                                                <select id="nb" name="nb">
+                                                    <option value="/o87CHyXutb7">默认笔记本</option>
+                                                    <option value="/BC496AA2F2664110A7A7AA95C016F844">程序员</option>
+                                                    <option value="/D1B842E0055E40909D9F102BCECC39D7">科学网</option>
+                                                    <option value="/6A1E7A166F3D4EB9AD6877E86CE3A91C">收藏</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="row-hd"></div>
+                                            <div class="row-bd">
+                                                <label for="ourl1">
+                                                    <input id="ourl1" type="radio" onclick="selectionContent(this)" checked="true" value="false" name="ourl"> 保存整个网页 </label>
+                                                <label for="ourl2">
+                                                    <input id="ourl2" type="radio" onclick="selectionContent(this)" value="true" name="ourl"> 只保存网址 </label>
+                                                <label id="lb3" for="ourl3">
+                                                    <input id="ourl3" type="radio" onclick="selectionContent(this)" value="false" name="ourl"> 保存正文 </label> <img id="new" src="http://note.youdao.com/yws/images/new.png"> </div>
+                                        </div>
+                                        <div class="row btns-row" style="height:50px">
+                                            <input id="sb" class="ydnwc-dialog-btn" type="submit" value="保 存" name="sb">
+                                            <input id="cancelbtn" class="ydnwc-dialog-btn ydnwc-dialog-btn-gray" type="button" value="取 消" name="cancelbtn"> </div>
+                                    </form>
+                                    <script type="text/javascript">
+                                        <!-- setTimeout(function () { try { var us = document.getElementById("tl"); us.focus(); us.select(); } catch (e) { } },100); -->
+                                    </script>
+                                </div>
+                                <div id="tips" class="ydnwc-dialog-ft">
+                                    <p class="ydnwc-dialog-tip"> <img align="absmiddle" alt="意见反馈" src="../images/feedback.gif"> <a href="http://feedback.youdao.com/note_web_report.jsp?prodtype=note_web" target="_blank">意见反馈</a> </p>
+                                </div>
+                                <div id="loadingview" class="ydnwc-dialog-loading" style="display:none" name="loadingview">正在加载中，请稍后…</div>
+                            </div>
+                        </div>
+                        <script src="http://note.youdao.com/yws/js/close.js" type="text/javascript">
+                            function closeFrame() {
+                                var parent_url = document.getElementById('src').value;
+                                croDomain.postMessage('close', parent_url);
+                                return false;
+                            }
+                            document.getElementById('close').onclick = closeFrame;
+                            var cancelbtn = document.getElementById('cancelbtn');
+                            if (cancelbtn) {
+                                cancelbtn.onclick = closeFrame;
+                            }
+                        </script>
+                        <script type="text/javascript">
+                            <!-- 
+                            (function() {
+    var _$ = function(id) {
+        return document.getElementById(id);
+    }
+    var contenMode = window.name.substring(0, 1);
+    var parent_url = document.getElementById('src').value; //取到包括分割标识符正文已经整个网页的一个字符串 
+    var tempStr = document.getElementById('bs').value; //取到分割标识符所在位置 
+    var position = tempStr.lastIndexOf('$'); //取到包含两个分割标识符的正个网页的字符串 
+    var allContent = tempStr.substring(0, position); //取到标识符 
+    var mark = tempStr.substring(position + 1);
+    var tempArr = allContent.split(mark); //正文 
+    var mainContent = tempArr.length > 1 ? tempArr[1] : allContent; //整个网页 
+    var fullPageContent = allContent.replace(mark, ''); //隐藏文本控件 
+    var _bsInput = _$('bs'); //保存正文
+    label
+    var _lb3 = _$('lb3'); //
+    docType
+    var _docType = _$('type'); //checkbox控件 
+    var _our1Check = _$('ourl1');
+    var _our2Check = _$('ourl2');
+    var _our3Check = _$('ourl3');
+    if (contenMode === '1') {
+        _our3Check.disabled = true;
+        _lb3.style.color = '#dedede';
+        _$('new').style.display = 'none';
+    }
+    if (contenMode === '2') {
+        _our3Check.disabled = false;
+        _our3Check.checked = 'true';
+        _bsInput.value = mainContent;
+    }
+
+    function cancel() {
+        _$('deleteForm').submit();
+        croDomain.postMessage('remove', parent_url);
+    }
+
+    function selectionContent(obj) {
+            if (obj.id === 'ourl3') {
+                croDomain.postMessage('creat', parent_url);
+                _bsInput.value = mainContent;
+                _docType.value = 'MainBody';
+            }
+            if (obj.id === 'ourl1' || obj.id === 'ourl2') {
+                croDomain.postMessage('remove', parent_url);
+                _bsInput.value = fullPageContent;
+                _docType.value = 'FullPage';
+            }
+        } //method=logout，参数有p，src，tl，bs，len，fpc，
+    e _$('logout').onclick = function() {
+        var form = document.forms['_YNoteInfoForm'];
+        _bsInput.value = tempStr;
+        form.action = "http://note.youdao.com/yws/mapi/wcp?method=logout&amp;keyfrom=wcp";
+        form.submit();
+    }
+    window.selectionContent = function(e) {
+        selectionContent(e);
+    };
+})();
+                            -->
+                        </script>
+                    </body>
+
+                    </html>
+     </iframe> 
+    </div> 
+    <div id="ydNoteWebClipper_loadview" style="position: absolute; height: 258px; background: none repeat scroll 0% 0% rgb(255, 255, 255); top: 0px; left: 200px; display: none;"> 
+     <div id="_YNoteLoaddingTips" style="position:absolute;z-index:999999;top:50%;left:50%;width:180px;margin:-12px 0 0 -91px;font-weight:bold;text-align:center;line-height:22px;border:1px solid #fff999;background-color:rgba(255,249,153,.9)!important;background:#fff999;border-radius:5px;-khtml-border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;" name="_YNoteLoaddingTips">
+      正在加载中，请稍候…
+     </div> 
+    </div> 
+   </div> 
+   <div style="display: none;"> 
+   </div>  
+   <script src="http://note.youdao.com/yws/js/crossDomain.js" type="text/javascript">
+                        (function () {
+                        	console.log("*******ydDialogBox.html begin to run!******");
+                            var croDomain = {};
+                            var interval_id,
+                                last_hash,
+                                cache_bust = 1,
+                                rm_callback,
+                                window = this,
+                                FALSE = !1,
+                                postMessage = 'postMessage',
+                                addEventListener = 'addEventListener',
+                                p_receiveMessage,
+                                has_postMessage = window[postMessage];
+                            croDomain.isFunction = function (obj) {
+                            	console.log("***1*** croDomain.isFunction ***************");
+                                return Object.prototype.toString.call(obj) === '[object Function]';
+                            };
+                            croDomain.browser = function () {
+                            	console.log("***2*** croDomain.browser***************");
+                                var bro = {};
+                                var ua = navigator.userAgent.toLowerCase();
+                                var s;
+                                (s = ua.match(/msie ([\d.]+)/)) ? bro.msie = s[1]:
+                                    (s = ua.match(/firefox\/([\d.]+)/)) ? bro.firefox = s[1] :
+                                    (s = ua.match(/chrome\/([\d.]+)/)) ? bro.chrome = s[1] :
+                                    (s = ua.match(/opera.([\d.]+)/)) ? bro.opera = s[1] :
+                                    (s = ua.match(/version\/([\d.]+).*safari/)) ? bro.safari = s[1] : 0;
+                                return bro;
+                            }();
+                            croDomain.each = function (object, callback, context) {
+                            	console.log("***3*** croDomain.each***************");
+                                if (object === undefined || object === null) {
+                                    return;
+                                }
+                                if (object.length === undefined || croDomain.isFunction(object)) {
+                                    for (var name in object) {
+                                        if (object.hasOwnProperty(name)) { //只有此元素本身属性调用回调
+                                            if (callback.call(context || object[name], name, object[name]) === false) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    for (var i = 0; i < object.length; i++) {
+                                        if (callback.call(context || object, i, object[i]) === false) {
+                                            break;
+                                        }
+                                    }
+                                }
+                                return object;
+                            };
+                            croDomain.param = function (data) {
+                            	console.log("***4*** croDomain.param***************");
+                                if (typeof data === 'string') {
+                                    return data;
+                                }
+                                var param = [];
+                                croDomain.each(data, function (index, value) {
+                                    if (value) {
+                                        value = encodeURIComponent(value);
+                                        if (croDomain.browser.firefox) {
+                                            value = encodeURIComponent(unescape(value)); // 将数据转换成 ISO-8859-1 格式
+                                        }
+                                        param.push(encodeURIComponent(index) + '=' + value);
+                                    }
+                                });
+                                return param.join('&')
+                                    .replace(r20, '+');
+                            };
+                            croDomain.postMessage = function (message, target_url, target) {
+                            	console.log("***5***croDomain.postMessage ***************");
+                                if (!target_url) {
+                                    return;
+                                }
+                                message = typeof message === 'string' ? message : croDomain.param(message);
+                                target = target || parent;
+                                if (has_postMessage) {
+                                    target[postMessage](message, target_url.replace(/([^:]+:\/\/[^\/]+).*/, '$1'));
+                                } else if (target_url) {
+                                    target.location = target_url.replace(/#.*$/, '') + '#' + (+new Date) + (cache_bust++) + '&' + message;
+                                }
+                            };
+                            croDomain.receiveMessage = p_receiveMessage = function (callback, source_origin, delay) {
+                            	console.log("***6***p_receiveMessage***************");
+                                if (has_postMessage) {
+                                    if (callback) {
+                                        rm_callback && p_receiveMessage();
+                                        rm_callback = function (e) {
+                                            if ((typeof source_origin === 'string' && e.origin !== source_origin) || (croDomain.isFunction(source_origin) && source_origin(e.origin) === FALSE)) {
+                                                return FALSE;
+                                            }
+                                            callback(e);
+                                        };
+                                    }
+                                    if (window[addEventListener]) {
+                                        window[callback ? addEventListener : 'removeEventListener']('message', rm_callback, FALSE);
+                                    } else {
+                                        window[callback ? 'attachEvent' : 'detachEvent']('onmessage', rm_callback);
+                                    }
+                                } else {
+                                    interval_id && clearInterval(interval_id);
+                                    interval_id = null;
+                                    if (callback) {
+                                        delay = typeof source_origin === 'number' ? source_origin : typeof delay === 'number' ? delay : 100;
+                                        interval_id = setInterval(function () {
+                                            var hash = document.location.hash,
+                                                re = /^#?\d+&/;
+                                            if (hash !== last_hash && re.test(hash)) {
+                                                last_hash = hash;
+                                                callback({
+                                                    data: hash.replace(re, '')
+                                                });
+                                            }
+                                        }, delay);
+                                    }
+                                }
+                            };
+                            window.croDomain = croDomain;
+                        })();
+
+                    </script> 
+   <script language="javascript">
+                        function preSubmit() {
+                        	console.log("***7***preSubmit***************");
+                            document.getElementById("sb").disabled = true;
+                            document.getElementById("cancelbtn").disabled = true;
+                            var v = document.getElementById("tl");
+                            if (v != null && v.value == "") {
+                                v.value = "无标题笔记";
+                            }
+                            //document.getElementById("content").style.display = "none";
+                            document.getElementById("loadingview").style.display = "block";
+                            croDomain.postMessage('remove', 'http://news.aweb.com.cn/20141213/580057944.shtml');
+                            return true;
+                        }
+
+                    </script> 
+   <script type="text/javascript">
+                        setTimeout(function () {
+                        	console.log("***8***setTimeout101***************");
+                            croDomain.postMessage('resize_fullpage', 'http://news.aweb.com.cn/20141213/580057944.shtml');
+                        }, 101);
+                        setTimeout(function () {
+                        	console.log("***9***setTimeout202***************");
+                            croDomain.postMessage('creat', 'http://news.aweb.com.cn/20141213/580057944.shtml');
+                        }, 202);
+
+                    </script>   
+   <div id="ydNoteWebClipper"> 
+        <div id="ydNoteWebClipper-New">
+    <div class="ydnwc-dialog-hd ydnwc-dialog-hd-closable">
+        <span class="ydnwc-dialog-title"> <img align="absmiddle" alt="有道云笔记" src="http://note.youdao.com/yws/images/logo-web-clipper.png" /> 有道云笔记 </span>
+        <span id="logout"> 注销 </span>
+        <span id="ydnwcUser">fangli_x@163.com</span>
+        <a id="close" class="ydnwc-dialog-close" href="#"></a>
+    </div>
+    <div id="content" class="ydnwc-dialog-bd">
+        <form class="ydnwc-dialog-form" onsubmit="return preSubmit()" enctype="multipart/form-data" method="POST" action="http://note.youdao.com/yws/mapi/wcp?method=update&amp;keyfrom=wcp" name="_YNoteInfoForm">
+            <div class="row">
+                <div class="row-hd">
+                    <label for="null-name-1">网址:</label>
+                </div>
+                <div class="row-bd">
+                    <a target="_blank"> http://news.aweb.com.cn/20141213/5800... </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row-hd">
+                    <label for="tl">标题:</label>
+                </div>
+                <div class="row-bd">
+                    <input id="tl" class="ydnwc-dialog-text title" type="text" maxlength="500" value="今年中央一号文件会谈些啥？农业转方式、促农三改革_农博网" name="tl" />
+                    <input id="p" type="hidden" name="p" value="/wcp1419408954712705" />
+                    <input id="bs" type="hidden" name="bs" value="&lt;div style='font-size:14px;font-style:normal;font-weight:400;font-family:'宋体',Verdana,sans-serif;color:rgb(0, 0, 0);'&gt;&lt;p style='font-size:14px;font-style:normal;font-weight:400;font-family:'宋体',Verdana,sans-serif;color:rgb(0, 0, 0);'&gt;&nbsp;&nbsp;&nbsp;&nbsp; 按照过去11年的惯例，明年中央一号文件仍将锁定“三农”，这次...066;、农民宅基地的权限、发展农民股份合作等一系列改革。&lt;/p&gt;&lt;p style='font-size:14px;font-style:normal;font-weight:400;font-family:'宋体',Verdana,sans-serif;color:rgb(0, 0, 0);'&gt;&nbsp;&nbsp;&nbsp;&nbsp;(文章来源：经济观察报，作者：降蕴彰)&lt;/p&gt;&lt;/div&gt;" />
+                    <input id="len" type="hidden" name="len" value="62383" />
+                    <input id="src" type="hidden" name="src" value="http://news.aweb.com.cn/20141213/580057944.shtml" />
+                    <input id="e" type="hidden" name="e" value="false" />
+                    <input id="type" type="hidden" name="type" value="MainBody" />
+                    <input type="hidden" name="from" value="" />
+                    <input type="hidden" name="confirm" value="true" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="row-hd">
+                    <label for="nb">笔记本:</label>
+                </div>
+                <div class="row-bd">
+                    <select id="nb" name="nb">
+                        <option value="/o87CHyXutb7">默认笔记本</option>
+                        <option value="/BC496AA2F2664110A7A7AA95C016F844">程序员</option>
+                        <option value="/D1B842E0055E40909D9F102BCECC39D7">科学网</option>
+                        <option value="/6A1E7A166F3D4EB9AD6877E86CE3A91C">收藏</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row-hd"></div>
+                <div class="row-bd">
+                    <label for="ourl1">
+                        <input id="ourl1" type="radio" onclick="selectionContent(this)" checked="true" value="false" name="ourl" /> 保存整个网页 </label>
+                    <label for="ourl2">
+                        <input id="ourl2" type="radio" onclick="selectionContent(this)" value="true" name="ourl" /> 只保存网址 </label>
+                    <label id="lb3" for="ourl3">
+                        <input id="ourl3" type="radio" onclick="selectionContent(this)" value="false" name="ourl" /> 保存正文 </label>
+                    <img id="new" src="http://note.youdao.com/yws/images/new.png" />
+                </div>
+            </div>
+            <div class="row btns-row" style="height:50px">
+                <input id="sb" class="ydnwc-dialog-btn" type="submit" value="保 存" name="sb" />
+                <input id="cancelbtn" class="ydnwc-dialog-btn ydnwc-dialog-btn-gray" type="button" value="取 消" name="cancelbtn" />
+            </div>
+        </form>
+        <script type="text/javascript">
+            <!--
+            setTimeout(function() {
+                try {
+                    var us = document.getElementById("tl");
+                    us.focus();
+                    us.select();
+                } catch (e) {}
+            }, 100);
+            -->
+        </script>
+    </div>
+    <div id="tips" class="ydnwc-dialog-ft">
+        <p class="ydnwc-dialog-tip"> <img align="absmiddle" alt="意见反馈" src="../images/feedback.gif" /> <a href="http://feedback.youdao.com/note_web_report.jsp?prodtype=note_web" target="_blank">意见反馈</a> </p>
+    </div>
+    <div id="loadingview" class="ydnwc-dialog-loading" style="display:none" name="loadingview">
+        正在加载中，请稍后…
+    </div>
+</div>
+   </div> 
+   <script src="http://note.youdao.com/yws/js/close.js" type="text/javascript">
+                        function closeFrame() {
+                        	console.log("***10***closeFrame***************");
+                            var parent_url = document.getElementById('src')
+                                .value;
+                            croDomain.postMessage('close', parent_url);
+                            return false;
+                        }
+                        document.getElementById('close')
+                            .onclick = closeFrame;
+                        var cancelbtn = document.getElementById('cancelbtn');
+                        if (cancelbtn) {
+                            cancelbtn.onclick = closeFrame;
+                        }
+
+                    </script> 
+   <script type="text/javascript">
+   <!--
+    (function() {
+    console.log("***11******************");
+    var _$ = function(id) {
+        return document.getElementById(id);
+    }
+    var contenMode = window.name.substring(0, 1);
+    var parent_url = document.getElementById('src').value;
+    //取到包括分割标识符正文已经整个网页的一个字符串
+    var tempStr = document.getElementById('bs').value;
+    //取到分割标识符所在位置
+    var position = tempStr.lastIndexOf('$');
+    //取到包含两个分割标识符的正个网页的字符串
+    var allContent = tempStr.substring(0, position);
+    //取到标识符
+    var mark = tempStr.substring(position + 1);
+    var tempArr = allContent.split(mark);
+    //正文
+    var mainContent = tempArr.length > 1 ? tempArr[1] : allContent;
+    //整个网页
+    var fullPageContent = allContent.replace(mark, '');
+    //隐藏文本控件
+    var _bsInput = _$('bs');
+    //保存正文label
+    var _lb3 = _$('lb3');
+    //docType
+    var _docType = _$('type');
+    //checkbox控件
+    var _our1Check = _$('ourl1');
+    var _our2Check = _$('ourl2');
+    var _our3Check = _$('ourl3');
+    if (contenMode === '1') {
+        _our3Check.disabled = true;
+        _lb3.style.color = '#dedede';
+        _$('new')
+            .style.display = 'none';
+    }
+    if (contenMode === '2') {
+        _our3Check.disabled = false;
+        _our3Check.checked = 'true';
+        _bsInput.value = mainContent;
+    }
+
+    function cancel() {
+        _$('deleteForm')
+            .submit();
+        croDomain.postMessage('remove', parent_url);
+    }
+
+    function selectionContent(obj) {
+            if (obj.id === 'ourl3') {
+                croDomain.postMessage('creat', parent_url);
+                _bsInput.value = mainContent;
+                _docType.value = 'MainBody';
+            }
+            if (obj.id === 'ourl1' || obj.id === 'ourl2') {
+                croDomain.postMessage('remove', parent_url);
+                _bsInput.value = fullPageContent;
+                _docType.value = 'FullPage';
+            }
+        }
+        //method=logout，参数有p，src，tl，bs，len，fpc，e
+    _$('logout')
+        .onclick = function() {
+            var form = document.forms['_YNoteInfoForm'];
+            _bsInput.value = tempStr;
+            form.action = "http://note.youdao.com/yws/mapi/wcp?method=logout&keyfrom=wcp";
+            form.();
+        }
+    window.selectionContent = function(e) {
+        selectionContent(e);
+    };
+})();
+    -->
+
+                    </script>    
+  </div> 
+  
+  <div id="ydNoteWebClipper_loadview" style="position: absolute; height: 258px; background: none repeat scroll 0% 0% rgb(255, 255, 255); top: 0px; left: 200px; display: none;"> 
+   
+   <div id="_YNoteLoaddingTips" style="position:absolute;z-index:999999;top:50%;left:50%;width:180px;margin:-12px 0 0 -91px;font-weight:bold;text-align:center;line-height:22px;border:1px solid #fff999;background-color:rgba(255,249,153,.9)!important;background:#fff999;border-radius:5px;-khtml-border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;" name="_YNoteLoaddingTips">
+    正在加载中，请稍候…
+   </div> 
+  
+  </div>  
+  <div style="display: none;"> 
+  </div> 
+ </body>
+</html>
