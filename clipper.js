@@ -1,5 +1,5 @@
 var appParams = {
-   "threshold" : 0.9,
+    "threshold" : 0.9,
     "root" : document.getElementsByTagName('body')[0],
     "INIT" : ['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','LABEL','COMMENT','MAP','AREA'],
     "IGNORETAGS":['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','SELECT','OPTION','LABEL','FORM','COMMENT','MAP','AREA'],
@@ -20,7 +20,7 @@ var appParams = {
     "percision" : null,
     "f1" : null,
     "remark" : null
-    };
+};
 
 function Utils(){}
 
@@ -206,8 +206,8 @@ Utils.prototype = {
     },
     displayContent: function (text) {
         var content = '',win = window.open('','ClipContent','height=500,width=800,left=200,top=20');
-            win.document.writeln(text.join('<br>'));
-            win.document.close();
+        win.document.writeln(text.join('<br>'));
+        win.document.close();
     },
     clearPage: function (elem) {
         if(this.checkTagName(elem,appParams.INIT) && this.checkVisibility(elem)){
@@ -221,7 +221,7 @@ Utils.prototype = {
         }
         else {
             var parent = elem.parentElement;
-                parent.removeChild(elem);
+            parent.removeChild(elem);
         }
     }
 }
@@ -433,7 +433,7 @@ ContentClipper.prototype = {
                 }
                 return text > anchor ? 'text' : 'anchor';
             }
-    }
+        }
     },
     getContentType: function (elem) {
         var page = this.page,
