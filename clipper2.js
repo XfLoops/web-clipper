@@ -163,10 +163,13 @@ function clip() {
                 for (var elemIndex = 0, length = allElems.length; elemIndex < length; elemIndex++) {
                     var elem = allElems[elemIndex];
                     if (this._checkTagName(elem) && this._checkSize(elem) && this._checkVisibility(elem)) {
-                        elems[elems.length] = new Article(elem)
+                        elems[elems.length] = new Article(elem);
+
                     }
                 }
-                //console.log(elems);
+                for(var i = 0; i < elems.length;i++){
+                    console.log(elems[i]._texts);
+                }
                 return elems
             },
             _checkTagName: function (elem) {
@@ -322,6 +325,7 @@ function clip() {
             createClipDiv: function () {
                 if (this.mainElem) {
                     var main = this.mainElem;
+                    this.test(main);
                     var y = Math.abs(main.common.findPos(main.elem).y);
                     var x = Math.abs(main.common.findPos(main.elem).x);
                     var mwidth = main.elem.scrollWidth;
@@ -351,7 +355,12 @@ function clip() {
                     WebClipperConfiguration.doc.mainContent = temp.elem;
                 }
                 return temp
-            }()
+            }(),
+            test: function (main) {
+                console.log('main',main);
+                var allLinks = document.getElementsByTagName('a');
+                console.log('allLinks',allLinks);
+            }
         };
 
         if ((document.readyState == "complete" || document.readyState == "loaded" || document.readyState == "interactive") && document.body) {

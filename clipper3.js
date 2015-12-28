@@ -1,20 +1,21 @@
+
     var WebClipperConfiguration = {
         doc: {
             mainContent: null
         }
     };
-    (function() {
-        var Page = function(document) {
+    (function () {
+        var Page = function (document) {
             this.contentDocument = document
         };
         Page.common = {
-            trim: function(str) {
+            trim: function (str) {
                 return str.replace(/^\s*/, "").replace(/\s*$/, "")
             },
-            isFunction: function(obj) {
+            isFunction: function (obj) {
                 return Object.prototype.toString.call(obj) === "[object Function]"
             },
-            findPos: function(elem) {
+            findPos: function (elem) {
                 var offset = {
                     x: 0,
                     y: 0
@@ -36,7 +37,7 @@
                     return obj.indexOf(val)
                 } else {
                     var result = -1;
-                    this.each(obj, function(idx) {
+                    this.each(obj, function (idx) {
                         if (this[idx] === val) {
                             result = idx;
                             return false
@@ -45,7 +46,7 @@
                     return result
                 }
             },
-            each: function(object, callback, context) {
+            each: function (object, callback, context) {
                 if (object === undefined || object === null) {
                     return
                 }
@@ -66,8 +67,8 @@
                 }
                 return object
             },
-            css: function() {
-                var getStyle = function(elem, styleName) {
+            css: function () {
+                var getStyle = function (elem, styleName) {
                     var value = "";
                     if (styleName == "float") {
                         document.defaultView ? styleName = "float" : styleName = "styleFloat"
@@ -93,22 +94,23 @@
                         } catch (e) {
                             try {
                                 value = elem.filters("alpha").opacity
-                            } catch (err) {}
+                            } catch (err) {
+                            }
                         }
                     }
                     return value
                 };
-                return function(elem, styles) {
+                return function (elem, styles) {
                     if (typeof styles === "string") {
                         return getStyle(elem, styles)
                     } else {
-                        this.each(styles, function(key, value) {
+                        this.each(styles, function (key, value) {
                             elem.style[key] = value
                         })
                     }
                 }
             }(),
-            scroll: function() {
+            scroll: function () {
                 return {
                     left: document.documentElement.scrollLeft + document.body.scrollLeft,
                     top: document.documentElement.scrollTop + document.body.scrollTop
@@ -117,13 +119,13 @@
         };
         Page.prototype = {
             IGNORE_TAGS: ["HTML", "HEAD", "META", "TITLE", "SCRIPT", "STYLE", "LINK", "IMG", "FORM", "INPUT", "BODY", "BUTTON", "TEXTAREA", "SELECT", "OPTION", "LABEL", "IFRAME", "UL", "OL", "LI", "DD", "DL", "DT", "A", "OBJECT", "PARAM", "EMBED", "NOSCRIPT", "EM", "B", "STRONG", "I", "INS", "BR", "HR", "PRE", "H1", "H2", "H3", "H4", "H5", "CITE"],
-            getMainArticle: function() {
+            getMainArticle: function () {
                 var mainArticle = null;
                 var elems = this._getAllArticle();
                 if (!(elems && elems.length)) {
                     return null
                 }
-                elems.sort(function(a, b) {
+                elems.sort(function (a, b) {
                     return b.weight - a.weight
                 });
                 var temp = null;
@@ -142,7 +144,7 @@
                 }
                 return mainArticle
             },
-            _sort: function(elems) {
+            _sort: function (elems) {
                 for (var w = 0, elem = null, i = 0; i < elems.length; i++) {
                     var temp = elems[i];
                     var weight = temp.weight;
@@ -153,28 +155,35 @@
                 }
                 return elem
             },
-            _getAllArticle: function() {
+            _getAllArticle: function () {
                 var allElems = this.contentDocument.getElementsByTagName("*"),
                     elems = [];
+
+                //console.log('allElems',allElems);
+                //for(var i = 0; i < allElems.length; i++){
+                //    var zIndex = allElems[i].style.zIndex;
+                //    console.log(allElems[i].tagName," : ",zIndex);
+                //}
                 for (var elemIndex = 0, length = allElems.length; elemIndex < length; elemIndex++) {
                     var elem = allElems[elemIndex];
                     if (this._checkTagName(elem) && this._checkSize(elem) && this._checkVisibility(elem)) {
                         elems[elems.length] = new Article(elem)
                     }
                 }
+
                 return elems
             },
-            _checkTagName: function(elem) {
+            _checkTagName: function (elem) {
                 return Page.common.indexOf(this.IGNORE_TAGS, elem.tagName) == -1
             },
-            _checkVisibility: function(elem) {
+            _checkVisibility: function (elem) {
                 return !(Page.common.css(elem, "visibility") == "hidden" || Page.common.css(elem, "display") == "none" || parseInt(Page.common.css(elem, "height")) <= 0 || parseInt(Page.common.css(elem, "width")) <= 0)
             },
-            _checkSize: function(elem) {
+            _checkSize: function (elem) {
                 return elem.offsetWidth > 300 && elem.offsetHeight > 150
             }
         };
-        var Article = function(elem) {
+        var Article = function (elem) {
             this.elem = elem;
             this.common = Page.common;
             this.offset = this.common.findPos(elem);
@@ -188,7 +197,7 @@
             MAJOR_REGEXP: /article|entry|post|body|column|main|content/i,
             TINY_REGEXP: /comment/i,
             BLANK_REGEXP: /\S/i,
-            _getAllTexts: function(node, num) {
+            _getAllTexts: function (node, num) {
                 var result = [];
                 if (num > 0) {
                     var subNode = node.firstChild;
@@ -209,7 +218,7 @@
                 }
                 return result
             },
-            calcStructWeight: function() {
+            calcStructWeight: function () {
                 var structWeight = 0;
                 for (var textIndex = 0, textLength = this._texts.length; textIndex < textLength; textIndex++) {
                     var text = this._texts[textIndex],
@@ -225,7 +234,7 @@
                 }
                 return structWeight
             },
-            calcContentWeight: function() {
+            calcContentWeight: function () {
                 var contentWeight = 1;
                 for (var elem = this.elem; elem; elem = elem.parentNode) {
                     if (elem.id) {
@@ -247,13 +256,13 @@
                 }
                 return contentWeight
             },
-            calcWeight: function() {
+            calcWeight: function () {
                 return this.calcStructWeight() * this.calcContentWeight()
             },
-            _checkTagName: function(elem) {
+            _checkTagName: function (elem) {
                 return Page.common.indexOf(this.IGNORE_TAGS, elem.tagName) == -1
             },
-            _checkTitle: function() {
+            _checkTitle: function () {
                 var arrTemp = this.elem.getElementsByTagName("*");
                 var arr = [];
                 for (var i = 0; arrTemp[i]; i++) {
@@ -271,24 +280,25 @@
                 }
                 return false
             },
-            _checkLength: function(elem) {
+            _checkLength: function (elem) {
                 return Boolean(this.BLANK_REGEXP.test(elem.nodeValue))
             },
-            _checkMinorContent: function(elem) {
+            _checkMinorContent: function (elem) {
                 return Boolean(this.TINY_REGEXP.test(elem.id + " " + elem.className))
             },
-            _checkVisibility: function(elem) {
+            _checkVisibility: function (elem) {
                 return !(Page.common.css(elem, "visibility") == "hidden" || Page.common.css(elem, "display") == "none" || parseInt(Page.common.css(elem, "height")) <= 0 || parseInt(Page.common.css(elem, "width")) <= 0)
             }
         };
         window.Page = Page
     })();
 
-    (function() {
+    (function () {
         YNote = {};
-        YNote.App = function() {};
+        YNote.App = function () {
+        };
         YNote.App.prototype = {
-            creatDiv: function(id, width, height, left, top, cssText) {
+            creatDiv: function (id, width, height, left, top, cssText) {
                 var div = document.createElement("div");
                 div.id = id;
                 if (!cssText) {
@@ -301,21 +311,22 @@
                 div.style.cssText = cssText;
                 return div
             },
-            removeDiv: function(id) {
+            removeDiv: function (id) {
                 var div = document.getElementById(id);
                 if (div) {
                     document.body.removeChild(div)
                 }
             },
-            removeClipDiv: function() {
+            removeClipDiv: function () {
                 for (var i = 0; i < 5; i++) {
                     this.removeDiv("yShade" + i)
                 }
                 this.shadeStatu = false
             },
-            createClipDiv: function() {
+            createClipDiv: function () {
                 if (this.mainElem) {
                     var main = this.mainElem;
+                   // console.log(main._texts);
                     var y = Math.abs(main.common.findPos(main.elem).y);
                     var x = Math.abs(main.common.findPos(main.elem).x);
                     var mwidth = main.elem.scrollWidth;
@@ -338,7 +349,7 @@
                 }
                 this.shadeStatu = true
             },
-            mainElem: function() {
+            mainElem: function () {
                 var page = new Page(window.document);
                 var temp = page.getMainArticle();
                 if (temp) {
