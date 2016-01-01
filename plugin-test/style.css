@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+ul {
+    list-style: none;
+    padding: 0 10px;
+}
+.wrap {
+    width: 200px;
+}
+li {
+    font-size: 14px;
+    padding:3px 0px;
+    border:1px solid rosybrown;
+    margin:0 0 1px 0;
+}
+li:hover {
+    background-color:blue;
+    color: #fff;
+}
