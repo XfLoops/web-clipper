@@ -18,6 +18,10 @@
 		//	  "persistent": false
 	},
 	"icons": {
-		"16": "icon2.png"
-	}
+		"16": "icon.png"
+	},
+	"web_accessible_resources": [
+		"bootstrap.min.css",
+		"background.html"
+	]
 }

@@ -1,127 +1,116 @@
 var appParams = {
-		"threshold": 0.9,
-		"root": document.getElementsByTagName( 'body' )[ 0 ],
-		"INIT": [ 'SCRIPT', 'IFRAME', 'STYLE', 'NOSCRIPT', 'BR', 'BUTTON', 'INPUT',
-			'LABEL', 'COMMENT', 'MAP', 'AREA'
-		],
-		"IGNORETAGS": [ 'SCRIPT', 'IFRAME', 'STYLE', 'NOSCRIPT', 'BR', 'BUTTON', 'INPUT',
-			'SELECT', 'OPTION', 'LABEL', 'FORM', 'COMMENT', 'MAP', 'AREA'
-		],
-		"SPECIALTAGS": [ 'UL', 'OL' ],
-		"types": [ 'text', 'anchor', 'image', 'ignore' ],
-		"runtimeStamp": {
-			"start": new Date()
-				.getTime(),
-			"end": null
-		}
-	},
-	appResults = {
-		"denseTextBlocks": [], //elem
-		"denseAnchorBlocks": [], //elem
-		"denseImageBlocks": [], //elem
-		"clipContent": null, //array of text
-		"rightClipContent": null,
-		"mainContent": null,
-		"recall": null,
-		"percision": null,
-		"f1": null,
-		"remark": null
-	};
+	"threshold" : 0.9,
+	"root" : document.getElementsByTagName('body')[0],
+	"INIT" : ['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','LABEL','COMMENT','MAP','AREA'],
+	"IGNORETAGS":['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','SELECT','OPTION','LABEL','FORM','COMMENT','MAP','AREA'],
+	"SPECIALTAGS":['UL','OL'],
+	"types" : ['text','anchor','image','ignore'],
+	"runtimeStamp": {
+		"start": new Date().getTime(),
+		"end": null
+	}
+}, appResults = {
+	"denseTextBlocks" : [],//elem
+	"denseAnchorBlocks" : [],//elem
+	"denseImageBlocks" :[], //elem
+	"clipContent" : null,//array of text
+	"rightClipContent" : null,
+	"mainContent" : null,
+	"recall" : null,
+	"percision" : null,
+	"f1" : null,
+	"remark" : null
+};
 
-function Utils() {}
+function Utils(){}
 
 Utils.prototype = {
-	checkTagName: function ( elem, array ) {
-		return array.indexOf( elem.tagName ) === -1;
+	checkTagName : function (elem,array) {
+		return array.indexOf(elem.tagName) === -1;
 	},
 	css: function () {
-		var getStyle = function ( elem, styleName ) {
+		var getStyle = function (elem, styleName) {
 			var value = "";
-			if ( styleName == "float" ) {
+			if (styleName == "float") {
 				document.defaultView ? styleName = "float" : styleName = "styleFloat"
 			}
-			if ( elem.style[ styleName ] ) {
-				value = elem.style[ styleName ]
-			} else if ( elem.currentStyle ) {
-				value = elem.currentStyle[ styleName ]
-			} else if ( document.defaultView && document.defaultView.getComputedStyle ) {
-				styleName = styleName.replace( /([A-Z])/g, "-$1" )
-					.toLowerCase();
-				var s = document.defaultView.getComputedStyle( elem, "" );
-				value = s && s.getPropertyValue( styleName )
+			if (elem.style[styleName]) {
+				value = elem.style[styleName]
+			} else if (elem.currentStyle) {
+				value = elem.currentStyle[styleName]
+			} else if (document.defaultView && document.defaultView.getComputedStyle) {
+				styleName = styleName.replace(/([A-Z])/g, "-$1").toLowerCase();
+				var s = document.defaultView.getComputedStyle(elem, "");
+				value = s && s.getPropertyValue(styleName)
 			} else {
 				value = null
 			}
-			if ( ( value == "auto" || value.indexOf( "%" ) !== -1 ) && ( "width" ===
-					styleName.toLowerCase() || "height" === styleName.toLowerCase() ) && elem.style
-				.display != "none" && value.indexOf( "%" ) !== -1 ) {
-				value = elem[ "offset" + styleName.charAt( 0 )
-					.toUpperCase() + styleName.substring( 1 )
-					.toLowerCase() ] + "px"
+			if ((value == "auto" || value.indexOf("%") !== -1) && ("width" === styleName.toLowerCase() || "height" === styleName.toLowerCase()) && elem.style.display != "none" && value.indexOf("%") !== -1) {
+				value = elem["offset" + styleName.charAt(0).toUpperCase() + styleName.substring(1).toLowerCase()] + "px"
 			}
-			if ( styleName == "opacity" ) {
+			if (styleName == "opacity") {
 				try {
-					value = elem.filters[ "DXImageTransform.Microsoft.Alpha" ].opacity;
+					value = elem.filters["DXImageTransform.Microsoft.Alpha"].opacity;
 					value = value / 100
-				} catch ( e ) {
+				} catch (e) {
 					try {
-						value = elem.filters( "alpha" )
-							.opacity
-					} catch ( err ) {}
+						value = elem.filters("alpha").opacity
+					} catch (err) {
+					}
 				}
 			}
 			return value
 		};
-		return function ( elem, styles ) {
-			if ( typeof styles === "string" ) {
-				return getStyle( elem, styles )
+		return function (elem, styles) {
+			if (typeof styles === "string") {
+				return getStyle(elem, styles)
 			} else {
-				this.each( styles, function ( key, value ) {
-					elem.style[ key ] = value
-				} )
+				this.each(styles, function (key, value) {
+					elem.style[key] = value
+				})
 			}
 		}
 	}(),
-	checkVisibility: function ( elem ) {
-		return !( this.css( elem, "visibility" ) == "hidden" || this.css( elem,
-			"display" ) == "none" || parseInt( this.css( elem, "width" ) ) <= 0 );
+	checkVisibility : function (elem) {
+		return !(this.css(elem, "visibility") == "hidden" || this.css(elem, "display") == "none" || parseInt(this.css(elem, "width")) <= 0);
 	},
-	filterElems: function ( elemSet, type ) {
-		if ( elemSet.length <= 1 )
-			return elemSet[ 0 ];
+	filterElems: function (elemSet,type) {
+		if(elemSet.length <= 1)
+			return elemSet[0];
 
-		if ( type === 'none' ) {
-			return elemSet[ 1 ];
+		if(type === 'none') {
+			return elemSet[1];
 		}
 
-		var omit = [],
-			retain = [];
-		elemSet.forEach( function ( elem ) {
+		var omit = [],retain = [];
+		elemSet.forEach(function(elem){
 			elem.dataset.flag = 'hello';
 			elem.dataset.passed = 'no';
-		} );
+		});
 
-		if ( type === 'childs' ) {
-			for ( var i = 0; i < elemSet.length; i++ ) {
-				var parent = elemSet[ i ].parentElement || elemSet[ i ].parentNode;
-				while ( parent.tagName ) {
-					if ( parent.dataset.flag === 'hello' && parent.dataset.passed === 'no' ) {
+		if(type === 'childs') {
+			for(var i = 0; i < elemSet.length; i++){
+				var parent = elemSet[i].parentElement || elemSet[i].parentNode;
+				while(parent.tagName){
+					if(parent.dataset.flag === 'hello' && parent.dataset.passed === 'no'){
 						parent.dataset.passed = 'yes';
-						omit.push( parent );
-					} else {
+						omit.push(parent);
+					}
+					else {
 						parent = parent.parentElement || parent.parentNode;
 					}
 				}
 			}
 		}
-		if ( type === 'parents' ) {
-			for ( var j = 0; j < elemSet.length; j++ ) {
-				var parnt = elemSet[ j ].parentElement || elemSet[ j ].parentNode;
-				while ( parnt.tagName !== 'BODY' ) {
-					if ( parnt.dataset.flag === 'hello' ) {
-						omit.push( elemSet[ j ] );
+		if(type === 'parents') {
+			for(var j = 0; j < elemSet.length; j++){
+				var parnt = elemSet[j].parentElement || elemSet[j].parentNode;
+				while(parnt.tagName !== 'BODY'){
+					if(parnt.dataset.flag === 'hello'){
+						omit.push(elemSet[j]);
 						break;
-					} else {
+					}
+					else {
 						parnt = parnt.parentElement || parnt.parentNode;
 					}
 				}
@@ -129,16 +118,16 @@ Utils.prototype = {
 		}
 
 
-		retain = elemSet.filter( function ( el ) {
-			return omit.indexOf( el ) === -1;
-		} );
+		retain = elemSet.filter(function (el) {
+			return omit.indexOf(el) === -1;
+		});
 
 		return retain;
 	},
-	appendMarker: function ( elems ) {
-		if ( elems ) {
-			for ( var i = 0; i < elems.length; i++ ) {
-				elems[ i ].style.cssText = 'color : red !important';
+	appendMarker: function (elems) {
+		if (elems) {
+			for (var i = 0; i < elems.length; i++) {
+				elems[i].style.cssText = 'color : red !important';
 
 				/*add border*/
 				//if (!utils.checkTagName(elems[i], appParams.SPECIALTAGS)) {
@@ -161,251 +150,246 @@ Utils.prototype = {
 			}
 		}
 	},
-	extractImage: function ( elem ) {
-		var images = elem.getElementsByTagName( 'img' ),
-			content = '';
-		if ( images.length > 0 ) {
-			for ( var i = 0, len = images.length; i < len; i++ ) {
-				content += '<img src = \"' + images[ i ].src + '\">'
+	extractImage: function (elem) {
+		var images = elem.getElementsByTagName('img'),content = '';
+		if(images.length > 0) {
+			for(var i = 0, len = images.length; i < len ; i++){
+				content += '<img src = \"'+ images[i].src +'\">'
 			}
 		}
 		return content;
 	},
-	extractContent: function ( elem ) {
-		var content = [];
-		if ( elem ) {
-			if ( elem.dataset.subdoc > appParams.threshold && elem.dataset.nodetype ===
-				'text' ) {
-				content.push( elem.textContent.replace( /\s*/g, "" ) );
-				//content.push(this.extractImage(elem));
-				elem.style.cssText = 'box-shadow: 0 0 5px 5px #FF69B4';
-			} else {
-				for ( var el = elem.firstChild; el; el = el.nextSibling ) {
-					var inner = el.textContent.replace( /\s*/g, "" );
-					switch ( el.nodeType ) {
-					case 3:
-						if ( inner.length > 0 ) {
-							content.push( inner );
-						}
-						break;
-					case 1:
-						if ( el.dataset.nodetype === 'content' && inner.length > 0 ) {
-							content.push( inner );
-							el.style.cssText = 'box-shadow: 0 0 5px 5px #FF69B4';
-							break;
-						}
-						if ( el.dataset.nodetype === 'text' ) {
-							if ( el.dataset.subdoc > appParams.threshold ) {
-								content.push( inner );
-								//content.push(this.extractImage(el));
-								el.style.cssText = 'box-shadow: 0 0 5px 5px #FF69B4';
-							} else {
-								content.push( this.extractContent( el ) );
-							}
-						}
-						if ( el.dataset.nodetype === 'image' ) {
-							//content.push(this.extractImage(el));
-							el.style.cssText = 'box-shadow: 0 0 5px 5px #FF69B4';
+    extractContent: function (elem) {
+        var content = '';
+        if(elem) {
+            if (elem.dataset.subdoc > appParams.threshold && elem.dataset.nodetype === 'text') {
 
-						}
-					}
-				}
+				content += '<p>' + elem.textContent.replace(/\s*/g, "") + '</p>';
+            }
+            else {
+                for (var el = elem.firstChild; el; el = el.nextSibling) {
+                    var inner = el.textContent.replace(/\s*/g, "");
+                    switch (el.nodeType) {
+                        case 3 :
+                            if (inner.length > 0) {
+                                content += '<p>' + inner + '</p>';
+                            }
+                            break;
+                        case 1 :
+                            if (el.dataset.nodetype === 'content' && inner.length > 0) {
+                                content += '<p>' + inner + '</p>';
+                                break;
+                            }
+                            if (el.dataset.nodetype === 'text') {
+                                if (el.dataset.subdoc > appParams.threshold) {
+                                    content += '<p>' + inner + '</p>';
+                                    //content.push(this.extractImage(el));
+                                }
+                                else {
+                                    content += this.extractContent(el);
+                                }
+                            }
+                            if(el.dataset.nodetype === 'image') {
+                                //content.push(this.extractImage(el));
+                            }
+                    }
+                }
+            }
+        }
+        return content;
+    },
+	displayContent: function (html) {
+        var iframe = document.createElement('iframe');
+        var htmlsrc = chrome.extension.getURL('background.html');
+        iframe.setAttribute('src',htmlsrc);
+        iframe.setAttribute('name','mainContent');
+        iframe.style.cssText = 'width:100%;height:100%;background-color:#fff;position:fixed;left:0;top:0;z-index:100000';
+        document.body.appendChild(iframe);
+        iframe.onload = function () {
+            iframe.contentWindow.postMessage(html,htmlsrc)
+        };
+	},
+	clearPage: function (elem) {
+		if(this.checkTagName(elem,appParams.INIT) && this.checkVisibility(elem)){
+			var children = [];
+			for(var child = elem.firstElementChild;child;child = child.nextElementSibling) {
+				children.push(child);
+			}
+			for(var i = 0; i < children.length;i++) {
+				this.clearPage(children[i]);
 			}
 		}
-		console.log( 'content: ', content );
-		return content;
-	},
-	displayContent: function ( text ) {
-		var content = '',
-			win = window.open( '', 'ClipContent', 'height=500,width=800,left=200,top=20' );
-		win.document.writeln( text.join( '<br>' ) );
-		win.document.close();
-	},
-	clearPage: function ( elem ) {
-		if ( this.checkTagName( elem, appParams.INIT ) && this.checkVisibility( elem ) ) {
-			var children = [];
-			for ( var child = elem.firstElementChild; child; child = child.nextElementSibling ) {
-				children.push( child );
-			}
-			for ( var i = 0; i < children.length; i++ ) {
-				this.clearPage( children[ i ] );
-			}
-		} else {
+		else {
 			var parent = elem.parentElement;
-			parent.removeChild( elem );
+			parent.removeChild(elem);
 		}
 	}
-}
+};
 
-function ContentClipper() {
-	this.page = this._getContent( appParams.root );
+function ContentClipper(){
+	this.page = this._getContent(appParams.root);
 	this.blockPool = [];
-	this.traverse( appParams.root );
+	this.traverse(appParams.root);
 	//this.calBlock(appParams.threshold);
 }
 
 ContentClipper.prototype = {
-	_getContent: function ( elem ) {
-		var whole = elem.innerText.replace( /\s+/g, "" );
-		var anchors = elem.getElementsByTagName( 'a' ),
-			anchorsText = '';
-		for ( var i = 0, len = anchors.length; i < len; i++ ) {
-			anchorsText += anchors[ i ].innerText.replace( /\s+/g, "" );
+	_getContent: function(elem){
+		var whole = elem.innerText.replace(/\s+/g,"");
+		var anchors = elem.getElementsByTagName('a'),anchorsText = '';
+		for(var i = 0, len = anchors.length; i < len; i++){
+			anchorsText += anchors[i].innerText.replace(/\s+/g,"");
 		}
 		return {
-			"text": whole.length - anchorsText.length, //plain text
-			"anchor": {
-				"num": anchors.length,
-				"text": anchorsText.length
+			"text" : whole.length - anchorsText.length, //plain text
+			"anchor" : {
+				"num" : anchors.length,
+				"text" : anchorsText.length
 			},
-			"image": elem.getElementsByTagName( 'img' )
-				.length
+			"image" : elem.getElementsByTagName('img').length
 		};
 	},
-	traverse: function ( elem ) {
-		if ( elem && utils.checkTagName( elem, appParams.IGNORETAGS ) && !!utils.checkVisibility(
-				elem ) ) {
+	traverse: function (elem) {
+		if(elem && utils.checkTagName(elem,appParams.IGNORETAGS) && !! utils.checkVisibility(elem)){
 			var data = {
 					'type': null,
 					'doc': 0,
 					'subdoc': 0,
 					'dos': null,
 					'elem': elem,
-					'children': [],
-					"subtypes": [ 0, 0, 0, 0 ], //text anchor image ignore
-					"content": {
-						"text": 0,
-						"anchor": {
-							"text": 0,
-							"num": 0
+					'children':[],
+					"subtypes":[0,0,0,0],//text anchor image ignore
+					"content":{
+						"text" : 0,
+						"anchor" : {
+							"text" : 0,
+							"num" : 0
 						},
-						"image": 0
+						"image" : 0
 					}
 				},
-				plainText = 0,
-				temp = {};
+				plainText = 0,temp = {};
 
-			if ( !elem.firstElementChild ) {
-				return this.getContentType( elem );
+			if(!elem.firstElementChild ){
+				return this.getContentType(elem);
 			}
-			for ( var item = elem.firstChild; item; item = item.nextSibling ) {
-				if ( item.nodeType === 3 ) {
-					plainText += item.textContent.replace( /\s+/g, "" )
-						.length;
-				} else if ( item.nodeType === 1 ) {
-					if ( item.tagName === 'A' && item.firstElementChild ) {
-						data.children.push( 'anchor' );
-						data.subtypes[ 1 ]++;
-						data.content.image += item.getElementsByTagName( 'img' )
-							.length / this.page.image;
-						data.content.anchor.text += item.innerText.replace( /\s+/g, "" )
-							.length / this.page.text;
+			for(var item = elem.firstChild;item;item = item.nextSibling) {
+				if (item.nodeType === 3) {
+					plainText += item.textContent.replace(/\s+/g, "").length;
+				}
+				else if (item.nodeType === 1) {
+					if(item.tagName === 'A' && item.firstElementChild) {
+						data.children.push('anchor');
+						data.subtypes[1]++;
+						data.content.image += item.getElementsByTagName('img').length / this.page.image;
+						data.content.anchor.text += item.innerText.replace(/\s+/g,"").length / this.page.text;
 						data.content.anchor.num += 1 / this.page.anchor.num;
-					} else {
-						temp = this.traverse( item );
-						if ( temp ) {
-							data.children.push( temp.type );
-							data.subtypes[ 0 ] += temp.subtypes[ 0 ];
-							data.subtypes[ 1 ] += temp.subtypes[ 1 ];
-							data.subtypes[ 2 ] += temp.subtypes[ 2 ];
-							data.subtypes[ 3 ] += temp.subtypes[ 3 ];
+					}
+					else {
+						temp = this.traverse(item);
+						if (temp) {
+							data.children.push(temp.type);
+							data.subtypes[0] += temp.subtypes[0];
+							data.subtypes[1] += temp.subtypes[1];
+							data.subtypes[2] += temp.subtypes[2];
+							data.subtypes[3] += temp.subtypes[3];
 							data.content.text += temp.text;
 							data.content.image += temp.image;
 							data.content.anchor.text += temp.anchor.text;
-							data.content.anchor.num += temp.anchor.num;
+							data.content.anchor.num  += temp.anchor.num;
 						}
 					}
 				}
 			}
-			if ( plainText > 10 ) {
-				data.children.push( 'text' );
-				data.subtypes[ 0 ]++;
+			if(plainText > 10){
+				data.children.push('text');
+				data.subtypes[0]++;
 				data.content.text += plainText / this.page.text;
 			}
 
-			data.type = this.getNodeType( data );
-			data.doc = this.calcuDOC( data );
-			this.blockPool.push( data );
+			data.type = this.getNodeType(data);
+			data.doc = this.calcuDOC(data);
+			this.blockPool.push(data);
 
 			elem.dataset.nodetype = data.type;
 			elem.dataset.doc = data.doc;
 			elem.dataset.text = data.content.text;
 
-			elem.dataset.subdoc = data.subtypes[ 0 ] / ( data.subtypes[ 0 ] + data.subtypes[
-				1 ] + data.subtypes[ 2 ] + data.subtypes[ 3 ] );
+			elem.dataset.subdoc = data.subtypes[0] / (data.subtypes[0] + data.subtypes[1] + data.subtypes[2] + data.subtypes[3]);
 
 			elem.dataset.child = data.children.length;
 			elem.dataset.subtype = data.subtypes;
 			//elem.dataset.r = data.content.text / data.subtypes[0];
-			elem.dataset.anum = data.content.anchor.num / data.subtypes[ 1 ];
+			elem.dataset.anum = data.content.anchor.num / data.subtypes[1];
 
-			if ( data.content.text > appParams.threshold ) {
-				appResults.denseTextBlocks.push( data.elem );
+			if(data.content.text > appParams.threshold){
+				appResults.denseTextBlocks.push(data.elem);
 			}
 
 			return {
-				"type": data.type,
-				"subtypes": data.subtypes,
-				"text": data.content.text,
-				"anchor": {
-					"text": data.content.anchor.text,
-					"num": data.content.anchor.num
+				"type" :data.type,
+				"subtypes" : data.subtypes,
+				"text" :data.content.text,
+				"anchor" : {
+					"text" : data.content.anchor.text,
+					"num" : data.content.anchor.num
 				},
-				"image": data.content.image
+				"image" :data.content.image
 			};
-		} else {
+		}
+		else {
 			return {
-				"type": 'ignore',
-				"subtypes": [ 0, 0, 0, 1 ],
-				"text": 0,
-				"anchor": {
-					"text": 0,
-					"num": 0
+				"type" : 'ignore',
+				"subtypes" : [0,0,0,1],
+				"text" : 0,
+				"anchor" : {
+					"text" : 0,
+					"num" : 0
 				},
-				"image": 0
+				"image" : 0
 			};
 		}
 
 	},
-	calcuDOC: function ( data ) {
+	calcuDOC: function (data) {
 		var children = data.children,
 			len = children.length,
 			type = data.type,
-			counter = [ 0, 0, 0, 0 ],
-			types = [ 'text', 'anchor', 'image', 'ignore' ],
-			idx = types.indexOf( type );
-		if ( len === 1 ) {
+			counter = [0,0,0,0],
+			types = ['text','anchor','image','ignore'],
+			idx = types.indexOf(type);
+		if(len === 1){
 			return 1;
 		}
-		if ( type === 'ignore' ) {
+		if(type === 'ignore'){
 			return 0;
 		}
-		if ( len > 1 ) {
-			for ( var i = 0; i < len; i++ ) {
-				switch ( children[ i ] ) {
-				case 'text':
-					counter[ 0 ]++;
-					break;
-				case 'anchor':
-					counter[ 1 ]++;
-					break;
-				case 'image':
-					counter[ 2 ]++;
-					break;
-				case 'ignore':
-					counter[ 3 ]++;
-					break;
+		if(len > 1) {
+			for(var i = 0; i < len; i++) {
+				switch (children[i]) {
+					case 'text' :
+						counter[0]++;
+						break;
+					case 'anchor' :
+						counter[1]++;
+						break;
+					case 'image' :
+						counter[2]++;
+						break;
+					case 'ignore' :
+						counter[3]++;
+						break;
 
 				}
 			}
-			if ( type === 'image' ) {
-				return counter[ 2 ] / ( len - counter[ 3 ] );
+			if(type === 'image') {
+				return counter[2] / (len - counter[3]);
 			}
 			// (image + type) / (len - ignore)
-			return ( counter[ idx ] + counter[ 2 ] ) / ( len - counter[ 3 ] );
+			return (counter[idx] + counter[2]) / (len - counter[3]);
 		}
 	},
-	getNodeType: function ( data ) {
+	getNodeType: function (data) {
 		var children = data.children,
 			len = children.length,
 			text = data.content.text,
@@ -413,34 +397,37 @@ ContentClipper.prototype = {
 			r = this.page.text / this.page.anchor.text,
 			anchor = data.content.anchor.num,
 			subtype = data.subtypes,
-			counter = [ 0, 0, 0, 0 ];
-		for ( var i = 0; i < len; i++ ) {
-			switch ( children[ i ] ) {
-			case 'text':
-				counter[ 0 ]++;
-				break;
-			case 'anchor':
-				counter[ 1 ]++;
-				break;
-			case 'image':
-				counter[ 2 ]++;
-				break;
-			case 'ignore':
-				counter[ 3 ]++;
-				break;
+			counter = [0, 0, 0, 0];
+		for (var i = 0; i < len; i++) {
+			switch (children[i]) {
+				case 'text' :
+					counter[0]++;
+					break;
+				case 'anchor' :
+					counter[1]++;
+					break;
+				case 'image' :
+					counter[2]++;
+					break;
+				case 'ignore' :
+					counter[3]++;
+					break;
 
 			}
 		}
-		if ( counter[ 3 ] === len ) {
+		if (counter[3] === len) {
 			return 'ignore';
-		} else {
-			if ( counter[ 0 ] === 0 && counter[ 1 ] === 0 ) {
+		}
+		else {
+			if (counter[0] === 0 && counter[1] === 0) {
 				return 'image';
-			} else {
-				if ( aText * r > text ) {
-					if ( text > 0.5 ) {
+			}
+			else {
+				if(aText * r > text){
+					if(text > 0.5) {
 						return 'text';
-					} else {
+					}
+					else {
 						return 'anchor';
 					}
 				}
@@ -448,119 +435,113 @@ ContentClipper.prototype = {
 			}
 		}
 	},
-	getContentType: function ( elem ) {
+	getContentType: function (elem) {
 		var page = this.page,
-			txt = elem.innerText.replace( /\s+/g, "" )
-			.length;
+			txt = elem.innerText.replace(/\s+/g,"").length;
 
-		if ( elem.tagName === 'IMG' ) {
+		if(elem.tagName === 'IMG'){
 			return {
-				"type": 'image',
-				"subtypes": [ 0, 0, 1, 0 ],
-				"text": 0,
-				"anchor": {
-					"text": 0,
-					"num": 0
+				"type" :'image',
+				"subtypes" :[0,0,1,0],
+				"text" : 0,
+				"anchor" : {
+					"text" : 0,
+					"num" : 0
 				},
 				"image": 1 / page.image
 			}
 		}
-		if ( elem.tagName === 'A' ) {
+		if(elem.tagName === 'A'){
 			return {
-				"type": "anchor",
-				"subtypes": [ 0, 1, 0, 0 ],
-				"text": 0,
-				"anchor": {
-					"text": txt / page.text,
-					"num": 1 / page.anchor.num
+				"type" : "anchor",
+				"subtypes" :[0,1,0,0],
+				"text" : 0,
+				"anchor" : {
+					"text" : txt / page.text,
+					"num" : 1 / page.anchor.num
 				},
-				"image": 0
+				"image" :0
 			}
 		}
-		if ( txt > 0 ) {
+		if(txt > 0) {
 			elem.dataset.nodetype = 'content';
 			return {
-				"type": "text",
-				"subtypes": [ 1, 0, 0, 0 ],
-				"text": txt / page.text,
-				"anchor": {
-					"text": 0,
-					"num": 0
+				"type" : "text",
+				"subtypes" :[1,0,0,0],
+				"text" : txt / page.text,
+				"anchor" : {
+					"text" : 0,
+					"num" : 0
 				},
-				"image": 0
+				"image" : 0
 			}
 		}
 
 		return {
-			"type": "ignore",
-			"subtypes": [ 0, 0, 0, 1 ],
-			"text": 0,
-			"anchor": {
-				"text": 0,
-				"num": 0
+			"type" : "ignore",
+			"subtypes" :[0,0,0,1],
+			"text" : 0,
+			"anchor" : {
+				"text" : 0,
+				"num" : 0
 			},
-			"image": 0
+			"image" : 0
 		}
 
 	},
 	calBlock: function () {
-		for ( var i = 0, len = this.blockPool.length; i < len; i++ ) {
-			if ( this.blockPool[ i ].doc > appParams.threshold ) {
-				switch ( this.blockPool[ i ].type ) {
-				case 'text':
-					appResults.denseTextBlocks.push( this.blockPool[ i ].elem );
-					break;
-				case 'anchor':
-					appResults.denseAnchorBlocks.push( this.blockPool[ i ].elem );
-					break;
-				case 'image':
-					appResults.denseImageBlocks.push( this.blockPool[ i ].elem );
-					break;
+		for(var i = 0,len = this.blockPool.length; i < len; i++) {
+			if(this.blockPool[i].doc > appParams.threshold) {
+				switch(this.blockPool[i].type) {
+					case 'text' :
+						appResults.denseTextBlocks.push(this.blockPool[i].elem);
+						break;
+					case 'anchor':
+						appResults.denseAnchorBlocks.push(this.blockPool[i].elem);
+						break;
+					case 'image' :
+						appResults.denseImageBlocks.push(this.blockPool[i].elem);
+						break;
 				}
 			}
 		}
 	}
 };
 
-var utils, app;
+var utils,app;
 
 var calF1Value = function () {
-	var resultContentLen = appResults.clipContent.join( '' )
-		.replace( /\s+/g, "" )
-		.length,
+	var resultContentLen = appResults.clipContent.join('').replace(/\s+/g,"").length,
 		url = document.location.href;
 	appResults.recall = appResults.rightClipContent / appResults.mainContent;
 	appResults.percision = appResults.rightClipContent / resultContentLen;
 
-	appResults.f1 = 2 * appResults.percision * appResults.recall / ( appResults.percision +
-		appResults.recall );
-	console.log( 'url,recall,percision,f1,remarks,', url + ' , ' + appResults.recall +
-		' , ' + appResults.percision + ' , ' + appResults.f1 + ' , ' + appResults.remark
-	);
+	appResults.f1 = 2 * appResults.percision * appResults.recall / (appResults.percision + appResults.recall);
+	console.log('url,recall,percision,f1,remarks,', url + ' , ' + appResults.recall + ' , ' + appResults.percision + ' , ' + appResults.f1 + ' , ' + appResults.remark);
 };
 
 var removeNoise = function () {
-	var body = document.getElementsByTagName( 'body' )[ 0 ];
+	var body = document.getElementsByTagName('body')[0];
 	var child = body.firstElementChild;
-	while ( child ) {
-		switch ( child.dataset.nodetype ) {
-		case 'text':
-			child = child.firstElementChild;
-			break;
-		case 'anchor':
-			child.style.cssText = 'opacity : 0';
-			child = child.nextElementSibling;
-			break;
-		case 'image':
-			child = child.nextElementSibling;
-			break;
-		case 'ignore':
-			child.style.cssText = 'opacity : 0';
-			child = child.nextElementSibling;
-			break;
-		default:
-			child.style.cssText = 'opacity : 0';
-			child = child.nextElementSibling;
+	while (child) {
+		switch (child.dataset.nodetype) {
+			case 'text' :
+				child = child.firstElementChild;
+				break;
+			case 'anchor' :
+				child.style.cssText = 'opacity : 0';
+				child = child.nextElementSibling;
+				break;
+			case 'image' :
+				child = child.nextElementSibling;
+				break;
+			case 'ignore' :
+				child.style.cssText = 'opacity : 0';
+				child = child.nextElementSibling;
+				break;
+			default :
+				child.style.cssText = 'opacity : 0';
+				child = child.nextElementSibling;
 		}
 	}
 };
@@ -568,91 +549,98 @@ var removeNoise = function () {
 var showMoreResults = function () {
 	var runtime = appParams.runtimeStamp.end - appParams.runtimeStamp.start,
 		content = appResults.clipContent,
-		recall = appResults.recall,
+		recall   = appResults.recall,
 		percision = appResults.percision,
 		f1 = appResults.f1;
 
 	alert(
-		'------------------ Details ------------------\n' + 'Threshold : ' + appParams.threshold +
-		'\n' + 'Runtime : ' + runtime + ' ms\n' + 'Recall : ' + recall + '\n' +
-		'Percision : ' + percision + '\n' + 'F1 : ' + f1 + '\n' + 'Content : ' + content
+		'------------------ Details ------------------\n'
+		+ 'Threshold : ' + appParams.threshold + '\n'
+		+ 'Runtime : ' + runtime + ' ms\n'
+		+ 'Recall : ' + recall + '\n'
+		+ 'Percision : ' + percision + '\n'
+		+ 'F1 : ' + f1 + '\n'
+		+ 'Content : ' + content
 
 	)
 };
 
-( function () {
+(function(){
 	// init tools
 	utils = new Utils();
-	utils.clearPage( appParams.root );
+	utils.clearPage(appParams.root);
 	app = new ContentClipper();
 
+
 	var textBlocks = appResults.denseTextBlocks,
-		target = utils.filterElems( textBlocks, 'none' );
+		targetElem =  utils.filterElems(textBlocks,'none');
+    var compHTML = utils.extractContent(targetElem);
 
-	appResults.clipContent = utils.extractContent( target );
-	utils.displayContent( appResults.clipContent );
-	console.log( 'textBlocks', textBlocks );
-	console.log( 'ClipContent', appResults.clipContent );
-} )( utils, app );
+	utils.displayContent(compHTML);
+	console.log('compHTML',compHTML);
+})(utils,app);
 
-chrome.runtime.onMessage.addListener( function ( message, sender, sendResponse ) {
-	switch ( message.id ) {
-	case 'MainContent':
-		appResults.mainContent += message.text.replace( /\s+/g, "" )
-			.length;
-		if ( appResults.mainContent > 0 ) {
-			sendResponse( {
-				"result": true,
-				"id": "MainContent",
-				"content": appResults.mainContent
-			} );
-		} else {
-			sendResponse( {
-				"result": false
-			} );
-		}
-		break;
-	case 'CorrectContent':
-		appResults.rightClipContent += message.text.replace( /\s+/g, "" )
-			.length;
-		if ( appResults.rightClipContent > 0 ) {
-			sendResponse( {
-				"result": true,
-				"id": "CorrectContent",
-				"content": appResults.rightClipContent
-			} );
-		} else {
-			sendResponse( {
-				"result": false
-			} );
-		}
-		break;
-	case 'CalculateF1':
-		calF1Value();
-		showMoreResults();
-		sendResponse( {
-			"result": true,
-			"id": "reset"
-		} );
-		break;
-	case 'ClipContent':
-		utils.displayContent( appResults.clipContent );
-		break;
-	case 'AddRemarks':
-		appResults.remark = prompt( 'Add Remarks', '' );
-		break;
-	case 'RemoveNoise':
-		removeNoise();
-		break;
-	case 'ReplaceContent':
-		appResults.clipContent = [];
-		appResults.clipContent.push( message.text.replace( /\s+/g, "" ) );
-		alert( 'The ClipContent has been replaced!' )
-		break;
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+	switch (message.id) {
+		case 'MainContent' :
+			appResults.mainContent += message.text.replace(/\s+/g,"").length;
+			if(appResults.mainContent > 0){
+				sendResponse({"result":true,"id":"MainContent","content" : appResults.mainContent});
+			}
+			else {
+				sendResponse({"result":false});
+			}
+			break;
+		case 'CorrectContent' :
+			appResults.rightClipContent += message.text.replace(/\s+/g,"").length;
+			if(appResults.rightClipContent > 0) {
+				sendResponse({"result":true,"id":"CorrectContent","content":appResults.rightClipContent});
+			}
+			else {
+				sendResponse({"result":false});
+			}
+			break;
+		case 'CalculateF1' :
+			calF1Value();
+			showMoreResults();
+			sendResponse({"result":true,"id":"reset"});
+			break;
+		case 'ClipContent' :
+			utils.displayContent(appResults.clipContent);
+			break;
+		case 'AddRemarks' :
+			appResults.remark = prompt('Add Remarks','');
+			break;
+		case 'RemoveNoise' :
+			removeNoise();
+			break;
+		case 'ReplaceContent' :
+			appResults.clipContent = [];
+			appResults.clipContent.push(message.text.replace(/\s+/g,""));
+			alert('The ClipContent has been replaced!')
+			break;
 	}
-} );
+});
 
 
 
-appParams.runtimeStamp.end = new Date()
-	.getTime();
+appParams.runtimeStamp.end = new Date().getTime();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
