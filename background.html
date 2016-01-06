@@ -1,17 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" id="html2">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="background.css">
 </head>
-<body>
-    <div id="close-btn"><img class="img-rounded" src="close.png"></div>
-    <div class="container">
-        <h3 id="page-title"></h3>
+<body id="sub-body">
+    <ul id="control-panel">
+        <li id="exit"><i class="fa fa-sign-out fa-2x"></i><span>退出</span></li>
+        <li id="default-view"><i class="fa fa-home fa-2x"></i><span>默认</span></li>
+        <li id="expri-mode"><i class="fa fa-flask fa-2x"></i><span>实验</span></li>
+        <li id="edit"><i class="fa fa-pencil-square-o fa-2x"></i><span>编辑</span></li>
+        <li id="font-tool">
+            <i class="fa fa-font fa-2x"></i>
+            <span>字体</span>
+            <div id="font-tooltip">
+                <div>
+                    <div id="font-type-one" class="font-type">Aa</div>
+                    <div id="font-type-two" class="font-type">Aa</div>
+                </div>
+                <div>
+                    <div id="font-shrink" class="font-size"><i class="fa fa-minus fa-2x"></i></div>
+                    <div id="font-amplify" class="font-size"><i class="fa fa-plus fa-2x"></i></div>
+                </div>
+                <div>
+                    <div id="color-one" class="font-color">亮色</div>
+                    <div id="color-two" class="font-color">暗色</div>
+                    <div id="color-three" class="font-color">深褐色</div>
+                </div>
+            </div>
+        </li>
+        <li id="analysis-tool"><i class="fa fa-line-chart fa-2x"></i><span>分析</span></li>
+        <li id="tag"><i class="fa fa-tags fa-2x"></i><span>标签</span></li>
+        <li id="save-to-achive"><i class="fa fa-floppy-o fa-2x"></i><span>保存</span></li>
+        <li id="store"><i class="fa fa-star fa-2x"></i>收藏</li>
+        <li id="social-share"><i class="fa fa-share-alt fa-2x"></i><span>分享</span></li>
+        <li id="send-to-kindle"><i class="fa fa-paper-plane-o fa-2x"></i><span>发送</span></li>
+        <li id="back-to-top"><i class="fa fa-arrow-circle-up fa-2x"></i><span>顶部</span></li>
+    </ul>
+    <div id="container">
+        <div id="page-origin"></div>
         <div id="page-content"></div>
     </div>
-    <script src="bg.js"></script>
+    <script src="jquery-1.11.3.min.js"></script>
+    <script src="background.js"></script>
 </body>
 </html>

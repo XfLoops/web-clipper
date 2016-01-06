@@ -72,7 +72,7 @@ Utils.prototype = {
 		}
 	}(),
 	checkVisibility : function (elem) {
-		return !(this.css(elem, "visibility") == "hidden" || this.css(elem, "display") == "none" || parseInt(this.css(elem, "width")) <= 0);
+		return !(this.css(elem, "visibility") == "hidden" || this.css(elem, "display") == "none" || this.css(elem, "position") == "fixed" || parseInt(this.css(elem, "width")) <= 0);
 	},
 	filterElems: function (elemSet,type) {
 		if(elemSet.length <= 1)
@@ -154,65 +154,84 @@ Utils.prototype = {
 		var images = elem.getElementsByTagName('img'),content = '';
 		if(images.length > 0) {
 			for(var i = 0, len = images.length; i < len ; i++){
-				content += '<img src = \"'+ images[i].src +'\">'
+				//check src is unbroken
+				if(images[i].src.search(/http(s)?|ftp/g) == -1) {
+					console.log('broken image src: ',image[i].src);
+					continue;
+				}
+				content += '<p><img src = \"'+ images[i].src +'\"></p>';
+				///console.log('img:',images[i].src);
 			}
 		}
 		return content;
 	},
-    extractContent: function (elem) {
-        var content = '';
-        if(elem) {
-            if (elem.dataset.subdoc > appParams.threshold && elem.dataset.nodetype === 'text') {
-
-				content += '<p>' + elem.textContent.replace(/\s*/g, "") + '</p>';
-            }
-            else {
-                for (var el = elem.firstChild; el; el = el.nextSibling) {
-                    var inner = el.textContent.replace(/\s*/g, "");
-                    switch (el.nodeType) {
-                        case 3 :
-                            if (inner.length > 0) {
-                                content += '<p>' + inner + '</p>';
-                            }
-                            break;
-                        case 1 :
-                            if (el.dataset.nodetype === 'content' && inner.length > 0) {
-                                content += '<p>' + inner + '</p>';
-                                break;
-                            }
-                            if (el.dataset.nodetype === 'text') {
-                                if (el.dataset.subdoc > appParams.threshold) {
-                                    content += '<p>' + inner + '</p>';
-                                    //content.push(this.extractImage(el));
-                                }
-                                else {
-                                    content += this.extractContent(el);
-                                }
-                            }
-                            if(el.dataset.nodetype === 'image') {
-                                //content.push(this.extractImage(el));
-                            }
-                    }
-                }
-            }
-        }
-        return content;
-    },
+	extractContent: function (elem) {
+		var content = [];
+		if(elem) {
+			if (elem.dataset.subdoc > appParams.threshold && elem.dataset.nodetype === 'text') {
+				content.push('<p>' + elem.innerHTML + '</p>');
+			}
+			else {
+				for (var el = elem.firstChild; el; el = el.nextSibling) {
+					var inner = el.textContent.replace(/\s*/g, "");
+					switch (el.nodeType) {
+						case 3 :
+							if (inner.length > 0) {
+								content.push('<p>' + inner + '</p>');
+							}
+							break;
+						case 1 :
+							if (el.dataset.nodetype === 'content' && inner.length > 0) {
+								content.push('<p>' + el.innerText + '</p>');
+								break;
+							}
+							if (el.dataset.nodetype === 'text') {
+								if (el.dataset.subdoc > appParams.threshold) {
+									content.push('<p>' + el.innerHTML + '</p>');
+								}
+								else {
+									content.push(this.extractContent(el));
+								}
+							}
+							if(el.dataset.nodetype === 'image') {
+								content.push(this.extractImage(el));
+							}
+					}
+				}
+			}
+		}
+		//console.log('content: ',content);
+		return content;
+	},
 	displayContent: function (html) {
         var iframe = document.createElement('iframe');
         var htmlsrc = chrome.extension.getURL('background.html');
+		var message = {
+			url: window.location.href,
+			title:null,
+			html:html,
+			text: null
+		};
+
+		console.log('html:',html);
+		// append iframe
         iframe.setAttribute('src',htmlsrc);
-        iframe.setAttribute('name','mainContent');
-        iframe.style.cssText = 'width:100%;height:100%;background-color:#fff;position:fixed;left:0;top:0;z-index:100000';
+        iframe.setAttribute('id','page-content-iframe');
+
+		document.body.className = 'clearVisible';
         document.body.appendChild(iframe);
-        iframe.onload = function () {
-            iframe.contentWindow.postMessage(html,htmlsrc);
+        //通信
+		iframe.onload = function () {
+            iframe.contentWindow.postMessage(message,htmlsrc);
+			//监听iframe中的消息
 			window.onmessage = function (e) {
-				if(e.data == 'close-page') {
-					window.frames['mainContent'].style.cssText = 'display:none';
+				if(e.data == 'exit') {
+					iframe.style.width = 0;
+					document.body.className = ''
 				}
-			}
-        };
+			};
+		};
+		return content;
 	},
 	clearPage: function (elem) {
 		if(this.checkTagName(elem,appParams.INIT) && this.checkVisibility(elem)){
@@ -228,6 +247,40 @@ Utils.prototype = {
 			var parent = elem.parentElement;
 			parent.removeChild(elem);
 		}
+	},
+	convertArr: function(arr,seperator) {
+		var resultArr = '';
+		for(var i = 0; i < arr.length; i++) {
+			if(typeof arr[i] === 'object') {
+				resultArr += this.convertArr(arr[i],seperator) + seperator;
+			}
+			else {
+				resultArr += arr[i] + seperator;
+			}
+		}
+		return resultArr;
+	},
+	refineContent: function(contentArr) {
+		var content = [];
+		var tempStr = this.convertArr(contentArr,'$$$$$');
+		// result title
+		var tempArr = tempStr.split('$$$$$');
+		var copy = tempArr[0];
+		console.log('copy: ',copy);
+
+		var resultTitle = copy.replace(/<\w+>|<\/\w+>|\s/g,'');
+		//page title
+		var title = document.getElementsByTagName('TITLE')[0].innerText;
+		var realTitle = title.split(/-|\||_/)[0];
+
+		console.log('realTitle: ',realTitle,'resultTitle: ',resultTitle);
+
+		if(resultTitle.length > realTitle.length) {
+			tempArr.unshift('<p>' + realTitle +'</p>');
+		}
+
+		//innerHTML
+		return tempArr.join('')
 	}
 };
 
@@ -579,10 +632,10 @@ var showMoreResults = function () {
 
 	var textBlocks = appResults.denseTextBlocks,
 		targetElem =  utils.filterElems(textBlocks,'none');
-    var compHTML = utils.extractContent(targetElem);
-
-	utils.displayContent(compHTML);
-	//console.log('compHTML',compHTML);
+    var contentArr = utils.extractContent(targetElem);
+	var content = utils.refineContent(contentArr);
+	//console.log('targetElem: ',targetElem);
+	utils.displayContent(content);
 })(utils,app);
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {

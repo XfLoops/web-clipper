@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/jquery-1.11.3.min.js"></script>
+</head>
+<body id="body">
+    <script>
+        var str = '基于深度学习的中文在线抽词';
+        $(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'http://api.pullword.com/get.php',
+                data: {
+                    "source" : str,
+                    "param0" : 0,
+                    "param1" : 1
+                },
+                dataType: 'json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('apikey','4dca8305c93eb1643dae69f8d60d9911');
+                },
+                success: function (data) {
+                    if(data.result) {
+                        console.log(data)
+                    }
+                    console.log('111111111111111111111')
+                }
+            })
+        })
+    </script>
+</body>
+</html>
