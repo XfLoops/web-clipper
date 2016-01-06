@@ -7,6 +7,7 @@ body {
     margin:0;
     padding:0;
     border: 0;
+    font-family:Georgia,"Times New Roman",serif; /*Helvetica,Arial,sans-serif*/
 }
 ::selection {
     background: #cfeceb;
@@ -58,6 +59,56 @@ ul#control-panel{
 #close-btn:hover {
     cursor: pointer;
 }
+
+#font-tool:hover {
+    cursor:default;
+}
+#font-tooltip {
+    position: absolute;
+    left: 120px;
+    top: -10px;
+    width: 240px;
+    box-shadow: 0 0 5px 3px #B5B5B5;
+    border-radius:3px;
+    text-align: center;
+}
+.font-type {
+    width: 50%;
+    height: 80px;
+    float: left;
+    font-size: 62px;
+    padding-top: 10px;
+}
+#font-type-one {
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
+}
+
+.font-size {
+    width: 50%;
+    height: 60px;
+    float: left;
+}
+.font-color {
+    width: 33.3%;
+    height: 60px;
+    float: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #container {
     width: 650px;
     margin: 0 auto;
