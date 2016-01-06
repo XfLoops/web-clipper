@@ -5,6 +5,15 @@ body {
     line-height: 1.5;
     background-color: #f8f8f8;
 }
+#close-btn {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    width: 60px;
+}
+#close-btn:hover {
+    cursor: pointer;
+}
 .container {
     width: 55%;
     margin: 0 auto;

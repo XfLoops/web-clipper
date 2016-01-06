@@ -206,7 +206,12 @@ Utils.prototype = {
         iframe.style.cssText = 'width:100%;height:100%;background-color:#fff;position:fixed;left:0;top:0;z-index:100000';
         document.body.appendChild(iframe);
         iframe.onload = function () {
-            iframe.contentWindow.postMessage(html,htmlsrc)
+            iframe.contentWindow.postMessage(html,htmlsrc);
+			window.onmessage = function (e) {
+				if(e.data == 'close-page') {
+					window.frames['mainContent'].style.cssText = 'display:none';
+				}
+			}
         };
 	},
 	clearPage: function (elem) {
@@ -577,7 +582,7 @@ var showMoreResults = function () {
     var compHTML = utils.extractContent(targetElem);
 
 	utils.displayContent(compHTML);
-	console.log('compHTML',compHTML);
+	//console.log('compHTML',compHTML);
 })(utils,app);
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
