@@ -121,6 +121,9 @@ chrome.contextMenus.create( {
 } );
 
 chrome.browserAction.onClicked.addListener( function ( tab ) {
+	chrome.tabs.insertCSS({
+		file: "base.css"
+	});
 	chrome.tabs.executeScript( {
 		file: "clipper.js"
 	} );
