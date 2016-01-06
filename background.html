@@ -7,28 +7,31 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="background.css">
 </head>
-<body id="sub-body">
+<body id="sub-body" class="light">
     <ul id="control-panel">
         <li id="exit"><i class="fa fa-sign-out fa-2x"></i><span>退出</span></li>
         <li id="default-view"><i class="fa fa-home fa-2x"></i><span>默认</span></li>
         <li id="expri-mode"><i class="fa fa-flask fa-2x"></i><span>实验</span></li>
         <li id="edit"><i class="fa fa-pencil-square-o fa-2x"></i><span>编辑</span></li>
-        <li id="font-tool">
-            <i class="fa fa-font fa-2x"></i>
-            <span>字体</span>
-            <div id="font-tooltip">
+        <li>
+            <div id="font-tool">
+                <i class="fa fa-font fa-2x"></i>
+                <span>字体</span>
+            </div>
+            <div id="font-dropdown-arrow" class="invisible"></div>
+            <div id="font-tooltip" class="invisible">
                 <div>
-                    <div id="font-type-one" class="font-type">Aa</div>
-                    <div id="font-type-two" class="font-type">Aa</div>
+                    <button id="font-type-one" class="font-type selected">Aa</button>
+                    <button id="font-type-two" class="font-type">Aa</button>
                 </div>
                 <div>
-                    <div id="font-shrink" class="font-size"><i class="fa fa-minus fa-2x"></i></div>
-                    <div id="font-amplify" class="font-size"><i class="fa fa-plus fa-2x"></i></div>
+                    <button id="font-shrink" class="font-size"><i class="fa fa-minus fa-2x"></i></button>
+                    <button id="font-amplify" class="font-size"><i class="fa fa-plus fa-2x"></i></button>
                 </div>
                 <div>
-                    <div id="color-one" class="font-color">亮色</div>
-                    <div id="color-two" class="font-color">暗色</div>
-                    <div id="color-three" class="font-color">深褐色</div>
+                    <button id="color-one" class="font-color selected">亮色</button>
+                    <button id="color-two" class="font-color">暗色</button>
+                    <button id="color-three" class="font-color">深褐色</button>
                 </div>
             </div>
         </li>

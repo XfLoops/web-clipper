@@ -204,6 +204,7 @@ Utils.prototype = {
 		return content;
 	},
 	displayContent: function (html) {
+
         var iframe = document.createElement('iframe');
         var htmlsrc = chrome.extension.getURL('background.html');
 		var message = {
@@ -231,7 +232,6 @@ Utils.prototype = {
 				}
 			};
 		};
-		return content;
 	},
 	clearPage: function (elem) {
 		if(this.checkTagName(elem,appParams.INIT) && this.checkVisibility(elem)){

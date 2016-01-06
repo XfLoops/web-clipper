@@ -30,6 +30,23 @@ $(document).ready(function() {
        $('#sub-body').animate({scrollTop:'0px'},'500ms');
 
     });
+    //字体
+    $('#font-tool').click(function () {
+        $('#font-dropdown-arrow').toggleClass('visable');
+        $('#font-tooltip').toggleClass('visable');
+    });
+    // 字体类型
+    $('.font-type').click(function () {
+    });
+    // 字体大小
+    $('.font-color').click(function () {
+        $('.font-color').each(function () {
+            if($(this).hasClass('selected')){
+                $(this).removeClass('selected');
+            }
+        });
+        $(this).addClass('selected');
+    });
     //编辑
     $('#edit').click(function () {
         $('#page-content').attr('contenteditable',true).addClass('editable');
