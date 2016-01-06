@@ -155,7 +155,7 @@ Utils.prototype = {
 		if(images.length > 0) {
 			for(var i = 0, len = images.length; i < len ; i++){
 				//check src is unbroken
-				if(images[i].src.search(/http(s)?|ftp/) == -1) {
+				if(images[i].src.search(/http(s)?|ftp/g) == -1) {
 					console.log('broken image src: ',image[i].src);
 					continue;
 				}
@@ -229,8 +229,9 @@ Utils.prototype = {
 					iframe.style.width = 0;
 					document.body.className = ''
 				}
-			}
-        };
+			};
+		};
+		return content;
 	},
 	clearPage: function (elem) {
 		if(this.checkTagName(elem,appParams.INIT) && this.checkVisibility(elem)){
@@ -247,7 +248,7 @@ Utils.prototype = {
 			parent.removeChild(elem);
 		}
 	},
-	convertArr: function (arr,seperator) {
+	convertArr: function(arr,seperator) {
 		var resultArr = '';
 		for(var i = 0; i < arr.length; i++) {
 			if(typeof arr[i] === 'object') {
@@ -265,7 +266,6 @@ Utils.prototype = {
 		// result title
 		var tempArr = tempStr.split('$$$$$');
 		var copy = tempArr[0];
-
 		console.log('copy: ',copy);
 
 		var resultTitle = copy.replace(/<\w+>|<\/\w+>|\s/g,'');
