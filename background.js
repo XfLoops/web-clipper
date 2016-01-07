@@ -21,24 +21,64 @@ $(document).ready(function() {
 
     // 退出
     $('#exit').click(function () {
+        $('#sub-body').animate({'opacity':0},'50ms');
         win.postMessage('exit',pageInfo.origin);
     });
     //默认
     $('#default-view').click(function () {
        $('#page-content').removeAttr('contenteditable').removeClass('editable');
-       $('#sub-body').css({'background-color':'#f4f4f6'});
-       $('#sub-body').animate({scrollTop:'0px'},'500ms');
+        var body = $('#sub-body');
+        body.removeClass().addClass('light-color-selected');
+        body.animate({scrollTop:'0px'},'500ms');
 
     });
     //字体
+    // @todo 当点击其他地方式弹出框自动隐藏
     $('#font-tool').click(function () {
         $('#font-dropdown-arrow').toggleClass('visable');
         $('#font-tooltip').toggleClass('visable');
     });
     // 字体类型
     $('.font-type').click(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var content = $('#page-content');
+        if($(this).attr('id') === 'font-type-one'){
+            if(content.hasClass('bold')){
+                content.removeClass('bold');
+            }
+            content.addClass('light');
+        }
+        if($(this).attr('id') === 'font-type-two'){
+            if(content.hasClass('light')){
+                content.removeClass('light');
+            }
+            content.addClass('bold');
+        }
+
     });
-    // 字体大小
+    //字体大小
+    var fontSizeFlag = 3;
+    $('.font-size').click(function(){
+        var container = $('#container');
+        if($(this).attr('id') === 'font-shrink') {
+            if(fontSizeFlag === 1) {
+                fontSizeFlag = 1;
+            }
+            else {
+                --fontSizeFlag;
+            }
+        }
+        if($(this).attr('id') === 'font-amplify') {
+            if(fontSizeFlag === 5) {
+                fontSizeFlag = 5
+            }
+            else {
+                ++fontSizeFlag;
+            }
+        }
+        container.removeClass().addClass('font-size' + fontSizeFlag);
+    });
+    // 字体颜色
     $('.font-color').click(function () {
         $('.font-color').each(function () {
             if($(this).hasClass('selected')){
@@ -46,6 +86,20 @@ $(document).ready(function() {
             }
         });
         $(this).addClass('selected');
+        var body = $('#sub-body');
+        switch($(this).attr('id')) {
+            case 'color-one' :
+                body.removeClass().addClass('light-color-selected');
+                break;
+            case 'color-two' :
+                body.removeClass().addClass('dark-color-selected');
+                break;
+            case 'color-three' :
+                body.removeClass().addClass('sepia-color-selected');
+                break;
+        }
+
+
     });
     //编辑
     $('#edit').click(function () {
