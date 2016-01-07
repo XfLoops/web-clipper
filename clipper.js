@@ -16,6 +16,7 @@ var appParams = {
 	"clipContent" : null,//array of text
 	"rightClipContent" : null,
 	"mainContent" : null,
+	"displayHtml" :null,
 	"recall" : null,
 	"percision" : null,
 	"f1" : null,
@@ -208,13 +209,14 @@ Utils.prototype = {
         var iframe = document.createElement('iframe');
         var htmlsrc = chrome.extension.getURL('background.html');
 		var message = {
+			name: 'page',
 			url: window.location.href,
 			title:null,
 			html:html,
 			text: null
 		};
 
-		console.log('html:',html);
+		console.log('html: ',html);
 		// append iframe
         iframe.setAttribute('src',htmlsrc);
         iframe.setAttribute('id','page-content-iframe');
@@ -226,9 +228,19 @@ Utils.prototype = {
             iframe.contentWindow.postMessage(message,htmlsrc);
 			//监听iframe中的消息
 			window.onmessage = function (e) {
+				//退出
 				if(e.data == 'exit') {
 					iframe.style.width = 0;
 					document.body.className = ''
+				}
+				//下载
+				if(e.data == 'download') {
+					var port = chrome.runtime.connect({name:'download'});
+					port.postMessage({message:html});
+					port.onMessage.addListener(function(msg){
+						console.log('response data: ',msg.data);
+						iframe.contentWindow.postMessage({name:'pdf',content:msg.data},htmlsrc);
+					});
 				}
 			};
 		};
@@ -629,12 +641,14 @@ var showMoreResults = function () {
 	utils.clearPage(appParams.root);
 	app = new ContentClipper();
 
-
 	var textBlocks = appResults.denseTextBlocks,
 		targetElem =  utils.filterElems(textBlocks,'none');
     var contentArr = utils.extractContent(targetElem);
+
 	var content = utils.refineContent(contentArr);
 	//console.log('targetElem: ',targetElem);
+	appResults.displayHtml = content;
+
 	utils.displayContent(content);
 })(utils,app);
 
@@ -680,14 +694,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 	}
 });
 
-
-
 appParams.runtimeStamp.end = new Date().getTime();
-
-
-
-
-
 
 
 

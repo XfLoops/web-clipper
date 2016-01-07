@@ -11,12 +11,19 @@ $(document).ready(function() {
     };
     //
     window.onmessage = function (e) {
-        pageInfo.url = e.data.url, pageInfo.origin = e.origin, pageInfo.html = e.data.html,
-        pageInfo.title = e.data.title, pageInfo.text = e.data.text;
-        $('#page-origin').html('来源： <a href="'+ pageInfo.url +'">'+ pageInfo.origin.replace(/http(s)?:\/\//,'') +'</a>');
-
-
-        $('#page-content').html(pageInfo.html);
+        if(e.data.name === 'page') {
+            pageInfo.url = e.data.url, pageInfo.origin = e.origin, pageInfo.html = e.data.html,
+                pageInfo.title = e.data.title, pageInfo.text = e.data.text;
+            $('#page-origin').html('来源： <a href="'+ pageInfo.url +'" target="_blank">'+ pageInfo.origin.replace(/http(s)?:\/\//,'') +'</a>');
+            $('#page-content').html(pageInfo.html);
+        }
+        if(e.data.name === 'pdf') {
+            var html = '<html><body><embed width="100%" height="100%" src="'+ e.data.content +'" type="application/pdf"></body></html>';
+            var win = window.open('','_blank');
+            win.document.open('text/html','replace');
+            win.document.write(html);
+            win.document.close();
+        }
     };
 
     // 退出
@@ -104,8 +111,19 @@ $(document).ready(function() {
     //编辑
     $('#edit').click(function () {
         $('#page-content').attr('contenteditable',true).addClass('editable');
-        $('#sub-body').css({'background-color':'#808080'});
+        $('#sub-body').removeClass().addClass('dark-color-selected');
     });
+
+    // 保存
+    $('#save-to-locale').click(function () {
+        $('.save-to-locale-box').css({"right":"1em"});
+        $('#page-content').attr('contenteditable',true).addClass('editable');
+    });
+    // 下载
+    $('#save-to-locale-btn').click(function () {
+        win.postMessage('download',pageInfo.origin);
+    });
+
     //顶部
     $('#back-to-top').click(function () {
         $('#sub-body').animate({scrollTop:'0px'},'500ms');

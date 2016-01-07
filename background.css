@@ -7,6 +7,7 @@ body {
     padding:0;
     border: 0;
     transition: color 0.4s, background-color 0.4s;
+    overflow-x: hidden;
 }
 
 ::selection {
@@ -210,3 +211,52 @@ p:first-child {
 p {
     margin-top: 25px;
 }
+
+/* save */
+.save-to-locale-box {
+    position: fixed;
+    right: -270px;
+    top: 2em;
+    text-align: center;
+    background-color: #00B6E9;
+    perspective:80em;
+    transition: 0.5s linear all;
+}
+#save-to-locale-btn {
+    background: transparent;
+    vertical-align: middle;
+    font-size: 20px;
+    width:180px;
+    height:80px;
+    border:none;
+    outline:none;
+    transition: 0.5s linear all;
+}
+#save-to-locale-btn:hover {
+    background:#50d9ff;
+}
+.save-to-locale-box .fa-download {
+    width: 80px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
