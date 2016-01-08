@@ -39,6 +39,89 @@ $(document).ready(function() {
         body.animate({scrollTop:'0px'},'500ms');
 
     });
+    // 实验
+    $('#expri-mode').click(function () {
+        var isDisplay = $('#expri-mode-box').css('display');
+        if(isDisplay === 'none') {
+            $('#expri-mode-box').css({'display':'block'});
+            var resultContent = $('#page-content').text();
+            var wordsCnt = resultContent.replace(/\s+/g,'').length;
+            if(resultContent) {
+                pageInfo.text = resultContent;
+            }
+            $('#result-count').text(wordsCnt);
+            $('#correct-count').text(wordsCnt);
+            $('#result-txt').val(resultContent);
+            $('#correct-txt').val(resultContent);
+            $('#container').css({"display":"none"});
+            $('#expri-mode-box').css({"display":"block"});
+            $('#test-url').attr({"href":pageInfo.url}).text(pageInfo.origin);
+        }
+        else {
+            $('#expri-mode-box').css({'display':'none'});
+            $('#container').css({"display":"block"});
+        }
+
+    });
+    //监听键盘事件
+    $('.txt-area').keyup(function () {
+        var pasteContent =  $(this).val();
+        var wordsCnt = pasteContent.replace(/\s+/g,'').length;
+        var id = $(this).attr('id').split('-')[0] + '-count';
+        $('#' + id).text(wordsCnt);
+    });
+    // 监听计算按钮
+    $('#calculate').click(function () {
+        var resultCnt = parseInt($('#result-count').text()),
+            correctCnt = parseInt($('#correct-count').text()),
+            pageCnt = parseInt($('#page-count').text()),
+            recall = correctCnt / pageCnt,
+            percision = correctCnt / resultCnt,
+            f1 = 2 * recall * percision / (recall + percision);
+        $('#recall').val(recall);
+        $('#percision').val(percision);
+        $('#f1-result').val(f1 );
+        console.log('recall',recall,'percision',percision,'f1',f1);
+        checkResult(recall,percision,f1);
+    });
+    // 再来一遍
+    $('#reset').click(function () {
+        var resultContent = pageInfo.text;
+        var wordsCnt = resultContent.replace(/\s+/g,'').length;
+        $('#result-count').text(wordsCnt);
+        $('#correct-count').text(wordsCnt);
+        $('#page-count').text(0);
+        $('#result-txt').val(resultContent);
+        $('#correct-txt').val(resultContent);
+        $('#page-txt').val('');
+        $('#recall').val('');
+        $('#percision').val('');
+        $('#f1-result').val('');
+    });
+    // 检查计算结果
+    function checkResult(recall,percision,f1) {
+        //convert arguments to array
+        var args = [].slice.call(arguments);
+        console.log('args: ',args);
+        // check isNaN or isFinite判断是否为常数
+        var result = args.every(function (num) {
+            return !isNaN(num) && isFinite(num) && (num <= 1) && (num >= 0);
+        });
+        console.log('result',result);
+        if(result) {
+            $('#ok-icon').animate({"opacity":1},"200ms");
+            setTimeout(function () {
+                $('#ok-icon').animate({"opacity":0},"400ms");
+            },1000);
+        }
+        else {
+            $('#error-icon').animate({"opacity":1},"200ms");
+            setTimeout(function () {
+                $('#error-icon').animate({"opacity":0},"400ms");
+            },1000);
+        }
+
+    };
     //字体
     // @todo 当点击其他地方式弹出框自动隐藏
     $('#font-tool').click(function () {
@@ -110,14 +193,25 @@ $(document).ready(function() {
     });
     //编辑
     $('#edit').click(function () {
-        $('#page-content').attr('contenteditable',true).addClass('editable');
-        $('#sub-body').removeClass().addClass('dark-color-selected');
+        if($('#container').css('display') === 'block') {
+            $('#page-content').attr('contenteditable',true).addClass('editable');
+            $('#sub-body').removeClass().addClass('dark-color-selected');
+        }
     });
 
     // 保存
     $('#save-to-locale').click(function () {
-        $('.save-to-locale-box').css({"right":"1em"});
-        $('#page-content').attr('contenteditable',true).addClass('editable');
+        if($(this).hasClass('clicked')) {
+            $(this).removeClass();
+            $('.save-to-locale-box').removeAttr('style');
+            $('#page-content').removeAttr('contenteditable').removeClass('editable');
+        }
+        else {
+            $(this).addClass('clicked');
+            $('.save-to-locale-box').css({"right":"1em"});
+            $('#page-content').attr('contenteditable',true).addClass('editable');
+        }
+
     });
     // 下载
     $('#save-to-locale-btn').click(function () {

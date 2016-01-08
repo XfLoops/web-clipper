@@ -143,8 +143,12 @@ $(function () {
 						src: msg.message
 					},
 					success: function(data){
-						console.log('response data: ',data);
-						port.postMessage({data:data});
+						var reader = new FileReader();
+						reader.readAsDataURL(data);
+						reader.onload = function () {
+							console.log('response dataurl: ',reader.result);
+							port.postMessage({data:reader.result});
+						}
 					},
 					error: function () {
 						console.log('mission failed!');

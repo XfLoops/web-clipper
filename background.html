@@ -11,7 +11,10 @@
     <ul id="control-panel">
         <li id="exit"><i class="fa fa-sign-out fa-2x"></i><span>退出</span></li>
         <li id="default-view"><i class="fa fa-home fa-2x"></i><span>默认</span></li>
-        <li id="expri-mode"><i class="fa fa-flask fa-2x"></i><span>实验</span></li>
+        <li id="expri-mode">
+            <i class="fa fa-flask fa-2x"></i>
+            <span>实验</span>
+        </li>
         <li id="edit"><i class="fa fa-pencil-square-o fa-2x"></i><span>编辑</span></li>
         <li id="font-control">
             <div id="font-tool">
@@ -47,16 +50,87 @@
         <li id="back-to-top"><i class="fa fa-arrow-circle-up fa-2x"></i><span>顶部</span></li>
     </ul>
 
+    <!-- 正文内容 -->
     <div id="container">
         <div id="page-origin"></div>
         <div id="page-content"></div>
     </div>
 
+    <!-- 实验 -->
+    <div id="expri-mode-box" class="container-fluid offset2">
+        <h2> <i class="fa fa-flask"></i>正文提取效果评价<small><span>原始网页: </span><a id="test-url" href="#" target="_blank">空</a><i class="fa fa-external-link"></i></small></h2>
+        <div class="row-fluid">
+            <div class="span4">
+                <h4>正确提取的正文<small id="correct-count">0</small><small>字数(不含空格)</small></h4>
+                <textarea id="correct-txt" class="span11 txt-area"></textarea>
+            </div>
+            <div class="span4">
+                <h4>网页包含的正文<small id="page-count">0</small><small>字数(不含空格)</small></h4>
+                <textarea id="page-txt" class="span11 txt-area"></textarea>
+            </div>
+            <div class="span4">
+                <h4>全部提取的正文<small id="result-count">0</small><small>字数(不含空格)</small></h4>
+                <textarea id="result-txt" class="span11 txt-area"></textarea>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span2">
+                <div id="calculate" class="btn btn-large span12">开始计算</div>
+                <br>
+                <div id="reset" class="btn btn-large span12">再来一遍</div>
+                <br>
+                <div id="feedback-box" class="span12">
+                    <i id="ok-icon" class="fa fa-check-circle fa-5x feedback-icon"></i>
+                    <i id="error-icon" class="fa fa-exclamation-triangle fa-5x feedback-icon"></i>
+                </div>
+            </div>
+            <div class="span10">
+                <div class="row-fluid">
+                    <div class="span4">
+                        <div class="input-prepend">
+                            <span class="add-on">查全率</span>
+                            <input id="recall" class="form-control" placeholder="recall" type="text">
+                        </div>
+                        <br>
+                        <div class="input-prepend">
+                            <span class="add-on">查准率</span>
+                            <input id = "percision" class="form-control" placeholder="percision" type="text">
+                        </div>
+                        <br>
+                        <div class="input-prepend">
+                            <span class="add-on">平均值</span>
+                            <input id="f1-result" class="form-control" placeholder="F1" type="text">
+                        </div>
+                    </div>
+                    <blockquote class="span8">
+                        <h4><i class="fa fa-info-circle"></i> 评价指标说明</h4>
+                        <dl>
+                            <dt><h4 class="alert-success">查全率(Recall)</h4></dt>
+                            <dd><h5>反映算法提取结果完备性的一项指标.查全率 = 正确提取的正文 / 网页包含的正文</h5></dd>
+                        </dl>
+                        <dl>
+                            <dt><h4  class="alert-success">查准率(Percision)</h4></dt>
+                            <dd><h5>反映算法提取结果准确性的一项指标.查准率 = 正确提取的正文 / 全部提取的正文</h5></dd>
+                        </dl>
+                        <dl>
+                            <dt><h4  class="alert-success">平均值(F1)</h4></dt>
+                            <dd><h5>综合反映算法提取结果的一项指标,即调和平均值.平均值 = 2 * 查全率 * 查准率) / (查全率 + 查准率)</h5></dd>
+                        </dl>
+                    </blockquote>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 下载按钮 -->
     <div class="save-to-locale-box">
         <button id="save-to-locale-btn">下载到本地[.pdf]</button>
         <i class="fa fa-download fa-3x"></i>
     </div>
+
     <script src="jquery-1.11.3.min.js"></script>
+    <script src="bootstrap.min.js"></script>
     <script src="background.js"></script>
 </body>
 </html>
