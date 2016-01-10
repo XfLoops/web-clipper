@@ -4,6 +4,7 @@ var appParams = {
 	"INIT" : ['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','LABEL','COMMENT','MAP','AREA'],
 	"IGNORETAGS":['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','SELECT','OPTION','LABEL','FORM','COMMENT','MAP','AREA'],
 	"SPECIALTAGS":['UL','OL'],
+	"BLOCKTAGS":['DIV','UL','LI','H1','H2','H3','H4','H5','H6'],
 	"types" : ['text','anchor','image','ignore'],
 	"runtimeStamp": {
 		"start": new Date().getTime(),
@@ -152,6 +153,9 @@ Utils.prototype = {
 		}
 	},
 	extractImage: function (elem) {
+		if(elem.tagName === 'IMG') {
+			return '<p><img src = "'+ elem.src +'"></p>';
+		}
 		var images = elem.getElementsByTagName('img'),content = '';
 		if(images.length > 0) {
 			for(var i = 0, len = images.length; i < len ; i++){
@@ -160,48 +164,56 @@ Utils.prototype = {
 					console.log('broken image src: ',image[i].src);
 					continue;
 				}
-				content += '<p><img src = \"'+ images[i].src +'\"></p>';
+				content += '<p><img src = "'+ images[i].src +'"></p>';
 				///console.log('img:',images[i].src);
 			}
 		}
 		return content;
 	},
 	extractContent: function (elem) {
-		var content = [];
+		var content = '';
 		if(elem) {
 			if (elem.dataset.subdoc > appParams.threshold && elem.dataset.nodetype === 'text') {
-				content.push('<p>' + elem.innerHTML + '</p>');
-			}
-			else {
-				for (var el = elem.firstChild; el; el = el.nextSibling) {
-					var inner = el.textContent.replace(/\s*/g, "");
-					switch (el.nodeType) {
-						case 3 :
-							if (inner.length > 0) {
-								content.push('<p>' + inner + '</p>');
-							}
-							break;
-						case 1 :
-							if (el.dataset.nodetype === 'content' && inner.length > 0) {
-								content.push('<p>' + el.innerText + '</p>');
-								break;
-							}
-							if (el.dataset.nodetype === 'text') {
-								if (el.dataset.subdoc > appParams.threshold) {
-									content.push('<p>' + el.innerHTML + '</p>');
-								}
-								else {
-									content.push(this.extractContent(el));
-								}
-							}
-							if(el.dataset.nodetype === 'image') {
-								content.push(this.extractImage(el));
-							}
-					}
+				if(appParams.BLOCKTAGS.indexOf(elem.tagName) > -1) {
+					content += '<p>' + elem.innerHTML + '</p>';
+				}
+				else {
+					content += '<'+ elem.tagName +'>' + elem.innerHTML + '</' + elem.tagName + '>';
 				}
 			}
+			else {
+				for (var el = elem.firstElementChild; el; el = el.nextElementSibling) {
+					if (el.tagName === 'A' && !el.firstElementChild) {
+						var sibling = el.previousElementSibling;
+						if(!sibling) {
+							sibling = el.nextElementSibling;
+						}
+						if(sibling && sibling.dataset.nodetype === 'text') {
+							var href = el.getAttribute('href');
+							content += '<a href="'+ href +'">'+ el.innerText +'</a>';
+						}
+					}
+					if (el.dataset.nodetype === 'text') {
+						if (el.dataset.subdoc > appParams.threshold) {
+							if(appParams.BLOCKTAGS.indexOf(el.tagName) > -1) {
+								content += '<p>' + el.innerHTML + '</p>';
+							}
+							else {
+								content += '<'+ el.tagName +'>' + el.innerHTML + '</' + el.tagName + '>';
+							}
+						}
+						else {
+							content += '<p>' + this.extractContent(el) + '</p>';
+						}
+					}
+					if (el.dataset.nodetype === 'image' || el.tagName === 'IMG') {
+						content += this.extractImage(el);
+					}
+				}
+
+			}
 		}
-		//console.log('content: ',content);
+		console.log('content:',content);
 		return content;
 	},
 	displayContent: function (html) {
@@ -245,18 +257,44 @@ Utils.prototype = {
 		};
 	},
 	clearPage: function (elem) {
-		if(this.checkTagName(elem,appParams.INIT) && this.checkVisibility(elem)){
-			var children = [];
-			for(var child = elem.firstElementChild;child;child = child.nextElementSibling) {
-				children.push(child);
-			}
-			for(var i = 0; i < children.length;i++) {
-				this.clearPage(children[i]);
-			}
+		if(elem.parentNode) {
+			var parent = elem.parentNode;
 		}
-		else {
-			var parent = elem.parentElement;
+		if(elem.nodeType === 3) {
+			var span = document.createElement('span');
+			var spanTxt = document.createTextNode(elem.textContent);
+			span.dataset.subdoc = 1;
+			span.appendChild(spanTxt);
+			parent.insertBefore(span,elem);
 			parent.removeChild(elem);
+		}
+		if(elem.nodeType === 1) {
+			if(!elem.firstElementChild) {
+				return;
+			}
+			if(this.checkTagName(elem,appParams.INIT) && this.checkVisibility(elem)){
+				var children = [];
+				for(var child = elem.firstChild;child;child = child.nextSibling) {
+					if(child.nodeType === 3) {
+						var l = child.textContent.replace(/\s+/g,'').length;
+						if(l > 0) {
+							children.push(child);
+						}
+					}
+					if(child.nodeType === 1) {
+						children.push(child);
+					}
+				}
+
+				if(children.length > 0) {
+					for(var i = 0; i < children.length;i++) {
+						this.clearPage(children[i]);
+					}
+				}
+			}
+			else {
+				parent.removeChild(elem);
+			}
 		}
 	},
 	convertArr: function(arr,seperator) {
@@ -271,7 +309,7 @@ Utils.prototype = {
 		}
 		return resultArr;
 	},
-	refineContent: function(contentArr) {
+	refineContent: function (contentArr) {
 		var content = [];
 		var tempStr = this.convertArr(contentArr,'$$$$$');
 		// result title
@@ -342,11 +380,7 @@ ContentClipper.prototype = {
 			if(!elem.firstElementChild ){
 				return this.getContentType(elem);
 			}
-			for(var item = elem.firstChild;item;item = item.nextSibling) {
-				if (item.nodeType === 3) {
-					plainText += item.textContent.replace(/\s+/g, "").length;
-				}
-				else if (item.nodeType === 1) {
+			for(var item = elem.firstElementChild;item;item = item.nextElementSibling) {
 					if(item.tagName === 'A' && item.firstElementChild) {
 						data.children.push('anchor');
 						data.subtypes[1]++;
@@ -367,7 +401,6 @@ ContentClipper.prototype = {
 							data.content.anchor.text += temp.anchor.text;
 							data.content.anchor.num  += temp.anchor.num;
 						}
-					}
 				}
 			}
 			if(plainText > 10){
@@ -533,7 +566,8 @@ ContentClipper.prototype = {
 			}
 		}
 		if(txt > 0) {
-			elem.dataset.nodetype = 'content';
+			elem.dataset.nodetype = 'text';
+			elem.dataset.subdoc = 1;
 			return {
 				"type" : "text",
 				"subtypes" :[1,0,0,0],
@@ -637,14 +671,13 @@ var showMoreResults = function () {
 (function(){
 	// init tools
 	utils = new Utils();
-	utils.clearPage(appParams.root);
+	utils.clearPage(appParams.root,0);
 	app = new ContentClipper();
 
 	var textBlocks = appResults.denseTextBlocks,
 		targetElem =  utils.filterElems(textBlocks,'none');
-    var contentArr = utils.extractContent(targetElem);
-
-	var content = utils.refineContent(contentArr);
+    var content = utils.extractContent(targetElem);
+	//var content = utils.refineContent(contentStr);
 	//console.log('targetElem: ',targetElem);
 	appResults.displayHtml = content;
 
