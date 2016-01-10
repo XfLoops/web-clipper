@@ -228,6 +228,10 @@ Utils.prototype = {
 			text: null
 		};
 
+		//标题
+		var title = document.getElementsByTagName('TITLE')[0].innerText;
+		var realTitle = title.split(/-|\||_/)[0];
+		message.title = realTitle;
 		//console.log('html: ',html);
 		// append iframe
         iframe.setAttribute('src',htmlsrc);

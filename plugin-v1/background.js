@@ -15,6 +15,7 @@ $(document).ready(function() {
             pageInfo.url = e.data.url, pageInfo.origin = e.origin, pageInfo.html = e.data.html,
                 pageInfo.title = e.data.title, pageInfo.text = e.data.text;
             $('#page-origin').html('来源： <a href="'+ pageInfo.url +'" target="_blank">'+ pageInfo.origin.replace(/http(s)?:\/\//,'') +'</a>');
+            //$('#page-title').html('标题： <h2>'+ pageInfo.title +'</h2>');
             $('#page-content').html(pageInfo.html);
         }
         if(e.data.name === 'pdf') {
