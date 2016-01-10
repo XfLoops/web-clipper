@@ -216,7 +216,7 @@ Utils.prototype = {
 			text: null
 		};
 
-		console.log('html: ',html);
+		//console.log('html: ',html);
 		// append iframe
         iframe.setAttribute('src',htmlsrc);
         iframe.setAttribute('id','page-content-iframe');
@@ -238,7 +238,6 @@ Utils.prototype = {
 					var port = chrome.runtime.connect({name:'download'});
 					port.postMessage({message:html});
 					port.onMessage.addListener(function(msg){
-						console.log('response data: ',msg.data);
 						iframe.contentWindow.postMessage({name:'pdf',content:msg.data},htmlsrc);
 					});
 				}
@@ -278,14 +277,14 @@ Utils.prototype = {
 		// result title
 		var tempArr = tempStr.split('$$$$$');
 		var copy = tempArr[0];
-		console.log('copy: ',copy);
+		//console.log('copy: ',copy);
 
 		var resultTitle = copy.replace(/<\w+>|<\/\w+>|\s/g,'');
 		//page title
 		var title = document.getElementsByTagName('TITLE')[0].innerText;
 		var realTitle = title.split(/-|\||_/)[0];
 
-		console.log('realTitle: ',realTitle,'resultTitle: ',resultTitle);
+		//console.log('realTitle: ',realTitle,'resultTitle: ',resultTitle);
 
 		if(resultTitle.length > realTitle.length) {
 			tempArr.unshift('<p>' + realTitle +'</p>');

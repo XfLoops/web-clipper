@@ -193,6 +193,7 @@ button.font-type:hover,button.font-size:hover {
 }
 
 #container {
+    display: block;
     width: 650px;
     margin: 0 auto;
     transition: font-size 0.3s;
@@ -241,13 +242,31 @@ p {
     vertical-align: middle;
 }
 
-
-
-
-
-
-
-
+/* experi mode */
+.txt-area {
+    height: 300px;
+}
+#expri-mode-box {
+    display: none;
+}
+#reset {
+    margin: 23px 0 0 0;
+}
+#feedback-box {
+    position: relative;
+}
+.feedback-icon {
+    position: absolute;
+    right: -100px;
+    margin-top: 20px;
+    opacity: 0;
+}
+#ok-icon {
+    color: #468847;
+}
+#error-icon {
+    color: red;
+}
 
 
 
