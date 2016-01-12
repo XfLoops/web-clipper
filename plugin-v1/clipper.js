@@ -1,7 +1,7 @@
 var appParams = {
 	"threshold" : 0.9,
 	"root" : document.getElementsByTagName('body')[0],
-	"INIT" : ['SCRIPT','IFRAME','STYLE','NOSCRIPT','BUTTON','INPUT','LABEL','COMMENT','MAP','AREA'],
+	"INIT" : ['SCRIPT','IFRAME','STYLE','NOSCRIPT','BUTTON','INPUT','LABEL','COMMENT','MAP','AREA','INS'],
 	"IGNORETAGS":['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','SELECT','OPTION','LABEL','FORM','COMMENT','MAP','AREA'],
 	"SPECIALTAGS":['UL','OL'],
 	"BLOCKTAGS":['DIV','UL','LI','H1','H2','H3','H4','H5','H6'],
@@ -331,7 +331,8 @@ Utils.prototype = {
 
 			//get page title from title tag
 			var title = document.getElementsByTagName('TITLE')[0].innerText;
-			var realTitle = title.split(/-|\||_/)[0].replace(/\s+/g,'');
+			var title2 = title.split(/-|\||_/)[0];
+			var realTitle = title2.replace(/\s+/g,'');
 			appResults.title = title;
 			console.log('real title:',realTitle,'title length:',realTitle.length);
 
@@ -342,16 +343,16 @@ Utils.prototype = {
 
 				// check if title is ok
 				if(resultTitle != realTitle) {
-					contentStr = '<h2 class="content-title">' + realTitle + '</h2>' + contentStr;
+					contentStr = '<h2 class="content-title">' + title2 + '</h2>' + contentStr;
 				}
 				else {
 					// title is exsit,but need to change to h2 tag
-					var newtitle = '<h2 class="content-title">' + realTitle + '</h2>';
+					var newtitle = '<h2 class="content-title">' + title2 + '</h2>';
 					contentStr = contentStr.replace(titlepart[0],newtitle);
 				}
 			}
 			else {
-				contentStr = '<h2 class="content-title">' + realTitle + '</h2>' + contentStr;
+				contentStr = '<h2 class="content-title">' + title2 + '</h2>' + contentStr;
 			}
 			return contentStr;
 		}
