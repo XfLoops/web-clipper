@@ -325,7 +325,7 @@ Utils.prototype = {
 			console.log('part:',part);
 			//match the first closed tag
 			//todo SOMETIMES IT DOES NOT WORK
-			var pattern = /<\w+>[^<].*?[^>]<\/\w+>/;
+			var pattern = /<(\w+)(\s[\w="_-]+)*>[^<].*?[^>]<\/\1>/;
 			var titlepart = part.match(pattern);
 			console.log('titlepart: ',titlepart);
 
@@ -338,7 +338,7 @@ Utils.prototype = {
 
 			if(titlepart) {
 				//get title from title part
-				var resultTitle = titlepart[0].replace(/<\w+>|<\/\w+>|\s+/g,'');
+				var resultTitle = titlepart[0].replace(/(<(\w+)(\s[\w="_-]+)*>)|\s+|(<\/\w+>)/g,'');
 				console.log('resultTitle:',resultTitle,'result title length:',resultTitle.length);
 
 				// check if title is ok
