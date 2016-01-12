@@ -158,7 +158,29 @@ $(function () {
 			});
 
 		}
-
+		if(port.name === 'keywords') {
+			port.onMessage.addListener(function (msg) {
+				$.ajax({
+					type:'POST',
+					url: 'http://api.bosonnlp.com/keywords/analysis',
+					contentType:'application/json',
+					dataType:'json',
+					data:{
+						text: msg.text,
+						topK: 50
+					},
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader('X-Token','VqaMfm8K.4564.MkciuRXUxauq');
+					},
+					success: function (data) {
+						port.postMessage({data:data});
+					},
+					error: function () {
+						port.postMessage({data:'mission failed!'});
+					}
+				})
+			});
+		}
 	});
 
 });

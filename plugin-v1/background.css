@@ -265,16 +265,29 @@ p {
     color: red;
 }
 
-
-
 #page-content .content-title {
     text-align: left;
 }
 
-
-
-
-
-
-
+/* 分析 */
+#content-analysis-box {
+    display: none;
+}
+#analysis-cnt {
+    height: 200px;
+}
+#analysis-btn {
+    margin-left: 0;
+}
+.ctn-result {
+    border: 2px solid #fff;
+    height: 400px;
+}
+#analysis-panel li {
+    margin-bottom: 10px;
+}
+#analysis-panel a {
+    color: #555;
+    margin-left: 10px;
+}
 

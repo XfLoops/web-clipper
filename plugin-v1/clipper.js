@@ -261,6 +261,15 @@ Utils.prototype = {
 						iframe.contentWindow.postMessage({name:'pdf',content:msg.data},htmlsrc);
 					});
 				}
+				if(e.data.type === 'keywords') {
+					var text = e.data.text;
+					var port2 = chrome.runtime.connect({name:'keywords'});
+					port2.postMessage({text:text});
+					port2.onMessage.addListener(function (msg) {
+						console.log('keywords feedback:',msg.data);
+						//iframe.contentWindow.postMessage({},htmlsrc);
+					});
+				}
 			};
 		};
 	},

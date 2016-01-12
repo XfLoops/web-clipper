@@ -42,9 +42,10 @@ $(document).ready(function() {
     });
     // 实验
     $('#expri-mode').click(function () {
-        var isDisplay = $('#expri-mode-box').css('display');
+        var expriBox = $('#expri-mode-box');
+        var isDisplay = expriBox.css('display');
         if(isDisplay === 'none') {
-            $('#expri-mode-box').css({'display':'block'});
+            expriBox.css({'display':'block'});
             var resultContent = $('#page-content').text();
             var wordsCnt = resultContent.replace(/\s+/g,'').length;
             if(resultContent) {
@@ -55,11 +56,11 @@ $(document).ready(function() {
             $('#result-txt').val(resultContent);
             $('#correct-txt').val(resultContent);
             $('#container').css({"display":"none"});
-            $('#expri-mode-box').css({"display":"block"});
+            expriBox.css({"display":"block"});
             $('#test-url').attr({"href":pageInfo.url}).text(pageInfo.origin);
         }
         else {
-            $('#expri-mode-box').css({'display':'none'});
+            expriBox.css({'display':'none'});
             $('#container').css({"display":"block"});
         }
 
@@ -123,6 +124,37 @@ $(document).ready(function() {
         }
 
     };
+
+    // 分析
+    $('#analysis-tool').click(function () {
+        var analysisBox = $('#content-analysis-box');
+        var isDisplay = analysisBox.css('display');
+        if(isDisplay === 'none') {
+            analysisBox.css({'display':'block'});
+            var resultContent = $('#page-content').text();
+            if(resultContent) {
+                pageInfo.text = resultContent;
+            }
+            $('#container').css({"display":"none"});
+            $('#test-url2').attr({"href":pageInfo.url}).text(pageInfo.origin);
+            $('#analysis-cnt').text(pageInfo.text);
+        }
+        else {
+            analysisBox.css({'display':'none'});
+            $('#container').css({"display":"block"});
+        }
+
+    });
+    // 提取关键词
+    $('#extract-keywords').click(function () {
+        var text = $('#analysis-cnt').text();
+        var msg = {
+            type:'keywords',
+            text:text
+        };
+        win.postMessage(msg,pageInfo.origin);
+    });
+
     //字体
     // @todo 当点击其他地方式弹出框自动隐藏
     $('#font-tool').click(function () {

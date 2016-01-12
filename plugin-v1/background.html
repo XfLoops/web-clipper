@@ -123,6 +123,34 @@
         </div>
     </div>
 
+    <!-- 分析 -->
+    <div id="content-analysis-box" class="container-fluid offset2">
+        <h2> <i class="fa fa-line-chart fa-2x"></i>网页文本分析<small><span>原始网页: </span><a id="test-url2" href="#" target="_blank">空</a><i class="fa fa-external-link"></i></small></h2>
+        <div class="row-fluid">
+            <h4>网页文本</h4>
+            <textarea class="span11" id="analysis-cnt"></textarea>
+            <div id="analysis-btn" class="btn btn-large span2">提交文本</div>
+        </div>
+        <div>
+            <h4>分析结果</h4>
+            <div class="row-fluid">
+                <div id="analysis-panel" class="span2">
+                   <ul>
+                       <li class="btn btn-large span11"><i class="fa fa-newspaper-o"></i><a href="#ctn-abstract">新闻摘要</a></li>
+                       <li id="extract-keywords" class="btn btn-large span11"><i class="fa fa-key"></i>关键词提取</li>
+                       <li class="btn btn-large span11"><i class="fa fa-hourglass-end"></i><a href="#ctn-wordtype">词性分析</a></li>
+                       <li class="btn btn-large span11"><i class="fa fa-newspaper-o"></i><a href="#ctn-related">语义联想</a></li>
+                   </ul>
+                </div>
+                <div id="analysis-results" class="span9">
+                    <div id="ctn-abstract" class="ctn-result"></div>
+                    <div id="ctn-keywords" class="ctn-result"></div>
+                    <div id="ctn-wordtype" class="ctn-result"></div>
+                    <div id="cnt-related" class="ctn-result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- 下载按钮 -->
     <div class="save-to-locale-box">
         <button id="save-to-locale-btn">下载到本地[.pdf]</button>
