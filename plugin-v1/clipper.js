@@ -156,11 +156,14 @@ Utils.prototype = {
 	},
 	extractImage: function (elem) {
 		if(elem.tagName === 'IMG') {
+			if(elem.width < 100) return;
 			return '<p><img src = "'+ elem.src +'"></p>';
 		}
 		var images = elem.getElementsByTagName('img'),content = '';
 		if(images.length > 0) {
 			for(var i = 0, len = images.length; i < len ; i++){
+				//check width
+				if(images[i].width < 100) continue;
 				//check src is unbroken
 				if(images[i].src.search(/http(s)?|ftp/g) == -1) {
 					console.log('broken image src: ',image[i].src);
@@ -321,7 +324,8 @@ Utils.prototype = {
 			var part = contentStr.substr(0,150);
 			console.log('part:',part);
 			//match the first closed tag
-			var pattern = /<.+>[^<].*?[^>]<\/.+>/;
+			//todo SOMETIMES IT DOES NOT WORK
+			var pattern = /<\w+>[^<].*?[^>]<\/\w+>/;
 			var titlepart = part.match(pattern);
 			console.log('titlepart: ',titlepart);
 
@@ -333,7 +337,7 @@ Utils.prototype = {
 
 			if(titlepart) {
 				//get title from title part
-				var resultTitle = titlepart[0].replace(/<.+>|<\/.+>|\s+/g,'');
+				var resultTitle = titlepart[0].replace(/<\w+>|<\/\w+>|\s+/g,'');
 				console.log('resultTitle:',resultTitle,'result title length:',resultTitle.length);
 
 				// check if title is ok
