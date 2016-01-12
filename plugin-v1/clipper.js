@@ -1,10 +1,11 @@
 var appParams = {
 	"threshold" : 0.9,
 	"root" : document.getElementsByTagName('body')[0],
-	"INIT" : ['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','LABEL','COMMENT','MAP','AREA'],
+	"INIT" : ['SCRIPT','IFRAME','STYLE','NOSCRIPT','BUTTON','INPUT','LABEL','COMMENT','MAP','AREA'],
 	"IGNORETAGS":['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','SELECT','OPTION','LABEL','FORM','COMMENT','MAP','AREA'],
 	"SPECIALTAGS":['UL','OL'],
 	"BLOCKTAGS":['DIV','UL','LI','H1','H2','H3','H4','H5','H6'],
+	"BREAKTAGS":['BR'],
 	"types" : ['text','anchor','image','ignore'],
 	"runtimeStamp": {
 		"start": new Date().getTime(),
@@ -21,7 +22,8 @@ var appParams = {
 	"recall" : null,
 	"percision" : null,
 	"f1" : null,
-	"remark" : null
+	"remark" : null,
+	"title":null
 };
 
 function Utils(){}
@@ -175,7 +177,7 @@ Utils.prototype = {
 		if(elem) {
 			if (elem.dataset.subdoc > appParams.threshold && elem.dataset.nodetype === 'text') {
 				if(appParams.BLOCKTAGS.indexOf(elem.tagName) > -1) {
-					content += '<p>' + elem.innerHTML + '</p>';
+					content += '<div>' + elem.innerHTML + '</div>';
 				}
 				else {
 					content += '<'+ elem.tagName +'>' + elem.innerHTML + '</' + elem.tagName + '>';
@@ -195,15 +197,19 @@ Utils.prototype = {
 					}
 					if (el.dataset.nodetype === 'text') {
 						if (el.dataset.subdoc > appParams.threshold) {
+							var pre = el.previousElementSibling;
 							if(appParams.BLOCKTAGS.indexOf(el.tagName) > -1) {
-								content += '<p>' + el.innerHTML + '</p>';
+								content += '<div>' + el.innerHTML + '</div>';
+							}
+							else if(pre && appParams.BREAKTAGS.indexOf(pre.tagName) > -1) {
+								content += '<'+ el.tagName +'>' + el.innerHTML + '</' + el.tagName + '><br>';
 							}
 							else {
 								content += '<'+ el.tagName +'>' + el.innerHTML + '</' + el.tagName + '>';
 							}
 						}
 						else {
-							content += '<p>' + this.extractContent(el) + '</p>';
+							content += '<div>' + this.extractContent(el) + '</div>';
 						}
 					}
 					if (el.dataset.nodetype === 'image' || el.tagName === 'IMG') {
@@ -213,7 +219,6 @@ Utils.prototype = {
 
 			}
 		}
-		console.log('content:',content);
 		return content;
 	},
 	displayContent: function (html) {
@@ -223,15 +228,11 @@ Utils.prototype = {
 		var message = {
 			name: 'page',
 			url: window.location.href,
-			title:null,
+			title:appResults.title,
 			html:html,
 			text: null
 		};
 
-		//标题
-		var title = document.getElementsByTagName('TITLE')[0].innerText;
-		var realTitle = title.split(/-|\||_/)[0];
-		message.title = realTitle;
 		//console.log('html: ',html);
 		// append iframe
         iframe.setAttribute('src',htmlsrc);
@@ -273,10 +274,10 @@ Utils.prototype = {
 			parent.removeChild(elem);
 		}
 		if(elem.nodeType === 1) {
-			if(!elem.firstElementChild) {
-				return;
-			}
 			if(this.checkTagName(elem,appParams.INIT) && this.checkVisibility(elem)){
+				if(!elem.firstElementChild) {
+					return;
+				}
 				var children = [];
 				for(var child = elem.firstChild;child;child = child.nextSibling) {
 					if(child.nodeType === 3) {
@@ -313,27 +314,46 @@ Utils.prototype = {
 		}
 		return resultArr;
 	},
-	refineContent: function (contentArr) {
-		var content = [];
-		var tempStr = this.convertArr(contentArr,'$$$$$');
-		// result title
-		var tempArr = tempStr.split('$$$$$');
-		var copy = tempArr[0];
-		//console.log('copy: ',copy);
+	refineContent: function (contentStr) {
+		//console.log('contentStr:',contentStr);
+		// get a small part of string to handle
+		try {
+			var part = contentStr.substr(0,150);
+			console.log('part:',part);
+			//match the first closed tag
+			var pattern = /<.+>[^<].*?[^>]<\/.+>/;
+			var titlepart = part.match(pattern);
+			console.log('titlepart: ',titlepart);
 
-		var resultTitle = copy.replace(/<\w+>|<\/\w+>|\s/g,'');
-		//page title
-		var title = document.getElementsByTagName('TITLE')[0].innerText;
-		var realTitle = title.split(/-|\||_/)[0];
+			//get page title from title tag
+			var title = document.getElementsByTagName('TITLE')[0].innerText;
+			var realTitle = title.split(/-|\||_/)[0].replace(/\s+/g,'');
+			appResults.title = title;
+			console.log('real title:',realTitle,'title length:',realTitle.length);
 
-		//console.log('realTitle: ',realTitle,'resultTitle: ',resultTitle);
+			if(titlepart) {
+				//get title from title part
+				var resultTitle = titlepart[0].replace(/<.+>|<\/.+>|\s+/g,'');
+				console.log('resultTitle:',resultTitle,'result title length:',resultTitle.length);
 
-		if(resultTitle.length > realTitle.length) {
-			tempArr.unshift('<p>' + realTitle +'</p>');
+				// check if title is ok
+				if(resultTitle != realTitle) {
+					contentStr = '<h2 class="content-title">' + realTitle + '</h2>' + contentStr;
+				}
+				else {
+					// title is exsit,but need to change to h2 tag
+					var newtitle = '<h2 class="content-title">' + realTitle + '</h2>';
+					contentStr = contentStr.replace(titlepart[0],newtitle);
+				}
+			}
+			else {
+				contentStr = '<h2 class="content-title">' + realTitle + '</h2>' + contentStr;
+			}
+			return contentStr;
 		}
-
-		//innerHTML
-		return tempArr.join('')
+		catch (e) {
+			return contentStr;
+		}
 	}
 };
 
@@ -680,11 +700,12 @@ var showMoreResults = function () {
 
 	var textBlocks = appResults.denseTextBlocks,
 		targetElem =  utils.filterElems(textBlocks,'none');
-    var content = utils.extractContent(targetElem);
-	//var content = utils.refineContent(contentStr);
+    var contentStr = utils.extractContent(targetElem);
+	var content = utils.refineContent(contentStr);
 	//console.log('targetElem: ',targetElem);
-	appResults.displayHtml = content;
+	//console.log('content:',content);
 
+	appResults.displayHtml = content;
 	utils.displayContent(content);
 })(utils,app);
 

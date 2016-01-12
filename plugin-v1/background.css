@@ -206,9 +206,6 @@ button.font-type:hover,button.font-size:hover {
 #page-origin {
     border-bottom: 1px solid #999;
 }
-p:first-child {
-    font-size: 1.5em;
-}
 p {
     margin-top: 25px;
 }
@@ -270,7 +267,9 @@ p {
 
 
 
-
+#page-content .content-title {
+    text-align: center;
+}
 
 
 
