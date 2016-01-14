@@ -5,7 +5,6 @@
 	"description": "web content extraction",
 	"permissions": [
 		"activeTab",
-		"contextMenus",
 		"http://pdfcrowd.com/*"
 	],
 	"browser_action": {
