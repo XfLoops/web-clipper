@@ -1,5 +1,6 @@
 var appParams = {
 	"threshold" : 0.9,
+	"minWordLen" : 10,
 	"root" : document.getElementsByTagName('body')[0],
 	"INIT" : ['SCRIPT','IFRAME','STYLE','NOSCRIPT','BUTTON','INPUT','LABEL','COMMENT','MAP','AREA','INS'],
 	"IGNORETAGS":['SCRIPT','IFRAME','STYLE','NOSCRIPT','BR','BUTTON','INPUT','SELECT','OPTION','LABEL','FORM','COMMENT','MAP','AREA'],
@@ -390,7 +391,7 @@ ContentClipper.prototype = {
 						}
 				}
 			}
-			if(plainText > 10){
+			if(plainText > appParams.minWordLen){
 				data.children.push('text');
 				data.subtypes[0]++;
 				data.content.text += plainText / this.page.text;
