@@ -5,9 +5,9 @@ Web-Clipper is a chrome extension that extract the main content of a news web pa
 Things sound a litter similar to  [Evernote](https://evernote.com/intl/zh-cn/sign-up/) and [Readability](https://www.readability.com/),both of which also can turn web page into a clean view. Yes! All of the three share the same belief: more focus,less distraction. But we can make it different. In addition to only content display, we can do a further job based on the content, such as emotion analysis,abstract extraction,keywords match,etc. A lot of interesting things can be done, so let's move on! :clap::clap::clap:
 
 ### ScreenShot
-Below is a screen shot of a demo at *xinhuanet.com* :smirk:
+Below are demo screen shots at *xinhuanet.com* :smirk:
 
-![web-clipper-demo](demo/demo.gif)  ![web-clipper-demo](demo/demo2.gif)
+![web-clipper-demo](demo/clipper-content.gif)   ![web-clipper-demo](demo/change-color.gif)
 ### Contributing
 There are several things near the hand to deal.
 - lack codes comments :scream::scream::scream:
