@@ -9,7 +9,7 @@ $(function () {
 	} );
 
 	chrome.runtime.onConnect.addListener(function (port) {
-		if(port.name === 'download') {
+		if(port.name === 'build') {
 			port.onMessage.addListener(function (msg) {
 				$.ajax({
 					type:'POST',

@@ -376,7 +376,7 @@ $( document )
 		// 下载
 		$( '#save-to-locale-btn' )
 			.click( function () {
-				win.postMessage( 'download', pageInfo.origin );
+				win.postMessage( 'build', pageInfo.origin );
 			} );
 
 		//顶部

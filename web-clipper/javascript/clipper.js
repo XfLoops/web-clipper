@@ -229,9 +229,9 @@ Utils.prototype = {
 					document.body.className = ''
 				}
 				//下载
-				if ( e.data == 'download' ) {
+				if ( e.data == 'build' ) {
 					var port = chrome.runtime.connect( {
-						name: 'download'
+						name: 'build'
 					} );
 					port.postMessage( {
 						message: html
