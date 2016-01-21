@@ -7,8 +7,7 @@ Things sound a litter similar to  [Evernote](https://evernote.com/intl/zh-cn/sig
 ### ScreenShot
 Below is a screen shot of a demo at *xinhuanet.com* :smirk:
 
-![web-clipper-demo](demo/demo.gif)
-
+![web-clipper-demo](demo/demo.gif)  ![web-clipper-demo](demo/demo2.gif)
 ### Contributing
 There are several things near the hand to deal.
 - lack codes comments :scream::scream::scream:
