@@ -1,4 +1,5 @@
 ## Web-Clipper
+[![Build Status](https://travis-ci.org/XfLoops/XfLoops.github.io.svg?branch=master)](https://travis-ci.org/XfLoops/XfLoops.github.io)  [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](http://mit-license.org/)
 
 Web-Clipper is a chrome extension that extract the main content of a news web page and display the news in a clean view. It is designed to improve user's online reading experience. As for none-news web page, it won't work.
 
