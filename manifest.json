@@ -1,6 +1,6 @@
 {
-	"name": "clipper",
-	"version": "1.0.0",
+	"name": "web-clipper",
+	"version": "3.0.0",
 	"manifest_version": 2,
 	"description": "web content extraction",
 	"permissions": [
@@ -8,20 +8,20 @@
 		"http://pdfcrowd.com/*"
 	],
 	"browser_action": {
-		"default_icon": "bird.png",
+		"default_icon": "image/bird.png",
 		"default_title": "clippe content"
 	},
 	"background": {
 		"scripts": [
-			"jquery-1.11.3.min.js","myscript.js"
+			"javascript/jquery-1.11.3.min.js","javascript/myscript.js"
 		]
 		//	  "persistent": false
 	},
 	"icons": {
-		"16": "bird.png"
+		"16": "image/bird.png"
 	},
 	"web_accessible_resources": [
-		"bootstrap.min.css",
+		"css/bootstrap.min.css",
 		"background.html"
 	],
 	"externally_connectable": {

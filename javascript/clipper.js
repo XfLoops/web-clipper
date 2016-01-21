@@ -147,7 +147,7 @@ Utils.prototype = {
 					continue;
 				}
 				content += '<p><img src = "' + images[ i ].src + '"></p>';
-				///console.log('img:',images[i].src);
+				///console.log('img:',image[i].src);
 			}
 		}
 		return content;

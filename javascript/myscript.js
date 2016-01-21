@@ -1,10 +1,10 @@
 $(function () {
 	chrome.browserAction.onClicked.addListener( function ( tab ) {
 		chrome.tabs.insertCSS({
-			file: "base.css"
+			file: "css/base.css"
 		});
 		chrome.tabs.executeScript( {
-			file: "clipper.js"
+			file: "javascript/clipper.js"
 		} );
 	} );
 
