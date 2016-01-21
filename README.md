@@ -9,7 +9,7 @@ Below are demo screen shots at *xinhuanet.com* :smirk:
 
 ![web-clipper-demo](demo/clipper-content.gif)   ![web-clipper-demo](demo/change-color.gif)
 ### Contributing
-There are several things near the hand to deal.
+There are several things near the hand to deal. However, any else improvements are also welcome. wanna open an [issue](https://github.com/XfLoops/web-clipper/issues/new) ? The TODOs include below ones:
 - lack codes comments :scream::scream::scream:
 - algorithm optimization :kissing_heart:
 - code refactor to meet common pattern :wink:
