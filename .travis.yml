@@ -1,7 +1,0 @@
-branches:
-  only:
-    - master
-
-sudo: required
-
-language: javascript
