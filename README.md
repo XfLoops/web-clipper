@@ -16,6 +16,11 @@ There are several things near the hand to deal.
 - add new feature  :heart_eyes:
 - ...
 
+### WiKi
+- [What algorithm is used in web-clipper ?](https://github.com/XfLoops/web-clipper/wiki/What-algorithm-is-used-in-web-clipper%3F)
+- [Some tips on chrome extension develop.](https://github.com/XfLoops/web-clipper/wiki/Some-tips-on-chrome-extension-develop)
+- []()
+
 ### License
 The MIT License (MIT)
 
