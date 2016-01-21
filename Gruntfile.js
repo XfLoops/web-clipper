@@ -2,7 +2,7 @@ module.exports = function ( grunt ) {
 
 	grunt.initConfig( {
 		jshint: {
-			files: [ 'Gruntfile.js', 'clipper.js', 'myscript.js' ],
+			files: [ 'Gruntfile.js', 'plugin-v2/clipper.js', 'plugin-v2/background.js' ],
 			options: {
 				globals: {
 					jQuery: true
