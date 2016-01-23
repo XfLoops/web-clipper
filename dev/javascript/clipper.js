@@ -1,3 +1,10 @@
+/**
+ * MIT License.
+ * @author XfLoops < https://github.com/XfLoops >
+ * @date 2015.12
+ * */
+
+	// global parameters configure
 var appParams = {
 		"threshold": 0.9,
 		"minWordLen": 10,
@@ -16,6 +23,8 @@ var appParams = {
 			"end": null
 		}
 	},
+
+	// results
 	appResults = {
 		"denseTextBlocks": [],
 		"displayHtml": null,
@@ -130,6 +139,11 @@ Utils.prototype = {
 
 		return retain;
 	},
+	/**
+	 * @descr extract image(s) in a given element
+	 * @param elem, an element node
+	 * @return String, a image tag string wrapped in a P tag
+	 */
 	extractImage: function ( elem ) {
 		if ( elem.tagName === 'IMG' ) {
 			if ( elem.width < 100 ) return;
@@ -498,6 +512,9 @@ ContentClipper.prototype = {
 			}
 		}
 	},
+	/*
+	* 判断内容节点的类型
+	* */
 	getContentType: function ( elem ) {
 		var page = this.page,
 			txt = elem.innerText.replace( /\s+/g, "" )
