@@ -29,6 +29,9 @@ var appParams = {
 		"denseTextBlocks": [],
 		"displayHtml": null,
 		"title": null
+	},
+	testWebsites = {
+		"jinnong":'Aboutnews'
 	};
 
 function Utils() {}
@@ -190,6 +193,9 @@ Utils.prototype = {
 						}
 					}
 					if ( el.dataset.nodetype === 'text' ) {
+						// 忽略金农网的版权信息
+						if(el.id === testWebsites.jinnong) continue;
+
 						if ( el.dataset.subdoc > appParams.threshold ) {
 							var pre = el.previousElementSibling;
 							if ( appParams.BLOCKTAGS.indexOf( el.tagName ) > -1 ) {

@@ -13,7 +13,7 @@
 	},
 	"background": {
 		"scripts": [
-			"javascript/jquery-1.11.3.min.js","javascript/myscript.js"
+			"javascript/lib/jquery-1.11.3.min.js","javascript/myscript.js"
 		]
 		//	  "persistent": false
 	},
