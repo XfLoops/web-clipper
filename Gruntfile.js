@@ -2,7 +2,7 @@ module.exports = function ( grunt ) {
 
 	grunt.initConfig( {
 		jshint: {
-			files: [ 'Gruntfile.js', 'javascript/*.js'],
+			files: [ 'Gruntfile.js', 'javascript/*.js' ],
 			options: {
 				globals: {
 					jQuery: true
@@ -18,7 +18,7 @@ module.exports = function ( grunt ) {
 			options: {
 				js: {
 					braceStyle: "collapse",
-					breakChainedMethods: true,
+					breakChainedMethods: false,
 					e4x: false,
 					evalCode: false,
 					indentChar: " ",
