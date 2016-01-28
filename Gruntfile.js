@@ -44,6 +44,6 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-jsbeautifier' );
 
-	grunt.registerTask( 'default', [ 'jshint', 'jsbeautifier' ] );
+	grunt.registerTask( 'default', [ 'jshint' ] );
 
 };
