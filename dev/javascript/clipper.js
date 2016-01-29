@@ -1,33 +1,31 @@
 /**
- * Injected into webpage and extract the main content then display it.
- * MIT License.
+ * @info Web-clipper is used to extract main content from a web page and display it in
+ * a clean view.
+ * @license MIT License.
  * @author XfLoops < https://github.com/XfLoops >
- * @date 2015.12
+ * @datetime 2015.12
  * */
 
-// parameters configure
+/* app global parameters */
 var appParams = {
 		"threshold": 0.9,
-		"minWordLen": 10,
-		"root": document.body,
+		"minorWords": 10,
+		"ROOT": document.body,
 		"INIT": ['SCRIPT', 'IFRAME', 'STYLE', 'NOSCRIPT', 'BUTTON', 'INPUT', 'LABEL',
-			'COMMENT', 'MAP', 'AREA', 'INS'
-		],
+			'COMMENT', 'MAP', 'AREA', 'INS'],
 		"IGNORETAGS": ['SCRIPT', 'IFRAME', 'STYLE', 'NOSCRIPT', 'BR', 'BUTTON', 'INPUT',
-			'SELECT', 'OPTION', 'LABEL', 'FORM', 'COMMENT', 'MAP', 'AREA'
-		],
+			'SELECT', 'OPTION', 'LABEL', 'FORM', 'COMMENT', 'MAP', 'AREA'],
 		"SPECIALTAGS": ['UL', 'OL'],
 		"BLOCKTAGS": ['DIV', 'UL', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
 		"BREAKTAGS": ['BR'],
 		"types": ['text', 'anchor', 'image', 'ignore'],
 		"runtimeStamp": {
-			"start": new Date()
-				.getTime(),
+			"start": new Date().getTime(),
 			"end": null
 		}
 	},
 
-// keep final results
+/* parameters to store results */
 	appResults = {
 		"denseTextBlocks": [],
 		"displayHtml": null,
@@ -49,32 +47,33 @@ Utils.prototype = {
 			}
 			if (elem.style[styleName]) {
 				value = elem.style[styleName]
-			} else if (elem.currentStyle) {
+			}
+			else if (elem.currentStyle) {
 				value = elem.currentStyle[styleName]
-			} else if (document.defaultView && document.defaultView.getComputedStyle) {
+			}
+			else if (document.defaultView && document.defaultView.getComputedStyle) {
 				styleName = styleName.replace(/([A-Z])/g, "-$1")
 					.toLowerCase();
 				var s = document.defaultView.getComputedStyle(elem, "");
 				value = s && s.getPropertyValue(styleName)
-			} else {
+			}
+			else {
 				value = null
 			}
-			if ((value == "auto" || value.indexOf("%") !== -1) && ("width" ===
-				styleName.toLowerCase() || "height" === styleName.toLowerCase()) && elem.style
-					.display != "none" && value.indexOf("%") !== -1) {
-				value = elem["offset" + styleName.charAt(0)
-						.toUpperCase() + styleName.substring(1)
-						.toLowerCase()] + "px"
+			if ((value == "auto" || value.indexOf("%") !== -1) && ("width" === styleName.toLowerCase() || "height" === styleName.toLowerCase()) && elem.style.display != "none" && value.indexOf("%") !== -1) {
+				value = elem["offset" + styleName.charAt(0).toUpperCase() + styleName.substring(1).toLowerCase()] + "px"
 			}
 			if (styleName == "opacity") {
 				try {
 					value = elem.filters["DXImageTransform.Microsoft.Alpha"].opacity;
 					value = value / 100
-				} catch (e) {
+				}
+				catch (e) {
 					try {
 						value = elem.filters("alpha")
 							.opacity
-					} catch (err) {}
+					}
+					catch (err) {}
 				}
 			}
 			return value
@@ -82,7 +81,8 @@ Utils.prototype = {
 		return function(elem, styles) {
 			if (typeof styles === "string") {
 				return getStyle(elem, styles)
-			} else {
+			}
+			else {
 				this.each(styles, function(key, value) {
 					elem.style[key] = value
 				})
@@ -90,9 +90,7 @@ Utils.prototype = {
 		}
 	}(),
 	checkVisibility: function(elem) {
-		return !(this.css(elem, "visibility") == "hidden" || this.css(elem,
-			"display") == "none" || this.css(elem, "position") == "fixed" || parseInt(
-			this.css(elem, "width")) <= 0);
+		return !(this.css(elem, "visibility") == "hidden" || this.css(elem, "display") == "none" || this.css(elem, "position") == "fixed" || parseInt(this.css(elem, "width")) <= 0);
 	},
 	filterElems: function(elemSet, type) {
 		if (elemSet.length <= 1)
@@ -116,7 +114,8 @@ Utils.prototype = {
 					if (parent.dataset.flag === 'hello' && parent.dataset.passed === 'no') {
 						parent.dataset.passed = 'yes';
 						omit.push(parent);
-					} else {
+					}
+					else {
 						parent = parent.parentElement || parent.parentNode;
 					}
 				}
@@ -129,7 +128,8 @@ Utils.prototype = {
 					if (parnt.dataset.flag === 'hello') {
 						omit.push(elemSet[j]);
 						break;
-					} else {
+					}
+					else {
 						parnt = parnt.parentElement || parnt.parentNode;
 					}
 				}
@@ -144,7 +144,7 @@ Utils.prototype = {
 		return retain;
 	},
 	/**
-	 * @about extract image(s) in a given element
+	 * @info extract image(s) in a given element
 	 * @param elem, an element node
 	 * @return String, a image tag string wrapped in a P tag
 	 */
@@ -170,16 +170,20 @@ Utils.prototype = {
 		}
 		return content;
 	},
+	/**
+	* @info traverse DOM tree to extract content
+	* @param elem
+	* @return string
+	 * */
 	extractContent: function(elem) {
 		var content = '';
 		if (elem) {
-			if (elem.dataset.subdoc > appParams.threshold && elem.dataset.nodetype ===
-				'text') {
+			if (elem.dataset.subdoc > appParams.threshold && elem.dataset.nodetype === 'text') {
 				if (appParams.BLOCKTAGS.indexOf(elem.tagName) > -1) {
 					content += '<div>' + elem.innerHTML + '</div>';
-				} else {
-					content += '<' + elem.tagName + '>' + elem.innerHTML + '</' + elem.tagName +
-						'>';
+				}
+				else {
+					content += '<' + elem.tagName + '>' + elem.innerHTML + '</' + elem.tagName + '>';
 				}
 			} else {
 				for (var el = elem.firstElementChild; el; el = el.nextElementSibling) {
@@ -197,16 +201,19 @@ Utils.prototype = {
 							var pre = el.previousElementSibling;
 							if (appParams.BLOCKTAGS.indexOf(el.tagName) > -1) {
 								content += '<div>' + el.innerHTML + '</div>';
-							} else if (pre && appParams.BREAKTAGS.indexOf(pre.tagName) > -1) {
-								content += '<' + el.tagName + '>' + el.innerHTML + '</' + el.tagName +
-									'><br>';
-							} else {
+							}
+							else if (pre && appParams.BREAKTAGS.indexOf(pre.tagName) > -1) {
+								content += '<' + el.tagName + '>' + el.innerHTML + '</' + el.tagName + '><br>';
+							}
+							else {
 								content += '<' + el.tagName + '>' + el.innerHTML + '</' + el.tagName + '>';
 							}
-						} else {
+						}
+						else {
 							content += '<div>' + this.extractContent(el) + '</div>';
 						}
 					}
+
 					if (el.dataset.nodetype === 'image' || el.tagName === 'IMG') {
 						content += this.extractImage(el);
 					}
@@ -216,6 +223,10 @@ Utils.prototype = {
 		}
 		return content;
 	},
+	/**
+	* @info display html in iframe
+	* @param html sting
+	*/
 	displayContent: function(html) {
 
 		var iframe = document.createElement('iframe');
@@ -228,7 +239,6 @@ Utils.prototype = {
 			text: null
 		};
 
-		//console.log('html: ',html);
 		// append iframe
 		iframe.src = htmlsrc;
 		iframe.id = 'page-content-iframe';
@@ -262,12 +272,8 @@ Utils.prototype = {
 				}
 				if (e.data.type === 'keywords') {
 					var text = e.data.text;
-					var port2 = chrome.runtime.connect({
-						name: 'keywords'
-					});
-					port2.postMessage({
-						text: text
-					});
+					var port2 = chrome.runtime.connect({name: 'keywords'});
+					port2.postMessage({text: text});
 					port2.onMessage.addListener(function(msg) {
 						console.log('keywords feedback:', msg.data);
 						//iframe.contentWindow.postMessage({},htmlsrc);
@@ -277,7 +283,7 @@ Utils.prototype = {
 		};
 	},
 	/**
-	 *  @about remove tags that would not have content
+	 *  @info remove tags that would not have content
 	 *  @param elem
 	 */
 	clearPage: function(elem) {
@@ -300,8 +306,7 @@ Utils.prototype = {
 				var children = [];
 				for (var child = elem.firstChild; child; child = child.nextSibling) {
 					if (child.nodeType === 3) {
-						var l = child.textContent.replace(/\s+/g, '')
-							.length;
+						var l = child.textContent.replace(/\s+/g, '').length;
 						if (l > 0) {
 							children.push(child);
 						}
@@ -316,80 +321,98 @@ Utils.prototype = {
 						this.clearPage(children[i]);
 					}
 				}
-			} else {
+			}
+			else {
 				parent.removeChild(elem);
 			}
 		}
 	},
+	/**
+	 * @info check if content has title,if not then add title to contentStr
+	 * @param contentStr
+	 * @return string
+	 * */
 	refineContent: function(contentStr) {
-		//console.log('contentStr:',contentStr);
+		// console.log('contentStr:',contentStr);
 		// get a small part of string to handle
 		try {
 			var part = contentStr.substr(0, 150);
-			console.log('part:', part);
-			//match the first closed tag
+			// console.log('part:', part);
+			// match the first closed tag
 			//todo SOMETIMES IT DOES NOT WORK
 			var pattern = /<(\w+)(\s[\w="_-]+)*>[^<].*?[^>]<\/\1>/;
 			var titlepart = part.match(pattern);
-			console.log('titlepart: ', titlepart);
+			// console.log('titlepart: ', titlepart);
 
-			//get page title from title tag
+			// get page title from title tag
 			var title = document.getElementsByTagName('TITLE')[0].innerText;
 			var title2 = title.split(/-|\||_/)[0];
 			var realTitle = title2.replace(/\s+/g, '');
 			appResults.title = title;
-			console.log('real title:', realTitle, 'title length:', realTitle.length);
+			// console.log('real title:', realTitle, 'title length:', realTitle.length);
 
-			if (titlepart) {
-				//get title from title part
-				var resultTitle = titlepart[0].replace(
-					/(<(\w+)(\s[\w="_-]+)*>)|\s+|(<\/\w+>)/g, '');
-				console.log('resultTitle:', resultTitle, 'result title length:', resultTitle.length);
+			if(titlepart) {
+				// get title from title part
+				var resultTitle = titlepart[0].replace(/(<(\w+)(\s[\w="_-]+)*>)|\s+|(<\/\w+>)/g, '');
+				// console.log('resultTitle:', resultTitle, 'result title length:', resultTitle.length);
 
 				// check if title is ok
-				if (resultTitle != realTitle) {
+				if(resultTitle != realTitle) {
 					contentStr = '<h2 class="content-title">' + title2 + '</h2>' + contentStr;
-				} else {
+				}
+				else {
 					// title is exsit,but need to change to h2 tag
 					var newtitle = '<h2 class="content-title">' + title2 + '</h2>';
 					contentStr = contentStr.replace(titlepart[0], newtitle);
 				}
-			} else {
+			}
+			else {
 				contentStr = '<h2 class="content-title">' + title2 + '</h2>' + contentStr;
 			}
 			return contentStr;
-		} catch (e) {
+		}
+		catch(e) {
 			return contentStr;
 		}
 	}
 };
 
 function ContentClipper() {
-	this.page = this._getContent(appParams.root);
-	this.traverse(appParams.root);
+	this.page = this.getContent(appParams.ROOT);
+	this.traverse(appParams.ROOT);
 }
 
 ContentClipper.prototype = {
-	_getContent: function(elem) {
+	/**
+	* @info calculate TEXT,ANCHOR,IMAGE inside an element
+	* @param elem
+	* @return object
+	* */
+	getContent: function(elem) {
 		var whole = elem.innerText.replace(/\s+/g, "");
 		var anchors = elem.getElementsByTagName('a'),
 			anchorsText = '';
+
 		for (var i = 0, len = anchors.length; i < len; i++) {
 			anchorsText += anchors[i].innerText.replace(/\s+/g, "");
 		}
+
 		return {
-			"text": whole.length - anchorsText.length, //plain text
+			"text": whole.length - anchorsText.length,
 			"anchor": {
 				"num": anchors.length,
 				"text": anchorsText.length
 			},
-			"image": elem.getElementsByTagName('img')
-				.length
+			"image": elem.getElementsByTagName('img').length
 		};
 	},
+	/**
+	* @info  traverse the DOM tree from bottom to up,add label to each node
+	* @param elem
+	* @return object
+	* */
 	traverse: function(elem) {
-		if (elem && utils.checkTagName(elem, appParams.IGNORETAGS) && !!utils.checkVisibility(
-				elem)) {
+		if (elem && utils.checkTagName(elem, appParams.IGNORETAGS) && !!utils.checkVisibility(elem)) {
 			var data = {
 					'type': null,
 					'subdoc': 0,
@@ -420,7 +443,8 @@ ContentClipper.prototype = {
 					data.content.anchor.text += item.innerText.replace(/\s+/g, "")
 							.length / this.page.text;
 					data.content.anchor.num += 1 / this.page.anchor.num;
-				} else {
+				}
+				else {
 					temp = this.traverse(item);
 					if (temp) {
 						data.children.push(temp.type);
@@ -435,7 +459,7 @@ ContentClipper.prototype = {
 					}
 				}
 			}
-			if (plainText > appParams.minWordLen) {
+			if (plainText > appParams.minorWords) {
 				data.children.push('text');
 				data.subtypes[0]++;
 				data.content.text += plainText / this.page.text;
@@ -444,8 +468,7 @@ ContentClipper.prototype = {
 			data.type = this.getNodeType(data);
 
 			elem.dataset.nodetype = data.type;
-			elem.dataset.subdoc = data.subtypes[0] / (data.subtypes[0] + data.subtypes[
-					1] + data.subtypes[2] + data.subtypes[3]);
+			elem.dataset.subdoc = data.subtypes[0] / (data.subtypes[0] + data.subtypes[1] + data.subtypes[2] + data.subtypes[3]);
 			elem.dataset.subtype = data.subtypes;
 
 			if (data.content.text > appParams.threshold) {
@@ -462,7 +485,8 @@ ContentClipper.prototype = {
 				},
 				"image": data.content.image
 			};
-		} else {
+		}
+		else
 			return {
 				"type": 'ignore',
 				"subtypes": [0, 0, 0, 1],
@@ -473,9 +497,12 @@ ContentClipper.prototype = {
 				},
 				"image": 0
 			};
-		}
-
 	},
+	/**
+	* @info check node type,TEXT,IMAGE,ANCHOR,IGNORE
+	* @param data: an object contains details about the node
+	* @return string: the node type
+	* */
 	getNodeType: function(data) {
 		var children = data.children,
 			len = children.length,
@@ -483,8 +510,8 @@ ContentClipper.prototype = {
 			aText = data.content.anchor.text,
 			r = this.page.text / this.page.anchor.text,
 			anchor = data.content.anchor.num,
-			subtype = data.subtypes,
 			counter = [0, 0, 0, 0];
+
 		for (var i = 0; i < len; i++) {
 			switch (children[i]) {
 				case 'text':
@@ -504,10 +531,11 @@ ContentClipper.prototype = {
 		}
 		if (counter[3] === len) {
 			return 'ignore';
-		} else {
-			if (counter[0] === 0 && counter[1] === 0) {
+		}
+		else if (counter[0] === 0 && counter[1] === 0) {
 				return 'image';
-			} else {
+			}
+			else {
 				if (aText * r > text) {
 					if (text > 0.5) {
 						return 'text';
@@ -517,15 +545,15 @@ ContentClipper.prototype = {
 				}
 				return text > anchor ? 'text' : 'anchor';
 			}
-		}
 	},
-	/*
-	 * 判断内容节点的类型
-	 * */
+	/**
+	 * @info if element is leaf node than check the node type
+	 * @param elem
+	 * @return object
+	 */
 	getContentType: function(elem) {
 		var page = this.page,
-			txt = elem.innerText.replace(/\s+/g, "")
-				.length;
+			txt = elem.innerText.replace(/\s+/g, "").length;
 
 		if (elem.tagName === 'IMG') {
 			return {
@@ -583,17 +611,17 @@ ContentClipper.prototype = {
 var utils, app;
 
 (function() {
-	// init tools
+	/* init common tools */
 	utils = new Utils();
-	utils.clearPage(appParams.root, 0);
+	/* clear page for next step */
+	utils.clearPage(appParams.ROOT, 0);
+	/* clip content from web page */
 	app = new ContentClipper();
-
+	/* display content */
 	var textBlocks = appResults.denseTextBlocks,
 		targetElem = utils.filterElems(textBlocks, 'none');
 	var contentStr = utils.extractContent(targetElem);
 	var content = utils.refineContent(contentStr);
-	//console.log('targetElem: ',targetElem);
-	//console.log('content:',content);
 
 	appResults.displayHtml = content;
 	utils.displayContent(content);
