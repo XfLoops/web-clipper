@@ -1,6 +1,5 @@
 /**
- * @info Web-clipper is used to extract main content from a web page and display it in
- * a clean view.
+ * @info Web-clipper is used to extract main content from a web page and display it in a clean view.
  * @license MIT License.
  * @author XfLoops < https://github.com/XfLoops >
  * @datetime 2015.12
@@ -11,10 +10,8 @@ var appParams = {
 		"threshold": 0.9,
 		"minorWords": 10,
 		"ROOT": document.body,
-		"INIT": ['SCRIPT', 'IFRAME', 'STYLE', 'NOSCRIPT', 'BUTTON', 'INPUT', 'LABEL',
-			'COMMENT', 'MAP', 'AREA', 'INS'],
-		"IGNORETAGS": ['SCRIPT', 'IFRAME', 'STYLE', 'NOSCRIPT', 'BR', 'BUTTON', 'INPUT',
-			'SELECT', 'OPTION', 'LABEL', 'FORM', 'COMMENT', 'MAP', 'AREA'],
+		"INIT": ['SCRIPT', 'IFRAME', 'STYLE', 'NOSCRIPT', 'BUTTON', 'INPUT', 'LABEL', 'COMMENT', 'MAP', 'AREA', 'INS'],
+		"IGNORETAGS": ['SCRIPT', 'IFRAME', 'STYLE', 'NOSCRIPT', 'BR', 'BUTTON', 'INPUT', 'SELECT', 'OPTION', 'LABEL', 'FORM', 'COMMENT', 'MAP', 'AREA'],
 		"SPECIALTAGS": ['UL', 'OL'],
 		"BLOCKTAGS": ['DIV', 'UL', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
 		"BREAKTAGS": ['BR'],
@@ -93,15 +90,10 @@ Utils.prototype = {
 		return !(this.css(elem, "visibility") == "hidden" || this.css(elem, "display") == "none" || this.css(elem, "position") == "fixed" || parseInt(this.css(elem, "width")) <= 0);
 	},
 	filterElems: function(elemSet, type) {
-		if (elemSet.length <= 1)
-			return elemSet[0];
+		if (elemSet.length <= 1) return elemSet[0];
+		if (type === 'none') return elemSet[1];
 
-		if (type === 'none') {
-			return elemSet[1];
-		}
-
-		var omit = [],
-			retain = [];
+		var omit = [], retain = [];
 		elemSet.forEach(function(elem) {
 			elem.dataset.flag = 'hello';
 			elem.dataset.passed = 'no';
@@ -135,12 +127,9 @@ Utils.prototype = {
 				}
 			}
 		}
-
-
 		retain = elemSet.filter(function(el) {
 			return omit.indexOf(el) === -1;
 		});
-
 		return retain;
 	},
 	/**
@@ -153,8 +142,7 @@ Utils.prototype = {
 			if (elem.width < 100) return;
 			return '<p><img src = "' + elem.src + '"></p>';
 		}
-		var images = elem.getElementsByTagName('img'),
-			content = '';
+		var images = elem.getElementsByTagName('img'), content = '';
 		if (images.length > 0) {
 			for (var i = 0, len = images.length; i < len; i++) {
 				//check width
@@ -228,7 +216,6 @@ Utils.prototype = {
 	* @param html sting
 	*/
 	displayContent: function(html) {
-
 		var iframe = document.createElement('iframe');
 		var htmlsrc = chrome.extension.getURL('background.html');
 		var message = {
@@ -238,11 +225,9 @@ Utils.prototype = {
 			html: html,
 			text: null
 		};
-
 		// append iframe
 		iframe.src = htmlsrc;
 		iframe.id = 'page-content-iframe';
-
 		document.body.className = 'clearVisible';
 		document.body.appendChild(iframe);
 		//通信
@@ -392,11 +377,9 @@ ContentClipper.prototype = {
 		var whole = elem.innerText.replace(/\s+/g, "");
 		var anchors = elem.getElementsByTagName('a'),
 			anchorsText = '';
-
 		for (var i = 0, len = anchors.length; i < len; i++) {
 			anchorsText += anchors[i].innerText.replace(/\s+/g, "");
 		}
-
 		return {
 			"text": whole.length - anchorsText.length,
 			"anchor": {
@@ -438,10 +421,8 @@ ContentClipper.prototype = {
 				if (item.tagName === 'A' && item.firstElementChild) {
 					data.children.push('anchor');
 					data.subtypes[1]++;
-					data.content.image += item.getElementsByTagName('img')
-							.length / this.page.image;
-					data.content.anchor.text += item.innerText.replace(/\s+/g, "")
-							.length / this.page.text;
+					data.content.image += item.getElementsByTagName('img').length / this.page.image;
+					data.content.anchor.text += item.innerText.replace(/\s+/g, "").length / this.page.text;
 					data.content.anchor.num += 1 / this.page.anchor.num;
 				}
 				else {
@@ -464,9 +445,7 @@ ContentClipper.prototype = {
 				data.subtypes[0]++;
 				data.content.text += plainText / this.page.text;
 			}
-
 			data.type = this.getNodeType(data);
-
 			elem.dataset.nodetype = data.type;
 			elem.dataset.subdoc = data.subtypes[0] / (data.subtypes[0] + data.subtypes[1] + data.subtypes[2] + data.subtypes[3]);
 			elem.dataset.subtype = data.subtypes;
@@ -474,7 +453,6 @@ ContentClipper.prototype = {
 			if (data.content.text > appParams.threshold) {
 				appResults.denseTextBlocks.push(data.elem);
 			}
-
 			return {
 				"type": data.type,
 				"subtypes": data.subtypes,
@@ -529,9 +507,8 @@ ContentClipper.prototype = {
 
 			}
 		}
-		if (counter[3] === len) {
+		if (counter[3] === len)
 			return 'ignore';
-		}
 		else if (counter[0] === 0 && counter[1] === 0) {
 				return 'image';
 			}
@@ -609,7 +586,6 @@ ContentClipper.prototype = {
 };
 
 var utils, app;
-
 (function() {
 	/* init common tools */
 	utils = new Utils();
