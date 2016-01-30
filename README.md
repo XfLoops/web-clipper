@@ -9,6 +9,11 @@ Things sound a litter similar to  [Evernote](https://evernote.com/intl/zh-cn/sig
 Below are demo screen shots at *xinhuanet.com* :smirk:
 
 ![web-clipper-demo](demo/clipper-content.gif)   ![web-clipper-demo](demo/change-color.gif)
+
+### Install
+Download the web clipper and drag it to  chrome extension window to install it. [Download](https://github.com/XfLoops/web-clipper/blob/master/build/WebClipper_v3.0.1.crx)
+
+![install window](demo/install-window.png)
 ### Contributing
 There are several things near the hand to deal. However, any else improvements are also welcome. wanna open an [issue](https://github.com/XfLoops/web-clipper/issues/new) ? The TODOs include below ones:
 - lack codes comments :scream::scream::scream:

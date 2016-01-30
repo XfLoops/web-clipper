@@ -49,8 +49,7 @@ Utils.prototype = {
 				value = elem.currentStyle[styleName]
 			}
 			else if (document.defaultView && document.defaultView.getComputedStyle) {
-				styleName = styleName.replace(/([A-Z])/g, "-$1")
-					.toLowerCase();
+				styleName = styleName.replace(/([A-Z])/g, "-$1").toLowerCase();
 				var s = document.defaultView.getComputedStyle(elem, "");
 				value = s && s.getPropertyValue(styleName)
 			}
@@ -67,8 +66,7 @@ Utils.prototype = {
 				}
 				catch (e) {
 					try {
-						value = elem.filters("alpha")
-							.opacity
+						value = elem.filters("alpha").opacity
 					}
 					catch (err) {}
 				}
