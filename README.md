@@ -14,22 +14,14 @@ Below are demo screen shots at *xinhuanet.com* :smirk:
 Download the web clipper and drag it to  chrome extension window to install it. [Download](https://github.com/XfLoops/web-clipper/blob/master/build/WebClipper_v3.0.1.crx)
 
 ![install window](demo/install-window.png)
-### Contributing
+### Not complete
 There are several things near the hand to deal. However, any else improvements are also welcome. wanna open an [issue](https://github.com/XfLoops/web-clipper/issues/new) ? The TODOs include below ones:
 - lack codes comments :scream::scream::scream:
 - algorithm optimization :kissing_heart:
 - code refactor to meet common pattern :wink:
-- add new feature  :heart_eyes:
 - ...
 
-### WiKi
-- [What algorithm is used in web-clipper ?](https://github.com/XfLoops/web-clipper/wiki/What-algorithm-is-used-in-web-clipper%3F)
-- [Some tips on chrome extension develop.](https://github.com/XfLoops/web-clipper/wiki/Some-tips-on-chrome-extension-develop)
-- []()
 
 ### License
-The MIT License (MIT)
+The MIT License
 
-> THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- Visit full MIT license: [http://mit-license.org/](http://mit-license.org/)
